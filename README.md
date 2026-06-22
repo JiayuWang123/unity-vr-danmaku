@@ -15,7 +15,7 @@
 ### 1. 克隆仓库
 
 ```bash
-git clone https://github.com/AnnieChennn/unity-vr-danmaku.git
+git clone https://github.com/JiayuWang123/unity-vr-danmaku.git
 cd unity-vr-danmaku
 ```
 
