@@ -2,24 +2,29 @@ using UnityEngine;
 
 public class DanmakuMover : MonoBehaviour
 {
-    public float speed = 400f; // 弹幕速度（现在的单位是 像素/秒，安全了！）
+    public RectTransform canvas;
+    public float speed = 420f;
+    public float destroyPadding = 240f;
+
     private RectTransform rectTransform;
 
-    void Start()
+    private void Awake()
     {
-        // 获取 UI 的专属组件
         rectTransform = GetComponent<RectTransform>();
     }
 
-    void Update()
+    private void Update()
     {
-        // 让 UI 坐标按像素往左平移，不再是按“米”平移了
-        rectTransform.anchoredPosition += new Vector2(-speed * Time.deltaTime, 0);
+        if (rectTransform == null)
+            return;
 
-        // 如果飞出了屏幕左边界（比如X坐标小于 -1500），就销毁它
-        if (rectTransform.anchoredPosition.x < -1500f)
-        {
+        rectTransform.anchoredPosition += Vector2.left * speed * Time.deltaTime;
+
+        float leftBoundary = -1600f;
+        if (canvas != null)
+            leftBoundary = -canvas.rect.width * 0.5f - destroyPadding;
+
+        if (rectTransform.anchoredPosition.x < leftBoundary)
             Destroy(gameObject);
-        }
     }
 }
