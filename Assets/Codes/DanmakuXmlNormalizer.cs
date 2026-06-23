@@ -37,16 +37,39 @@ public class DanmakuXmlNormalizer : MonoBehaviour
     public void NormalizeXmlToJson()
     {
         DanmakuCollection collection = BuildCollection();
-        string json = JsonUtility.ToJson(collection, true);
         string outputPath = ResolveOutputPath();
-        Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
-        File.WriteAllText(outputPath, json);
+        WriteCollectionToJson(collection, outputPath);
         Debug.Log($"Danmaku JSON exported: {outputPath} ({collection.entries.Count} entries)");
     }
 
     public DanmakuCollection BuildCollection()
     {
         List<string> files = ResolveInputFiles();
+        return BuildCollectionFromFiles(files, densityWindowSeconds, maxEntriesPerWindow, duplicateWindowSeconds, trackCount);
+    }
+
+    public static DanmakuCollection BuildCollectionFromFile(
+        string filePath,
+        float densityWindowSeconds = 10f,
+        int maxEntriesPerWindow = 45,
+        float duplicateWindowSeconds = 3f,
+        int trackCount = 12)
+    {
+        return BuildCollectionFromFiles(
+            File.Exists(filePath) ? new List<string> { filePath } : new List<string>(),
+            densityWindowSeconds,
+            maxEntriesPerWindow,
+            duplicateWindowSeconds,
+            trackCount);
+    }
+
+    public static DanmakuCollection BuildCollectionFromFiles(
+        List<string> files,
+        float densityWindowSeconds = 10f,
+        int maxEntriesPerWindow = 45,
+        float duplicateWindowSeconds = 3f,
+        int trackCount = 12)
+    {
         Dictionary<string, int> filterReasons = new Dictionary<string, int>();
         Dictionary<int, int> modeCounts = new Dictionary<int, int>();
         List<ParsedDanmaku> parsed = new List<ParsedDanmaku>();
@@ -57,8 +80,8 @@ public class DanmakuXmlNormalizer : MonoBehaviour
         }
 
         parsed.Sort((a, b) => a.Entry.timeSeconds.CompareTo(b.Entry.timeSeconds));
-        List<DanmakuEntry> kept = ApplyReferenceInspiredFiltering(parsed, filterReasons);
-        AssignTracks(kept);
+        List<DanmakuEntry> kept = ApplyReferenceInspiredFiltering(parsed, filterReasons, densityWindowSeconds, maxEntriesPerWindow, duplicateWindowSeconds);
+        AssignTracks(kept, trackCount);
 
         DanmakuCollection collection = new DanmakuCollection();
         collection.generatedAtUtc = DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture);
@@ -79,6 +102,16 @@ public class DanmakuXmlNormalizer : MonoBehaviour
             .ToList();
 
         return collection;
+    }
+
+    public static void WriteCollectionToJson(DanmakuCollection collection, string outputPath)
+    {
+        string directory = Path.GetDirectoryName(outputPath);
+        if (!string.IsNullOrEmpty(directory))
+            Directory.CreateDirectory(directory);
+
+        string json = JsonUtility.ToJson(collection, true);
+        File.WriteAllText(outputPath, json);
     }
 
     private List<string> ResolveInputFiles()
@@ -110,7 +143,7 @@ public class DanmakuXmlNormalizer : MonoBehaviour
         return Path.Combine(Application.persistentDataPath, fileName);
     }
 
-    private void ParseFile(
+    private static void ParseFile(
         string filePath,
         List<ParsedDanmaku> parsed,
         Dictionary<string, int> filterReasons,
@@ -145,7 +178,7 @@ public class DanmakuXmlNormalizer : MonoBehaviour
         }
     }
 
-    private bool TryParseNode(XmlNode node, string sourceFile, out ParsedDanmaku parsed, out string reason)
+    private static bool TryParseNode(XmlNode node, string sourceFile, out ParsedDanmaku parsed, out string reason)
     {
         parsed = null;
         reason = "";
@@ -205,9 +238,12 @@ public class DanmakuXmlNormalizer : MonoBehaviour
         return true;
     }
 
-    private List<DanmakuEntry> ApplyReferenceInspiredFiltering(
+    private static List<DanmakuEntry> ApplyReferenceInspiredFiltering(
         List<ParsedDanmaku> parsed,
-        Dictionary<string, int> filterReasons)
+        Dictionary<string, int> filterReasons,
+        float densityWindowSeconds,
+        int maxEntriesPerWindow,
+        float duplicateWindowSeconds)
     {
         List<DanmakuEntry> kept = new List<DanmakuEntry>();
         Dictionary<string, float> lastSeenByText = new Dictionary<string, float>();
@@ -255,7 +291,7 @@ public class DanmakuXmlNormalizer : MonoBehaviour
         return kept;
     }
 
-    private void AssignTracks(List<DanmakuEntry> entries)
+    private static void AssignTracks(List<DanmakuEntry> entries, int trackCount)
     {
         int safeTrackCount = Mathf.Max(1, trackCount);
         float[] trackAvailableAt = new float[safeTrackCount];

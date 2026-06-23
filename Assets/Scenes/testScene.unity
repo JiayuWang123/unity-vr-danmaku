@@ -655,6 +655,13 @@ MonoBehaviour:
   danmakuCanvas: {fileID: 993148531}
   danmakuPrefab: {fileID: 940242981}
   jsonFileName: filtered_danmaku.json
+  autoImportXmlOnStart: 1
+  xmlInputFolderName: DanmuXml
+  explicitXmlFileName: 
+  preferNewestXml: 1
+  densityWindowSeconds: 10
+  maxEntriesPerWindow: 45
+  duplicateWindowSeconds: 3
   rightPadding: 120
   verticalPadding: 48
   trackCount: 12

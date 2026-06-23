@@ -5,6 +5,7 @@
 ## 本次更改
 
 - 新增 Bilibili XML 弹幕解析与筛选脚本。
+- 新增自动 XML 导入流程：Play 时会扫描 `Assets/StreamingAssets/DanmuXml/`。
 - 新增统一 JSON 弹幕文件：`Assets/StreamingAssets/filtered_danmaku.json`。
 - 将 `Assets/Scenes/testScene.unity` 的弹幕播放入口从旧 `ASSManager` 切换为 `DanmakuPlaybackController`。
 - 复用原场景里的 `VideoPlayer`、`DanmakuCanvas2` 和 `DanmakuTemplate`，不重建 UI。
@@ -13,11 +14,14 @@
 
 ## 运行方式
 
-1. 用 Unity 2022.3 打开项目。
-2. 打开 `Assets/Scenes/testScene.unity`。
-3. 点击 Play。
-4. 视频播放后，`SystemManager` 上的 `DanmakuPlaybackController` 会读取 `Assets/StreamingAssets/filtered_danmaku.json`。
-5. 弹幕实例会从现有 `DanmakuTemplate` 生成，挂到 `DanmakuCanvas2` 下，并按视频时间从右向左移动。
+1. 把 Bilibili XML 弹幕文件放到 `Assets/StreamingAssets/DanmuXml/`。
+2. 用 Unity 2022.3 打开项目。
+3. 打开 `Assets/Scenes/testScene.unity`。
+4. 点击 Play。
+5. `SystemManager` 上的 `DanmakuPlaybackController` 会自动选择 XML、解析筛选、生成 `Assets/StreamingAssets/filtered_danmaku.json`，然后直接播放。
+6. 弹幕实例会从现有 `DanmakuTemplate` 生成，挂到 `DanmakuCanvas2` 下，并按视频时间从右向左移动。
+
+如果 `DanmuXml/` 中有多个 XML，默认使用最后修改时间最新的文件。如果没有 XML，播放器会回退读取已有的 `filtered_danmaku.json`。
 
 ## 当前场景挂载逻辑
 
@@ -25,7 +29,7 @@
 
 | 对象 | 当前用途 |
 |------|----------|
-| `SystemManager` | 挂载 `DanmakuPlaybackController`，负责读取 JSON 和按视频时间生成弹幕 |
+| `SystemManager` | 挂载 `DanmakuPlaybackController`，负责自动导入 XML、读取 JSON 和按视频时间生成弹幕 |
 | `DanmakuCanvas2` | World Space Canvas，作为弹幕父节点 |
 | `DanmakuTemplate` | TextMeshProUGUI 模板，运行时会被复制生成弹幕 |
 | `VideoPlayer` | 提供当前视频时间，控制弹幕同步 |
@@ -39,7 +43,7 @@
 
 ### `DanmakuXmlNormalizer.cs`
 
-负责从 XML 中读取 Bilibili `<d p="...">text</d>` 弹幕，进行清洗、筛选、限流和轨道分配，然后导出 JSON。
+负责从 XML 中读取 Bilibili `<d p="...">text</d>` 弹幕，进行清洗、筛选、限流和轨道分配，然后导出 JSON。它既可以通过 Context Menu 手动运行，也可以被 `DanmakuPlaybackController` 在 Play 时自动调用。
 
 筛选规则包括：
 
@@ -55,7 +59,9 @@
 
 主要逻辑：
 
-- 从 `StreamingAssets` 读取 `filtered_danmaku.json`。
+- 启动时优先扫描 `Assets/StreamingAssets/DanmuXml/` 并自动导入 XML。
+- 自动生成或覆盖 `Assets/StreamingAssets/filtered_danmaku.json`。
+- 没有 XML 时回退读取 `filtered_danmaku.json`。
 - 按 `VideoPlayer.time` 触发弹幕生成。
 - 使用 JSON 中的 `trackIndex` 把弹幕分配到不同高度。
 - 支持视频回退或重播时重置弹幕索引。
@@ -66,6 +72,8 @@
 负责弹幕实例向左移动，并在离开 Canvas 左侧后销毁对象。
 
 ## JSON 字段
+
+JSON 会自动生成，通常不需要手动编辑。
 
 `filtered_danmaku.json` 的顶层结构：
 
@@ -113,6 +121,8 @@ Assets/Codes/ReferencesUsed.md
 
 ## 后续调整建议
 
-- 如需重新生成 JSON，可在 Unity 中给空对象临时挂载 `DanmakuXmlNormalizer`，设置 XML 输入目录后执行 Context Menu：`Normalize XML To JSON`。
-- 如需更少弹幕，可降低 `DanmakuXmlNormalizer.maxEntriesPerWindow` 后重新导出 JSON。
+- 如需更换弹幕，只要替换或新增 `Assets/StreamingAssets/DanmuXml/` 中的 XML，然后重新 Play。
+- 如需固定某个 XML，可在 `DanmakuPlaybackController.explicitXmlFileName` 填写文件名。
+- 如需更少弹幕，可降低 `DanmakuPlaybackController.maxEntriesPerWindow`。
 - 如需更稀疏的屏幕布局，可调大 `DanmakuPlaybackController.trackCount` 或调整 Canvas 高度与字体大小。
+- 如需手动重新生成 JSON，仍可临时挂载 `DanmakuXmlNormalizer` 并执行 Context Menu：`Normalize XML To JSON`。
