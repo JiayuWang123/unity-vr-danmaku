@@ -545,7 +545,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 670103187}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25dc9995ee10b8f44800b776d2e0f0aa, type: 3}
   m_Name: 
@@ -648,12 +648,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 877462516}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ace19e55dcd27941bcd731c0cd13f00, type: 3}
+  m_Script: {fileID: 11500000, guid: 3101c296f0644d25989714dbcf5990d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myVideoPlayer: {fileID: 1899937954}
+  videoPlayer: {fileID: 1899937954}
   danmakuCanvas: {fileID: 993148531}
   danmakuPrefab: {fileID: 940242981}
+  jsonFileName: filtered_danmaku.json
+  rightPadding: 120
+  verticalPadding: 48
+  trackCount: 12
+  hideTemplateOnStart: 1
+  clearSpawnedOnSeek: 1
+  seekResetThresholdSeconds: 0.5
 --- !u!4 &877462518
 Transform:
   m_ObjectHideFlags: 0
@@ -686,7 +693,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &940242982
 RectTransform:
   m_ObjectHideFlags: 0

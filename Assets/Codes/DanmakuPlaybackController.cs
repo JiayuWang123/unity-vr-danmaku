@@ -12,21 +12,41 @@ public class DanmakuPlaybackController : MonoBehaviour
     public string jsonFileName = "filtered_danmaku.json";
     public float rightPadding = 120f;
     public float verticalPadding = 48f;
+    public int trackCount = 12;
+    public bool hideTemplateOnStart = true;
+    public bool clearSpawnedOnSeek = true;
+    public float seekResetThresholdSeconds = 0.5f;
 
     private readonly List<DanmakuEntry> entries = new List<DanmakuEntry>();
+    private readonly List<GameObject> spawnedDanmaku = new List<GameObject>();
     private int currentIndex;
+    private double lastVideoTime = -1d;
 
     private void Start()
     {
+        if (hideTemplateOnStart && danmakuPrefab != null)
+            danmakuPrefab.SetActive(false);
+
         LoadJson();
     }
 
     private void Update()
     {
-        if (videoPlayer == null || !videoPlayer.isPlaying || entries.Count == 0)
+        if (videoPlayer == null || entries.Count == 0)
             return;
 
         double videoTime = videoPlayer.time;
+        if (ShouldResetForSeek(videoTime))
+        {
+            currentIndex = FindFirstIndexAtOrAfter((float)videoTime);
+            if (clearSpawnedOnSeek)
+                ClearSpawnedDanmaku();
+        }
+
+        lastVideoTime = videoTime;
+        if (!videoPlayer.isPlaying)
+            return;
+
         while (currentIndex < entries.Count && entries[currentIndex].timeSeconds <= videoTime)
         {
             SpawnDanmaku(entries[currentIndex]);
@@ -56,6 +76,9 @@ public class DanmakuPlaybackController : MonoBehaviour
 
         entries.AddRange(collection.entries);
         entries.Sort((a, b) => a.timeSeconds.CompareTo(b.timeSeconds));
+        if (videoPlayer != null)
+            currentIndex = FindFirstIndexAtOrAfter((float)videoPlayer.time);
+
         Debug.Log($"Loaded {entries.Count} filtered danmaku entries from {jsonFileName}");
     }
 
@@ -66,6 +89,7 @@ public class DanmakuPlaybackController : MonoBehaviour
 
         GameObject instance = Instantiate(danmakuPrefab, danmakuCanvas);
         instance.SetActive(true);
+        spawnedDanmaku.Add(instance);
 
         TextMeshProUGUI label = instance.GetComponent<TextMeshProUGUI>();
         if (label != null)
@@ -92,10 +116,45 @@ public class DanmakuPlaybackController : MonoBehaviour
     private float TrackToCanvasY(int trackIndex)
     {
         float height = Mathf.Max(1f, danmakuCanvas.rect.height - verticalPadding * 2f);
-        int trackCount = 12;
-        float step = height / trackCount;
+        int safeTrackCount = Mathf.Max(1, trackCount);
+        float step = height / safeTrackCount;
         float top = height * 0.5f;
-        int clampedTrack = Mathf.Clamp(trackIndex, 0, trackCount - 1);
+        int clampedTrack = Mathf.Clamp(trackIndex, 0, safeTrackCount - 1);
         return top - clampedTrack * step - verticalPadding;
+    }
+
+    private bool ShouldResetForSeek(double videoTime)
+    {
+        if (lastVideoTime < 0d)
+            return false;
+
+        return videoTime + seekResetThresholdSeconds < lastVideoTime;
+    }
+
+    private int FindFirstIndexAtOrAfter(float timeSeconds)
+    {
+        int low = 0;
+        int high = entries.Count;
+        while (low < high)
+        {
+            int mid = low + (high - low) / 2;
+            if (entries[mid].timeSeconds < timeSeconds)
+                low = mid + 1;
+            else
+                high = mid;
+        }
+
+        return low;
+    }
+
+    private void ClearSpawnedDanmaku()
+    {
+        for (int i = spawnedDanmaku.Count - 1; i >= 0; i--)
+        {
+            if (spawnedDanmaku[i] != null)
+                Destroy(spawnedDanmaku[i]);
+        }
+
+        spawnedDanmaku.Clear();
     }
 }
