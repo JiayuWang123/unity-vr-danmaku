@@ -1,4 +1,4 @@
-# Danmaku Burst Map Usage
+﻿# Danmaku Burst Map Usage
 
 This tool generates burst-map analysis deliverables from a Bilibili danmaku XML
 file. A filtered JSON file is not required.
@@ -6,10 +6,10 @@ file. A filtered JSON file is not required.
 ## Python
 
 ```bash
-python tools/danmaku_burst_map/python/run_burst_map.py \
+python danmaku-burst-map/python/run_burst_map.py \
   --input path/to/danmaku.xml \
   --output outputs/danmaku_burst_map_generalized \
-  --config tools/danmaku_burst_map/configs/default.yaml
+  --config danmaku-burst-map/configs/default.yaml
 ```
 
 The Python implementation writes CSV, JSON, Markdown, HTML, optional XLSX, and
@@ -21,7 +21,7 @@ the core tables and report are still generated.
 ```matlab
 run_burst_map("path/to/danmaku.xml", ...
   "outputs/danmaku_burst_map_generalized", ...
-  "tools/danmaku_burst_map/configs/default.yaml")
+  "danmaku-burst-map/configs/default.yaml")
 ```
 
 The MATLAB implementation mirrors the XML-only workflow with lightweight topic
@@ -48,3 +48,4 @@ evidence extraction.
 
 All chart labels, table headers, and report section headings are English.
 Original danmaku comments are preserved in their source language.
+

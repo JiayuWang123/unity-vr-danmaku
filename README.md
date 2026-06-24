@@ -1,4 +1,4 @@
-# Unity VR 弹幕项目
+﻿# Unity VR 弹幕项目
 
 基于 Unity 2022.3 的 VR 项目，支持视频播放与 ASS 字幕弹幕解析展示。
 
@@ -89,7 +89,7 @@ ProjectSettings/   # 项目设置
 This repository also includes an XML-only danmaku burst-map analysis tool:
 
 ```text
-tools/danmaku_burst_map/
+danmaku-burst-map/
 ```
 
 It accepts a Bilibili danmaku XML file and generates density charts, burst event
@@ -99,7 +99,7 @@ pre-filtered JSON file is not required.
 Python usage:
 
 ```bash
-python tools/danmaku_burst_map/python/run_burst_map.py ^
+python danmaku-burst-map/python/run_burst_map.py ^
   --input path/to/danmaku.xml ^
   --output outputs/danmaku_burst_map_generalized
 ```
@@ -107,7 +107,8 @@ python tools/danmaku_burst_map/python/run_burst_map.py ^
 MATLAB usage:
 
 ```matlab
-run_burst_map("path/to/danmaku.xml", "outputs/danmaku_burst_map_generalized", "tools/danmaku_burst_map/configs/default.yaml")
+run_burst_map("path/to/danmaku.xml", "outputs/danmaku_burst_map_generalized", "danmaku-burst-map/configs/default.yaml")
 ```
 
-See `tools/danmaku_burst_map/docs/burst_map_usage.md` for details.
+See `danmaku-burst-map/docs/burst_map_usage.md` for details.
+

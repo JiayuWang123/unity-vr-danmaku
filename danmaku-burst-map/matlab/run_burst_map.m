@@ -199,6 +199,8 @@ end
 
 function makeCharts(outputDir, density, bursts, stats)
 fig = figure("Visible", "off", "Color", "white", "Position", [100 100 1100 560]);
+set(fig, "DefaultAxesFontName", "Microsoft YaHei");
+set(fig, "DefaultTextFontName", "Microsoft YaHei");
 plot(density.window_start_seconds ./ 60, density.raw_count, "LineWidth", 1.2); hold on;
 xline(stats.opening_guard_seconds / 60, "--", "Opening guard");
 yline(stats.candidate_threshold, "--", "Candidate threshold");

@@ -626,7 +626,7 @@ def write_html_table(path: Path, bursts: Sequence[dict]) -> None:
     path.write_text(
         f"""<!doctype html>
 <html><head><meta charset="utf-8"><title>Danmaku Burst Events</title>
-<style>body{{font-family:Arial,'Microsoft YaHei',sans-serif;margin:24px}}table{{border-collapse:collapse;width:100%}}th,td{{border:1px solid #ddd;padding:8px;vertical-align:top}}th{{background:#f3f5f7;position:sticky;top:0}}tr:nth-child(even){{background:#fafafa}}</style>
+<style>body{{font-family:Arial,'Microsoft YaHei','SimHei','DengXian','Noto Sans CJK SC',sans-serif;margin:24px}}table{{border-collapse:collapse;width:100%}}th,td{{border:1px solid #ddd;padding:8px;vertical-align:top}}th{{background:#f3f5f7;position:sticky;top:0}}tr:nth-child(even){{background:#fafafa}}</style>
 </head><body><h1>Danmaku Burst Events</h1><table>
 <thead><tr><th>ID</th><th>Time Range</th><th>Peak / 5s</th><th>Kind</th><th>Topic</th><th>Emotion</th></tr></thead>
 <tbody>{rows}</tbody></table></body></html>""",
@@ -637,7 +637,7 @@ def write_html_table(path: Path, bursts: Sequence[dict]) -> None:
 def write_optional_xlsx(path: Path, entries: Sequence[DanmakuEntry], density: Sequence[dict], bursts: Sequence[dict]) -> None:
     try:
         import openpyxl  # type: ignore
-        from openpyxl.styles import Font, PatternFill
+        from openpyxl.styles import Alignment, Font, PatternFill
     except Exception:
         return
     workbook = openpyxl.Workbook()
@@ -666,6 +666,10 @@ def write_optional_xlsx(path: Path, entries: Sequence[DanmakuEntry], density: Se
         for row in rows:
             ws.append([row.get(header, "") for header in headers])
         ws.freeze_panes = "A2"
+        for row_cells in ws.iter_rows():
+            for cell in row_cells:
+                cell.font = Font(name="Microsoft YaHei")
+                cell.alignment = Alignment(wrap_text=True, vertical="top")
         if "burst_kind" in headers:
             kind_col = headers.index("burst_kind") + 1
             for row_idx in range(2, ws.max_row + 1):
@@ -685,6 +689,7 @@ def make_charts(output_dir: Path, density: Sequence[dict], bursts: Sequence[dict
     except Exception:
         write_svg_fallback(output_dir / "density_curve_5s.svg", density, bursts, stats)
         return
+    configure_matplotlib_fonts(plt)
     times = [row["window_start_seconds"] / 60 for row in density]
     counts = [row["raw_count"] for row in density]
     plt.figure(figsize=(12, 5))
@@ -806,6 +811,36 @@ def keyword_chart(path: Path, bursts: Sequence[dict], plt) -> None:
     plt.close()
 
 
+def configure_matplotlib_fonts(plt) -> None:
+    candidates = [
+        "Microsoft YaHei",
+        "SimHei",
+        "DengXian",
+        "Noto Sans CJK SC",
+        "Noto Sans SC",
+        "Arial Unicode MS",
+    ]
+    try:
+        from matplotlib import font_manager  # type: ignore
+
+        for font_path in [
+            r"C:\Windows\Fonts\msyh.ttc",
+            r"C:\Windows\Fonts\simhei.ttf",
+            r"C:\Windows\Fonts\Deng.ttf",
+            r"C:\Windows\Fonts\simsun.ttc",
+        ]:
+            if os.path.exists(font_path):
+                font_manager.fontManager.addfont(font_path)
+        installed = {font.name for font in font_manager.fontManager.ttflist}
+        chosen = next((font for font in candidates if font in installed), None)
+        if chosen:
+            plt.rcParams["font.sans-serif"] = [chosen] + candidates
+            plt.rcParams["font.family"] = "sans-serif"
+    except Exception:
+        plt.rcParams["font.sans-serif"] = candidates
+    plt.rcParams["axes.unicode_minus"] = False
+
+
 def write_svg_fallback(path: Path, density: Sequence[dict], bursts: Sequence[dict], stats: dict) -> None:
     width, height = 1200, 480
     counts = [row["raw_count"] for row in density]
@@ -818,9 +853,9 @@ def write_svg_fallback(path: Path, density: Sequence[dict], bursts: Sequence[dic
     path.write_text(
         f"""<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}">
 <rect width="100%" height="100%" fill="white"/>
-<text x="60" y="32" font-family="Arial" font-size="22">Danmaku Density Over Time (5s Window)</text>
+<text x="60" y="32" font-family="Arial, Microsoft YaHei, SimHei, DengXian, sans-serif" font-size="22">Danmaku Density Over Time (5s Window)</text>
 <polyline fill="none" stroke="#2f5f9f" stroke-width="2" points="{' '.join(points)}"/>
-<text x="60" y="{height-18}" font-family="Arial" font-size="14">PNG charts require matplotlib; SVG fallback generated.</text>
+<text x="60" y="{height-18}" font-family="Arial, Microsoft YaHei, SimHei, DengXian, sans-serif" font-size="14">PNG charts require matplotlib; SVG fallback generated.</text>
 </svg>""",
         encoding="utf-8",
     )
