@@ -393,6 +393,7 @@ def characterize_bursts(bursts: Sequence[dict], entries: Sequence[DanmakuEntry],
                 "topic_confidence": topic_confidence,
                 "dominant_emotion": emotion["label"],
                 "emotion_confidence": emotion["confidence_score"],
+                "emotion_scores": emotion["label_scores"],
                 "content_mix": content["mix"],
                 "content_confidence": content["confidence_score"],
                 "evidence_terms": "; ".join(f"{term}({count})" for term, count in terms[:8]),
@@ -460,12 +461,20 @@ def classify_rules(entries: Sequence[DanmakuEntry], rules: dict[str, list[str]])
         counts[label] = label_count
     total = sum(counts.values())
     if total <= 0:
-        return {"label": "neutral_analysis", "confidence_score": 0.0, "evidence_counts": {}}
+        return {
+            "label": "neutral_analysis",
+            "confidence_score": 0.0,
+            "evidence_counts": {},
+            "label_counts": counts,
+            "label_scores": {label: 0.0 for label in rules},
+        }
     label = max(counts, key=counts.get)
     return {
         "label": label,
         "confidence_score": round(counts[label] / total, 3),
         "evidence_counts": dict(evidence_counts.most_common(8)),
+        "label_counts": counts,
+        "label_scores": {key: round(value / total, 3) for key, value in counts.items()},
     }
 
 
@@ -870,17 +879,39 @@ def summary_chart(path: Path, bursts: Sequence[dict], plt) -> None:
 
 
 def heatmap_chart(path: Path, bursts: Sequence[dict], plt) -> None:
-    labels = sorted(set(b["dominant_emotion"] for b in bursts))
-    matrix = [[1 if b["dominant_emotion"] == label else 0 for b in bursts] for label in labels]
-    plt.figure(figsize=(12, max(3, len(labels) * 0.6)))
-    plt.imshow(matrix, aspect="auto", cmap="Blues")
-    plt.xticks(range(len(bursts)), [b["burst_id"] for b in bursts])
-    plt.yticks(range(len(labels)), labels)
-    plt.title("Burst Emotion Heatmap")
-    plt.colorbar(label="Presence")
-    plt.tight_layout()
-    plt.savefig(path, dpi=180)
-    plt.close()
+    labels = [label for label in EMOTION_RULES.keys() if any(b.get("emotion_scores", {}).get(label, 0) > 0 for b in bursts)]
+    if not labels:
+        labels = sorted(set(b["dominant_emotion"] for b in bursts))
+    matrix = [
+        [float(b.get("emotion_scores", {}).get(label, 1.0 if b["dominant_emotion"] == label else 0.0)) for b in bursts]
+        for label in labels
+    ]
+    fig, ax = plt.subplots(figsize=(13, max(4, len(labels) * 0.68)), facecolor="white")
+    image = ax.imshow(matrix, aspect="auto", cmap="YlOrRd", vmin=0, vmax=1)
+    ax.set_xticks(range(len(bursts)))
+    ax.set_xticklabels([b["burst_id"] for b in bursts])
+    ax.set_yticks(range(len(labels)))
+    ax.set_yticklabels(labels)
+    ax.set_title("Emotion Evidence Strength by Burst", fontsize=15, fontweight="bold", pad=12)
+    ax.set_xlabel("Burst Event")
+    ax.set_ylabel("Emotion Category")
+    ax.set_xticks([x - 0.5 for x in range(1, len(bursts))], minor=True)
+    ax.set_yticks([y - 0.5 for y in range(1, len(labels))], minor=True)
+    ax.grid(which="minor", color="white", linewidth=1.2)
+    ax.tick_params(which="minor", bottom=False, left=False)
+
+    for y, row in enumerate(matrix):
+        for x, value in enumerate(row):
+            if value <= 0:
+                continue
+            color = "white" if value >= 0.45 else "#2F3542"
+            ax.text(x, y, f"{value:.2f}", ha="center", va="center", fontsize=8, color=color, fontweight="bold" if value >= 0.45 else "normal")
+
+    cbar = fig.colorbar(image, ax=ax, fraction=0.035, pad=0.025)
+    cbar.set_label("Evidence strength (share of matched emotion cues)")
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
 
 
 def keyword_chart(path: Path, bursts: Sequence[dict], plt) -> None:
