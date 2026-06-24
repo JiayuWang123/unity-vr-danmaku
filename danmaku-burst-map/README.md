@@ -12,11 +12,10 @@ Markdown report. A pre-filtered JSON file is not required.
 
 ## Quick Start
 
-Use the local Python interpreter and pass only the XML file path:
+Use Python and pass only the XML file path:
 
 ```powershell
-& "C:\Users\23995_h1vehq1\AppData\Local\Programs\Python\Python313\python.exe" `
-  .\danmaku-burst-map\python\run_burst_map.py `
+python .\danmaku-burst-map\python\run_burst_map.py `
   --input "path\to\danmaku.xml" `
   --output ".\outputs\danmaku_burst_map_example" `
   --config ".\danmaku-burst-map\configs\default.yaml"
@@ -37,8 +36,7 @@ Install optional packages for PNG charts, Excel output, and better Chinese text
 handling:
 
 ```powershell
-& "C:\Users\23995_h1vehq1\AppData\Local\Programs\Python\Python313\python.exe" `
-  -m pip install -r .\danmaku-burst-map\python\requirements.txt
+python -m pip install -r .\danmaku-burst-map\python\requirements.txt
 ```
 
 ## Output Files

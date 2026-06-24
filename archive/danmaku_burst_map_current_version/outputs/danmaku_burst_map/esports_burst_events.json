@@ -1,7 +1,7 @@
 {
   "source": {
-    "xml_file": "C:\\Users\\23995_h1vehq1\\Desktop\\SURF\\Danmu\\【2025全球总决赛】11月9日 KT vs T1 - 5.第五局-4K(Av115518749018546,P5).xml",
-    "filtered_json_file": "C:\\Users\\23995_h1vehq1\\Desktop\\SURF\\Danmu\\filtered_danmaku.json",
+    "xml_file": "Danmu/【2025全球总决赛】11月9日 KT vs T1 - 5.第五局-4K(Av115518749018546,P5).xml",
+    "filtered_json_file": "Danmu/filtered_danmaku.json",
     "window_seconds": 5,
     "threshold_method": "max(P95, mean + 2*std)"
   },

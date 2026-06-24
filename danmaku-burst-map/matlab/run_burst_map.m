@@ -218,7 +218,9 @@ close(fig);
 end
 
 function writeReport(path, inputXml, stats, bursts)
-lines = ["# Danmaku Burst Map Analysis Report", "", "Input XML: `" + string(inputXml) + "`", "", "## Density Baseline", "", "- Raw danmaku count: " + stats.raw_total_count, "- Candidate threshold: " + stats.candidate_threshold + " comments / 5s", "- Strong threshold: " + stats.strong_threshold + " comments / 5s", "", "## Burst Events", "", "| ID | Time Range | Peak / 5s | Kind | Topic |", "|---|---|---:|---|---|"];
+[~, inputName, inputExt] = fileparts(string(inputXml));
+inputLabel = inputName + inputExt;
+lines = ["# Danmaku Burst Map Analysis Report", "", "Input XML: `" + inputLabel + "`", "", "## Density Baseline", "", "- Raw danmaku count: " + stats.raw_total_count, "- Candidate threshold: " + stats.candidate_threshold + " comments / 5s", "- Strong threshold: " + stats.strong_threshold + " comments / 5s", "", "## Burst Events", "", "| ID | Time Range | Peak / 5s | Kind | Topic |", "|---|---|---:|---|---|"];
 for i = 1:numel(bursts)
     lines(end+1) = "| " + bursts(i).burst_id + " | " + bursts(i).time_range + " | " + bursts(i).peak_density_5s + " | " + bursts(i).burst_kind + " | " + bursts(i).topic_label + " |"; %#ok<AGROW>
 end

@@ -148,7 +148,7 @@ def main() -> int:
     write_json(
         output_dir / "burst_events.json",
         {
-            "source": {"input_xml": str(input_path), "window_seconds": 5, "xml_only": True},
+            "source": {"input_xml": public_path_label(input_path), "window_seconds": 5, "xml_only": True},
             "stats": burst_info["stats"],
             "bursts": bursts,
         },
@@ -216,6 +216,14 @@ def parse_bilibili_xml(path: Path) -> list[DanmakuEntry]:
         )
     entries.sort(key=lambda item: item.time_seconds)
     return entries
+
+
+def public_path_label(path: Path) -> str:
+    """Return a share-safe path label for reports and committed examples."""
+    try:
+        return path.relative_to(Path.cwd()).as_posix()
+    except ValueError:
+        return path.name
 
 
 def clean_text(text: str) -> str:
