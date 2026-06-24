@@ -76,3 +76,11 @@ private.meta
 # UOS secrets (do not commit credentials)
 UOSLauncherSettings.asset
 UOSLauncherSettings.asset.meta
+
+# Danmaku burst-map local data
+/data/
+/local_inputs/
+*.mp4
+*.mov
+*.mkv
+*.avi

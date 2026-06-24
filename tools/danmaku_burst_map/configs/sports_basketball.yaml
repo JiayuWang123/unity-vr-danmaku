@@ -1,0 +1,5 @@
+extends: default.yaml
+domain: basketball
+dictionaries:
+  - resources/dictionaries/bilibili_common.txt
+  - resources/dictionaries/sports_terms.txt

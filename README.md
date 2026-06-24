@@ -83,3 +83,31 @@ Assets/
 Packages/          # Unity 包依赖清单
 ProjectSettings/   # 项目设置
 ```
+
+## Danmaku Burst Map Analysis Tool
+
+This repository also includes an XML-only danmaku burst-map analysis tool:
+
+```text
+tools/danmaku_burst_map/
+```
+
+It accepts a Bilibili danmaku XML file and generates density charts, burst event
+tables, topic/emotion/content evidence, and a Markdown analysis report. A
+pre-filtered JSON file is not required.
+
+Python usage:
+
+```bash
+python tools/danmaku_burst_map/python/run_burst_map.py ^
+  --input path/to/danmaku.xml ^
+  --output outputs/danmaku_burst_map_generalized
+```
+
+MATLAB usage:
+
+```matlab
+run_burst_map("path/to/danmaku.xml", "outputs/danmaku_burst_map_generalized", "tools/danmaku_burst_map/configs/default.yaml")
+```
+
+See `tools/danmaku_burst_map/docs/burst_map_usage.md` for details.

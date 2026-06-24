@@ -1,0 +1,23 @@
+emotions:
+  - excitement
+  - tension
+  - mockery
+  - anger_or_dispute
+  - nostalgia_or_recap
+  - viewer_behavior
+  - neutral_analysis
+contents:
+  - gameplay_reaction
+  - player_or_team_evaluation
+  - tactical_or_rule_discussion
+  - meme_or_slang
+  - spam_or_chat_behavior
+  - result_or_record_recap
+  - controversy_or_argument
+burst_kinds:
+  - gameplay_peak
+  - result_or_celebration_peak
+  - viewer_behavior_peak
+  - chat_meta_peak
+  - opening_artifact_peak
+  - uncategorized_peak
