@@ -740,25 +740,115 @@ def timeline_chart(path: Path, bursts: Sequence[dict], plt) -> None:
         "opening_artifact_peak": "#B279A2",
         "chat_meta_peak": "#E45756",
     })
-    plt.figure(figsize=(12, 4.8))
-    for idx, burst in enumerate(bursts):
-        plt.barh(
-            idx,
-            burst["duration_seconds"] / 60,
-            left=burst["start_seconds"] / 60,
-            color=colors[burst["burst_kind"]],
-            label=burst["burst_kind"],
+    friendly_kind = {
+        "gameplay_peak": "Gameplay",
+        "result_or_celebration_peak": "Result / celebration",
+        "viewer_behavior_peak": "Viewer behavior",
+        "opening_artifact_peak": "Opening artifact",
+        "chat_meta_peak": "Chat meta",
+        "uncategorized_peak": "Uncategorized",
+    }
+    ordered = sorted(bursts, key=lambda item: item["start_seconds"])
+    if not ordered:
+        return
+
+    max_peak = max(float(b["peak_density_5s"]) for b in ordered) or 1.0
+    x_min = max(0.0, min(float(b["start_seconds"]) for b in ordered) / 60 - 0.8)
+    x_max = max(float(b["end_seconds"]) for b in ordered) / 60 + 0.8
+    lanes = [1.35, -1.35, 2.35, -2.35]
+
+    fig, ax = plt.subplots(figsize=(15, 6.6), facecolor="white")
+    ax.axhline(0, color="#2F3542", linewidth=2.2, alpha=0.85)
+    ax.set_xlim(x_min, x_max)
+    ax.set_ylim(-3.25, 3.25)
+    ax.set_yticks([])
+    ax.grid(axis="x", color="#D8DEE9", linewidth=0.9, alpha=0.7)
+    ax.set_axisbelow(True)
+
+    used_kinds = set()
+    for idx, burst in enumerate(ordered):
+        kind = burst["burst_kind"]
+        color = colors[kind]
+        used_kinds.add(kind)
+        start = float(burst["start_seconds"]) / 60
+        end = float(burst["end_seconds"]) / 60
+        peak = float(burst["peak_seconds"]) / 60
+        peak_density = float(burst["peak_density_5s"])
+        duration = max(end - start, 0.035)
+        lane = lanes[idx % len(lanes)]
+        line_width = 5 + 10 * math.sqrt(peak_density / max_peak)
+        marker_size = 90 + 520 * math.sqrt(peak_density / max_peak)
+
+        ax.plot(
+            [start, max(end, start + duration)],
+            [0, 0],
+            color=color,
+            linewidth=line_width,
+            solid_capstyle="round",
+            alpha=0.50,
+            zorder=2,
         )
-        plt.text(burst["peak_seconds"] / 60, idx, burst["burst_id"], va="center", ha="center", color="white", fontsize=8)
-    handles, labels = plt.gca().get_legend_handles_labels()
-    by_label = dict(zip(labels, handles))
-    plt.legend(by_label.values(), by_label.keys(), loc="lower right")
-    plt.yticks(range(len(bursts)), [b["burst_id"] for b in bursts])
-    plt.title("Burst Timeline")
-    plt.xlabel("Video Time (minutes)")
-    plt.ylabel("Burst Event")
-    plt.tight_layout()
-    plt.savefig(path, dpi=180)
+        ax.scatter(
+            [peak],
+            [0],
+            s=marker_size,
+            color=color,
+            edgecolors="white",
+            linewidths=1.8,
+            zorder=4,
+        )
+        ax.text(
+            peak,
+            0,
+            burst["burst_id"],
+            color="white",
+            fontsize=9,
+            fontweight="bold",
+            ha="center",
+            va="center",
+            zorder=5,
+        )
+
+        topic = shorten(str(burst.get("topic_label", "")), 36)
+        label = (
+            f"{burst['burst_id']}  {burst['time_range']}\n"
+            f"Peak {burst['peak_density_5s']}/5s · {friendly_kind.get(kind, kind)}\n"
+            f"{topic}"
+        )
+        ax.annotate(
+            label,
+            xy=(peak, 0),
+            xytext=(peak, lane),
+            ha="center",
+            va="center",
+            fontsize=9,
+            linespacing=1.15,
+            bbox=dict(boxstyle="round,pad=0.42,rounding_size=0.15", fc="white", ec=color, lw=1.6, alpha=0.96),
+            arrowprops=dict(arrowstyle="-", color=color, lw=1.3, alpha=0.85, shrinkA=4, shrinkB=8),
+            zorder=6,
+        )
+
+    legend_handles = [
+        plt.Line2D([0], [0], color=colors[kind], marker="o", linestyle="", markersize=9, label=friendly_kind.get(kind, kind))
+        for kind in sorted(used_kinds)
+    ]
+    ax.legend(handles=legend_handles, loc="upper left", frameon=False, ncol=min(3, len(legend_handles)))
+    ax.set_title("Burst Event Timeline", fontsize=16, fontweight="bold", pad=14)
+    ax.set_xlabel("Video Time (minutes)")
+    ax.text(
+        x_min,
+        -3.05,
+        "Circle size encodes peak density; colored line length encodes burst duration.",
+        fontsize=9,
+        color="#57606F",
+        ha="left",
+    )
+    for spine in ["left", "right", "top"]:
+        ax.spines[spine].set_visible(False)
+    ax.spines["bottom"].set_color("#A4B0BE")
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
     plt.close()
 
 
