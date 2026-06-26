@@ -1,4 +1,4 @@
-# Danmaku Burst Map Methodology
+﻿# Danmaku Burst Map Methodology
 
 ## XML-only normalization
 

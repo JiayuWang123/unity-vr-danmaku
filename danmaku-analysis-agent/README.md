@@ -1,22 +1,21 @@
-# XML-only Danmaku Burst Map
+﻿# Danmaku Analysis Agent
 
-`danmaku-burst-map` is an independent analysis tool inside the
-`unity-vr-danmaku` research repository. It is intentionally separated from the
-Unity runtime code: Unity can consume the exported CSV/JSON/image assets later,
-but this package can be run by itself from a terminal with only a Bilibili XML
-danmaku file.
+`danmaku-analysis-agent` is the Python-first analysis subsystem inside the
+`unity-vr-danmaku` research repository. It is separated from the Unity runtime
+code: Unity can consume the exported CSV/JSON assets later, while the agent can
+be run by itself from a terminal with a Bilibili XML file or normalized JSON.
 
-The tool turns one XML file into layer-3 per-comment feature tables,
-burst-event tables, evidence-based topic and emotion labels, charts, an HTML
-preview, an optional Excel workbook, and a Markdown report. A pre-filtered JSON
-file is not required.
+The current branch combines the group's layer-1 normalizer and layer-2 Python
+pre-filter with layer-3 feature extraction and the layer-4/5 Qwen Agent. The
+old C# layer-2 prototype has been removed so the research pipeline has one
+active implementation path.
 
 ## Quick Start
 
 Run the integrated layer 1-3 pipeline:
 
 ```powershell
-python .\danmaku-burst-map\python\run_layer123_pipeline.py `
+python .\danmaku-analysis-agent\scripts\run_layer123_pipeline.py `
   --input "path\to\danmaku.xml" `
   --output ".\outputs\layer123_example" `
   --sport-type football
@@ -25,7 +24,7 @@ python .\danmaku-burst-map\python\run_layer123_pipeline.py `
 Run the layer 4/5 Qwen Agent after layer 1-3:
 
 ```powershell
-python .\danmaku-burst-map\python\run_layer45_agent.py `
+python .\danmaku-analysis-agent\scripts\run_layer45_agent.py `
   --input-dir ".\outputs\layer123_example" `
   --output ".\outputs\layer45_example" `
   --mock
@@ -41,10 +40,10 @@ and 800 total candidates. The caps can be changed with
 Use Python and pass only the XML file path:
 
 ```powershell
-python .\danmaku-burst-map\python\run_burst_map.py `
+python .\danmaku-analysis-agent\scripts\run_burst_map.py `
   --input "path\to\danmaku.xml" `
   --output ".\outputs\danmaku_burst_map_example" `
-  --config ".\danmaku-burst-map\configs\default.yaml"
+  --config ".\danmaku-analysis-agent\configs\default.yaml"
 ```
 
 The MATLAB version has the same XML-only input model:
@@ -52,7 +51,7 @@ The MATLAB version has the same XML-only input model:
 ```matlab
 run_burst_map("path/to/danmaku.xml", ...
   "outputs/danmaku_burst_map_example", ...
-  "danmaku-burst-map/configs/default.yaml")
+  "danmaku-analysis-agent/configs/default.yaml")
 ```
 
 ## Python Dependencies
@@ -62,7 +61,7 @@ Install optional packages for PNG charts, Excel output, and better Chinese text
 handling:
 
 ```powershell
-python -m pip install -r .\danmaku-burst-map\python\requirements.txt
+python -m pip install -r .\danmaku-analysis-agent\requirements.txt
 ```
 
 ## Output Files
@@ -226,8 +225,7 @@ research/project references:
   parse/download/analyze cheaply first, then reserve heavier AI steps for
   higher-level interpretation.
 - Existing repository work on XML normalization, duplicate handling, density
-  curves, burst detection, and evidence-first burst characterization in
-  `Huwuw/danmaku-burst-map-generalization`.
+  curves, burst detection, and evidence-first burst characterization.
 
 ## Trust and Confidence
 
@@ -303,7 +301,7 @@ comments inside the burst context window:
   mix, and emotion evidence.
 
 The default rules are intentionally transparent and editable in
-`python/run_burst_map.py`. They cover esports and general sports discourse such
+`scripts/run_burst_map.py` and `agents/burst_map/prefilter.py`. They cover esports and general sports discourse such
 as gameplay reactions, player/team evaluation, tactics, memes, chat behavior,
 celebration, recap, and dispute.
 
@@ -328,27 +326,24 @@ hidden semantic model or manually assigned event knowledge.
 ## Project Layout
 
 ```text
-danmaku-burst-map/
+danmaku-analysis-agent/
+  README.md                Agent-specific usage
+  requirements.txt         Optional Python dependencies
+  agents/burst_map/        Reusable Python package for layers 1-5
+  scripts/                 CLI entrypoints and MATLAB legacy script
   configs/                 Default and sport-specific configs
-  docs/                    Usage and methodology notes
-  examples/                Small example placeholders
-  matlab/                  MATLAB XML-only implementation
-  python/                  Python XML-only implementation
+  data/                    Small samples and research input placeholders
+  docs/                    Usage, methodology, Qwen Agent notes
+  outputs/                 Ignored local generated outputs
   resources/               Stopwords, dictionaries, lexicons, and taxonomy
 ```
 
-## Git Workflow Used For This Branch
+## Git Workflow
 
-The burst-map baseline package previously lived on:
-
-```text
-Huwuw/danmaku-burst-map-generalization
-```
-
-The layer-3 feature extraction work should be developed on a separate branch
-based on `origin/Danmaku-analysis-agent`, then merged only after local tests
-pass. Keep commits focused on `danmaku-burst-map/` unless a later Unity runtime
-task explicitly needs new consuming code.
+Develop analysis-agent changes on a separate branch based on
+`origin/Danmaku-analysis-agent`, then merge after local tests pass. Keep commits
+focused on `danmaku-analysis-agent/` unless a later Unity runtime task
+explicitly needs new consuming code.
 
 ## More Details
 
@@ -356,3 +351,4 @@ See:
 
 - `docs/burst_map_usage.md`
 - `docs/methodology.md`
+- `docs/layer45_qwen_agent.md`

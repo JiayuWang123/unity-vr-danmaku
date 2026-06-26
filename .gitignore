@@ -2,3 +2,12 @@ __pycache__/
 *.py[cod]
 .idea/
 .agents/
+.env
+.env.*
+*.key
+*api_key*
+*secret*
+/outputs/
+!danmaku-analysis-agent/outputs/
+danmaku-analysis-agent/outputs/*
+!danmaku-analysis-agent/outputs/.gitkeep

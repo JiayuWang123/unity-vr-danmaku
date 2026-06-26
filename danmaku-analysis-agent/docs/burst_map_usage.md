@@ -8,7 +8,7 @@ file. A filtered JSON file is not required.
 Integrated layer 1-3 pipeline:
 
 ```bash
-python danmaku-burst-map/python/run_layer123_pipeline.py \
+python danmaku-analysis-agent/scripts/run_layer123_pipeline.py \
   --input path/to/danmaku.xml \
   --output outputs/layer123_example \
   --sport-type football
@@ -17,10 +17,10 @@ python danmaku-burst-map/python/run_layer123_pipeline.py \
 Legacy XML-only burst map:
 
 ```bash
-python danmaku-burst-map/python/run_burst_map.py \
+python danmaku-analysis-agent/scripts/run_burst_map.py \
   --input path/to/danmaku.xml \
   --output outputs/danmaku_burst_map_generalized \
-  --config danmaku-burst-map/configs/default.yaml
+  --config danmaku-analysis-agent/configs/default.yaml
 ```
 
 The Python implementation writes CSV, JSON, Markdown, HTML, optional XLSX, and
@@ -39,7 +39,7 @@ without per-comment features, add:
 ```matlab
 run_burst_map("path/to/danmaku.xml", ...
   "outputs/danmaku_burst_map_generalized", ...
-  "danmaku-burst-map/configs/default.yaml")
+  "danmaku-analysis-agent/configs/default.yaml")
 ```
 
 The MATLAB implementation mirrors the XML-only workflow with lightweight topic

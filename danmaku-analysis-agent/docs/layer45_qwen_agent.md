@@ -1,4 +1,4 @@
-# Layer 4/5 Qwen Agent Methodology
+﻿# Layer 4/5 Qwen Agent Methodology
 
 ## Role In The Pipeline
 
@@ -53,18 +53,14 @@ candidates, the actual number will be smaller.
 The live client uses Alibaba Cloud Model Studio / DashScope's
 OpenAI-compatible chat completions API.
 
-Required:
-
-```powershell
-$env:DASHSCOPE_API_KEY="your-api-key"
-```
+Required: set `DASHSCOPE_API_KEY` locally in your shell or OS environment.
+Do not write keys into repository files.
 
 Optional:
 
-```powershell
-$env:DASHSCOPE_BASE_URL="https://dashscope.aliyuncs.com/compatible-mode/v1"
-$env:DASHSCOPE_WORKSPACE_ID="your-workspace-id"
-```
+Use `--base-url` for a workspace endpoint, or set `DASHSCOPE_BASE_URL` locally.
+Use `--workspace-id` only when you want the CLI to build the regional workspace
+URL for you.
 
 If `DASHSCOPE_BASE_URL` is not set and `DASHSCOPE_WORKSPACE_ID` is provided,
 the CLI builds a workspace URL using the selected region:
@@ -150,7 +146,7 @@ Project references:
 - GitHub branch:
   `https://github.com/JiayuWang123/unity-vr-danmaku/tree/Danmaku-analysis-agent`
 - Local layer 1-3 integration:
-  `danmaku-burst-map/python/run_layer123_pipeline.py`
+  `danmaku-analysis-agent/scripts/run_layer123_pipeline.py`
 
 Alibaba / Qwen references:
 
@@ -178,8 +174,8 @@ Research references:
 Run layers 1-3:
 
 ```powershell
-python .\danmaku-burst-map\python\run_layer123_pipeline.py `
-  --input .\danmaku-burst-map\examples\layer3_feature_sample.xml `
+python .\danmaku-analysis-agent\scripts\run_layer123_pipeline.py `
+  --input .\danmaku-analysis-agent\data\samples\layer3_feature_sample.xml `
   --output .\outputs\layer123_sample `
   --sport-type football
 ```
@@ -187,7 +183,7 @@ python .\danmaku-burst-map\python\run_layer123_pipeline.py `
 Run layer 4/5 mock:
 
 ```powershell
-python .\danmaku-burst-map\python\run_layer45_agent.py `
+python .\danmaku-analysis-agent\scripts\run_layer45_agent.py `
   --input-dir .\outputs\layer123_sample `
   --output .\outputs\layer45_sample `
   --mock
@@ -196,7 +192,7 @@ python .\danmaku-burst-map\python\run_layer45_agent.py `
 Run layer 4/5 live with a bounded test:
 
 ```powershell
-python .\danmaku-burst-map\python\run_layer45_agent.py `
+python .\danmaku-analysis-agent\scripts\run_layer45_agent.py `
   --input-dir .\outputs\layer123_worldcup `
   --output .\outputs\layer45_worldcup `
   --model qwen-plus `

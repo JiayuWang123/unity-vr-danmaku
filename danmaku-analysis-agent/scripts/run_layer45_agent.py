@@ -7,6 +7,11 @@ import argparse
 import json
 import subprocess
 from pathlib import Path
+import sys
+
+AGENTS_DIR = Path(__file__).resolve().parents[1] / "agents"
+if str(AGENTS_DIR) not in sys.path:
+    sys.path.insert(0, str(AGENTS_DIR))
 
 from burst_map.alibaba_qwen_client import DEFAULT_MODEL, QwenClient
 from burst_map.llm_routing import load_bursts, load_feature_rows, select_llm_candidates

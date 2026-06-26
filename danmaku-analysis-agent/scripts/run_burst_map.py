@@ -25,6 +25,10 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterable, Sequence
 
+AGENTS_DIR = Path(__file__).resolve().parents[1] / "agents"
+if str(AGENTS_DIR) not in sys.path:
+    sys.path.insert(0, str(AGENTS_DIR))
+
 from burst_map.features import build_feature_rows
 
 
