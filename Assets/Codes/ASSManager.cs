@@ -30,7 +30,7 @@ public class ASSManager : MonoBehaviour
         string filePath = Path.Combine(Application.streamingAssetsPath, "test.ass");
         if (!File.Exists(filePath))
         {
-            Debug.LogWarning($"ASS ÎÄ¼ş²»´æÔÚ: {filePath}");
+            Debug.LogWarning($"ASS ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: {filePath}");
             return;
         }
 
@@ -64,7 +64,7 @@ public class ASSManager : MonoBehaviour
         }
 
         danmakuList.Sort((a, b) => a.time.CompareTo(b.time));
-        Debug.Log($"³É¹¦½âÎöÁË {danmakuList.Count} ÌõÖĞÎÄµ¯Ä»£¡");
+        Debug.Log($"ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ {danmakuList.Count} ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ä»ï¿½ï¿½");
     }
 
     void Update()
