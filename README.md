@@ -8,7 +8,7 @@ Bilibili XML
   -> Layer 1 normalized_danmaku.json
   -> Layer 2 filtered_danmaku.json
   -> Layer 3 feature_danmaku.json + burst_events.json
-  -> Layer 4 scoring/classification
+  -> Layer 4/5 Qwen Agent scoring, burst interpretation, VR/TTS planning
 ```
 
 The active research pipeline is Python-first. Unity runtime scripts remain in
@@ -35,6 +35,57 @@ The output directory contains:
 
 `REMOVE_NOISE` records are not deleted by default. They are flagged so later
 research steps can audit what was downranked or suppressed.
+
+## Run Layers 4-5 Qwen Agent
+
+The current MVP skips small-model training and uses Alibaba Cloud Qwen only on
+selected candidates. Layers 1-3 already provide rule labels, density, burst
+proximity, and feature evidence, so the Agent does not send every danmaku to
+the model.
+
+Local mock test without API calls:
+
+```powershell
+python .\danmaku-burst-map\python\run_layer45_agent.py `
+  --input-dir ".\outputs\layer123_example" `
+  --output ".\outputs\layer45_example" `
+  --mock
+```
+
+Alibaba Cloud live test:
+
+```powershell
+$env:DASHSCOPE_API_KEY="your-api-key"
+python .\danmaku-burst-map\python\run_layer45_agent.py `
+  --input-dir ".\outputs\layer123_example" `
+  --output ".\outputs\layer45_example" `
+  --model qwen-plus `
+  --max-comments-per-burst 60 `
+  --max-global-comments 250 `
+  --max-total-candidates 800
+```
+
+If your Model Studio workspace requires a workspace URL, pass either
+`--base-url` or `--workspace-id`. With `--workspace-id`, the default region is
+`cn-beijing`, producing a URL shaped like
+`https://{WorkspaceId}.cn-beijing.maas.aliyuncs.com/compatible-mode/v1`.
+
+Layer 4/5 outputs:
+
+- `llm_candidates.json/csv`: bounded comments selected for Qwen, with routing
+  reasons.
+- `llm_scored_danmaku.json/csv`: per-comment analysis, atmosphere, TTS, and VR
+  scores.
+- `burst_agent_summaries.json/csv`: model-assisted burst explanations.
+- `vr_mapping_events.json/csv`: first Unity/VR event mapping draft.
+- `tts_candidates.json/csv`: high-value spoken-line candidates.
+- `layer45_manifest.json`: model, mode, candidate counts, token usage, config,
+  and error counts.
+
+For a 10-minute match clip with many comments, the default candidate budget is
+intentionally higher than the first small smoke test: 60 comments per burst,
+250 global ambiguous/high-value comments, and 800 total candidates. These are
+still caps, not targets, so sparse videos will use much less.
 
 ## Layer 1 Only
 

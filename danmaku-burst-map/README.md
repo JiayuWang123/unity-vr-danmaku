@@ -22,6 +22,22 @@ python .\danmaku-burst-map\python\run_layer123_pipeline.py `
   --sport-type football
 ```
 
+Run the layer 4/5 Qwen Agent after layer 1-3:
+
+```powershell
+python .\danmaku-burst-map\python\run_layer45_agent.py `
+  --input-dir ".\outputs\layer123_example" `
+  --output ".\outputs\layer45_example" `
+  --mock
+```
+
+Remove `--mock` for a live Alibaba Cloud Qwen call after setting
+`DASHSCOPE_API_KEY`. The MVP defaults are sized for a roughly 10-minute sports
+clip with many comments: up to 60 comments per burst, 250 global candidates,
+and 800 total candidates. The caps can be changed with
+`--max-comments-per-burst`, `--max-global-comments`, and
+`--max-total-candidates`.
+
 Use Python and pass only the XML file path:
 
 ```powershell
@@ -87,6 +103,20 @@ The output directory contains:
 - `layer123_manifest.json`: integrated pipeline manifest with schema versions,
   row counts, input path, branch name, commit hash, and warning counts.
 
+Layer 4/5 adds:
+
+- `llm_candidates.json` and `llm_candidates.csv`: comments routed to the LLM
+  with explicit candidate reasons.
+- `llm_scored_danmaku.json` and `llm_scored_danmaku.csv`: Qwen or mock
+  per-comment scores for analysis, atmosphere, TTS, and VR display value.
+- `burst_agent_summaries.json`: model-assisted explanations of detected burst
+  windows.
+- `vr_mapping_events.json`: first structured event mapping for Unity/VR.
+- `tts_candidates.json`: comments that are strong enough to be considered for
+  spoken output.
+- `layer45_manifest.json`: run mode, model, token usage, candidate caps, and
+  errors.
+
 Chart titles, axes, legends, and table headers are English. Original danmaku
 comments are preserved in their source language.
 
@@ -105,6 +135,11 @@ The analyzer follows an evidence-first pipeline:
 7. Extract terms, repeated phrases, representative comments, emotion cues, and
    content cues from the real comments in that window.
 8. Export tables and charts using those extracted evidence values.
+9. Route a bounded candidate set to the layer 4/5 Agent. The router prefers
+   burst-window comments, sports/evidence terms, emotional reactions, low
+   confidence rule cases, and high-density moments.
+10. Ask Qwen to score only those selected comments and summarize burst windows
+    into VR/TTS-friendly JSON.
 
 ## Layer-3 Feature Extraction
 
@@ -225,6 +260,13 @@ The checks that make the first version trustworthy are:
   short reactions, repetition, referee/rule discussion, meta viewing behavior,
   and meme evidence; a real esports XML sample was also tested locally with
   matching normalized and feature row counts.
+
+For layer 4/5, confidence is deliberately split between local evidence and
+model interpretation. The router records why each comment was sent to Qwen, the
+schema validator clamps invalid scores and labels, and `layer45_manifest.json`
+records whether a run was `mock`, `dry_run`, or `live` plus token usage and
+error counts. This makes the Qwen output auditable instead of treating it as
+unexplained truth.
 
 ## Burst Detection Logic
 
