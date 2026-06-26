@@ -5,6 +5,17 @@ file. A filtered JSON file is not required.
 
 ## Python
 
+Integrated layer 1-3 pipeline:
+
+```bash
+python danmaku-burst-map/python/run_layer123_pipeline.py \
+  --input path/to/danmaku.xml \
+  --output outputs/layer123_example \
+  --sport-type football
+```
+
+Legacy XML-only burst map:
+
 ```bash
 python danmaku-burst-map/python/run_burst_map.py \
   --input path/to/danmaku.xml \
@@ -37,8 +48,11 @@ evidence extraction.
 ## Main Outputs
 
 - `normalized_danmaku.csv`
+- `filtered_danmaku.csv`
+- `filtered_danmaku.json`
 - `feature_danmaku.csv`
 - `feature_danmaku.json`
+- `layer123_manifest.json`
 - `density_5s.csv`
 - `density_10s.csv`
 - `burst_events.csv`

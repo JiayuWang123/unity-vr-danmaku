@@ -8,6 +8,7 @@ import re
 import statistics
 import unicodedata
 from collections import Counter, defaultdict
+from types import SimpleNamespace
 from typing import Sequence
 
 from .lexicons import load_lexicons, match_lexicons
@@ -68,6 +69,9 @@ def build_feature_rows(
                 "time_sec": round(time_sec, 3),
                 "text_raw": text_raw,
                 "text_norm": text_norm,
+                "filter_label": getattr(entry, "filter_label", ""),
+                "filter_reason": getattr(entry, "filter_reason", ""),
+                "filter_confidence": getattr(entry, "filter_confidence", ""),
                 "length": structure["length"],
                 "char_repeat_ratio": structure["char_repeat_ratio"],
                 "punctuation_ratio": structure["punctuation_ratio"],
@@ -92,6 +96,49 @@ def build_feature_rows(
             }
         )
     return rows
+
+
+def records_to_feature_entries(records: Sequence[dict]) -> list[object]:
+    """Adapt layer-1/layer-2 JSON records to the attribute shape used here."""
+    entries = []
+    normalized_counts = Counter(normalize_for_duplicate(record.get("text_norm") or record.get("text_raw") or "") for record in records)
+    for index, record in enumerate(records, 1):
+        text_norm = record.get("text_norm") or record.get("text_raw") or ""
+        normalized_text = normalize_for_duplicate(text_norm)
+        entries.append(
+            SimpleNamespace(
+                time_seconds=float(record.get("time_sec", 0.0) or 0.0),
+                mode=int(record.get("mode", 1) or 1),
+                font_size=int(record.get("font_size", 25) or 25),
+                color=record.get("color_hex", "#FFFFFF"),
+                timestamp=str(record.get("timestamp", "")),
+                pool=str(record.get("pool", "")),
+                user_hash=str(record.get("user_hash", "")),
+                danmaku_id=str(record.get("danmaku_id", f"record_{index:06d}")),
+                raw_text=str(record.get("text_raw", "")),
+                clean_text=str(text_norm),
+                normalized_text=normalized_text,
+                is_duplicate_like=normalized_counts[normalized_text] > 1,
+                is_spam_like=bool(record.get("removed_from_main_display", False)),
+                is_symbol_only=is_symbol_only_text(text_norm),
+                text_length=len(text_norm),
+                priority_score=1.0,
+                evidence_weight=1.0,
+                filter_label=record.get("filter_label", ""),
+                filter_reason=record.get("filter_reason", ""),
+                filter_confidence=record.get("filter_confidence", ""),
+            )
+        )
+    entries.sort(key=lambda item: (item.time_seconds, item.danmaku_id))
+    return entries
+
+
+def normalize_for_duplicate(text: str) -> str:
+    return re.sub(r"\s+", "", str(text).lower())
+
+
+def is_symbol_only_text(text: str) -> bool:
+    return bool(re.fullmatch(r"[\W_]+", text, flags=re.UNICODE)) if text else True
 
 
 def text_structure_features(text: str) -> dict:

@@ -1,64 +1,43 @@
-analysis_words = {
-    "梅西", "姆巴佩", "C罗", "哈兰德", "亚马尔",
-    "进球", "破门", "助攻", "越位", "点球",
-    "任意球", "角球", "传中", "反击", "控球",
-    "世界波", "绝杀", "帽子戏法", "扑救", "VAR"
-}
+#!/usr/bin/env python3
+"""Compatibility CLI and imports for layer-2 rule pre-filtering."""
 
-atmosphere_words = {
-    "哈哈", "哈哈哈", "666", "牛逼", "封神",
-    "卧槽", "太帅了", "绝了", "离谱", "燃",
-    "泪目", "笑死", "逆天", "无敌", "精彩"
-}
+from __future__ import annotations
 
-meta_words = {
-    "打卡", "签到", "空降", "前排", "第一",
-    "考古", "二刷", "三刷", "补课", "来了",
-    "有人吗", "集合", "报到"
-}
+import argparse
+import json
+from pathlib import Path
+import sys
 
-noise_words = {
-    "111111", "222222", "333333",
-    "......", "？？？？", "!!!!!!",
-    "aaaa", "bbbb"
-}
 
-def classify(text):
-    if text is None:
-        return "REMOVE_NOISE"
+ROOT = Path(__file__).resolve().parent
+PYTHON_DIR = ROOT / "danmaku-burst-map" / "python"
+if str(PYTHON_DIR) not in sys.path:
+    sys.path.insert(0, str(PYTHON_DIR))
 
-    text = str(text).strip()
+from burst_map.prefilter import classify, classify_with_evidence, filter_records, load_records, make_filtered_collection
 
-    if text == "":
-        return "REMOVE_NOISE"
 
-    for word in noise_words:
-        if word in text:
-            return "REMOVE_NOISE"
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Apply layer-2 rule pre-filtering to normalized danmaku JSON.")
+    parser.add_argument("--input", type=Path, help="Input normalized JSON from layer 1.")
+    parser.add_argument("--output", type=Path, help="Output filtered JSON.")
+    parser.add_argument("--text", help="Classify a single text string.")
+    return parser.parse_args()
 
-    for word in meta_words:
-        if word in text:
-            return "DOWNRANK_META"
 
-    for word in atmosphere_words:
-        if word in text:
-            return "KEEP_ATMOSPHERE"
-
-    for word in analysis_words:
-        if word in text:
-            return "KEEP_ANALYSIS"
-
-    return "KEEP_ANALYSIS"
+def main() -> None:
+    args = parse_args()
+    if args.text is not None:
+        print(json.dumps(classify_with_evidence(args.text), ensure_ascii=False, indent=2))
+        return
+    if not args.input or not args.output:
+        raise SystemExit("Use --text for a single string or provide --input and --output.")
+    records = load_records(args.input)
+    filtered, stats = filter_records(records)
+    collection = make_filtered_collection(filtered, stats)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(collection, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
-    tests = [
-        "梅西封神",
-        "哈哈哈哈",
-        "打卡",
-        "111111",
-        "姆巴佩进球了"
-    ]
-
-    for t in tests:
-        print(f"{t} -> {classify(t)}")
+    main()

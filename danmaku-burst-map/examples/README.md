@@ -23,3 +23,12 @@ python danmaku-burst-map/python/run_burst_map.py ^
 The sample intentionally covers short reactions, repetition, referee/rule
 discussion, meta viewing behavior, and meme/slang evidence.
 
+Integrated layer 1-3 smoke test:
+
+```bash
+python danmaku-burst-map/python/run_layer123_pipeline.py ^
+  --input danmaku-burst-map/examples/layer3_feature_sample.xml ^
+  --output outputs/layer123_sample ^
+  --sport-type football
+```
+

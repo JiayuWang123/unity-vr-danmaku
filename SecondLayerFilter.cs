@@ -1,3 +1,8 @@
+// Legacy reference only.
+// The active layer-2 implementation is now Python:
+//   second_layer_filter.py
+//   danmaku-burst-map/python/burst_map/prefilter.py
+
 using System.Collections.Generic;
 
 public static class SecondLayerFilter

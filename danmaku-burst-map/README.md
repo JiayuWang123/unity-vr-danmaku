@@ -13,6 +13,15 @@ file is not required.
 
 ## Quick Start
 
+Run the integrated layer 1-3 pipeline:
+
+```powershell
+python .\danmaku-burst-map\python\run_layer123_pipeline.py `
+  --input "path\to\danmaku.xml" `
+  --output ".\outputs\layer123_example" `
+  --sport-type football
+```
+
 Use Python and pass only the XML file path:
 
 ```powershell
@@ -44,6 +53,10 @@ python -m pip install -r .\danmaku-burst-map\python\requirements.txt
 
 The output directory contains:
 
+- `filtered_danmaku.csv` and `filtered_danmaku.json`: layer-2 rule pre-filter
+  labels (`KEEP_ANALYSIS`, `KEEP_ATMOSPHERE`, `DOWNRANK_META`,
+  `REMOVE_NOISE`) with matched terms, reason, confidence, and display
+  suppression flag. Noise is flagged rather than physically deleted.
 - `normalized_danmaku.csv` and `normalized_danmaku.json`: parsed XML comments
   with cleaned text, display metadata, duplicate/spam flags, and evidence
   scores.
@@ -71,6 +84,8 @@ The output directory contains:
   original danmaku text.
 - `emotion_content_summary.png`: aggregate emotion/content distribution.
 - `burst_heatmap.png`: emotion evidence strength by burst.
+- `layer123_manifest.json`: integrated pipeline manifest with schema versions,
+  row counts, input path, branch name, commit hash, and warning counts.
 
 Chart titles, axes, legends, and table headers are English. Original danmaku
 comments are preserved in their source language.
@@ -110,6 +125,18 @@ Each feature row includes:
 
 Editable lexicons live in `resources/lexicons/`. They are evidence sources for
 later layers, not deletion rules.
+
+## Layer-1 and Layer-2 Integration
+
+Layer 1 lives in `python/burst_map/normalization.py`. It normalizes Bilibili
+XML into stable records with `danmaku_id`, `time_sec`, `text_raw`,
+`text_norm`, display metadata, source metadata, and stats. It tolerates bad
+rows by collecting warnings instead of stopping the whole batch.
+
+Layer 2 lives in `python/burst_map/prefilter.py`. It applies transparent,
+low-cost rules before layer 3. Each record keeps all normalized fields and adds
+`filter_label`, `filter_reason`, `filter_matched_terms`, `filter_confidence`,
+and `removed_from_main_display`.
 
 ## Implementation Rationale
 
