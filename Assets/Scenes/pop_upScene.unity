@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zone: 0
-  frameSize: {x: 1.0828445, y: 0.72800916}
+  frameSize: {x: 0.7709585, y: 0.5948665}
   useCenterAnchor: 0
   maxConcurrentPerAnchor: 2
   editorVisualRoot: {fileID: 1844141702}
@@ -679,10 +679,10 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: -0.8017233, y: 0.45000005, z: 0}
-  - {x: 0.8017233, y: 0.45000005, z: 0}
-  - {x: 0.8017233, y: -0.45000005, z: 0}
-  - {x: -0.8017233, y: -0.45000005, z: 0}
+  - {x: -0.682564, y: 0.45000002, z: 0}
+  - {x: 0.682564, y: 0.45000002, z: 0}
+  - {x: 0.682564, y: -0.45000002, z: 0}
+  - {x: -0.682564, y: -0.45000002, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.015
@@ -1111,7 +1111,7 @@ Transform:
   m_GameObject: {fileID: 532863731}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8017233, y: 0, z: 0}
+  m_LocalPosition: {x: 0.682564, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1498,13 +1498,13 @@ MonoBehaviour:
   fadeInDuration: 0.25
   fadeOutDuration: 0.35
   nearFontSize: 15
-  midFontSize: 25
+  midFontSize: 20
   farFontSize: 34
   nearAlpha: 1
   midAlpha: 1
   farAlpha: 0.95
   nearFallbackColor: {r: 1, g: 0.95, b: 0.6, a: 1}
-  midFallbackColor: {r: 0.85, g: 0.98, b: 1, a: 1}
+  midFallbackColor: {r: 0.42539847, g: 0.8053464, b: 0.8616352, a: 1}
   farFallbackColor: {r: 0.82, g: 0.78, b: 1, a: 1}
   worldLabelScale: 0.003
   labelSize: {x: 900, y: 160}
@@ -2086,7 +2086,7 @@ Transform:
   m_GameObject: {fileID: 1441405531}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.8017233, y: 0, z: 0}
+  m_LocalPosition: {x: -0.682564, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2950,7 +2950,7 @@ Transform:
   m_GameObject: {fileID: 1518234227}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.54142225, y: 0, z: 0}
+  m_LocalPosition: {x: -0.38547924, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2997,7 +2997,7 @@ Transform:
   m_GameObject: {fileID: 1666705372}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.07999997, z: -0.1479428}
+  m_LocalPosition: {x: 0, y: -0.079999946, z: -0.18703301}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3019,7 +3019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zone: 1
-  frameSize: {x: 1.6034466, y: 0.9000001}
+  frameSize: {x: 1.365128, y: 0.90000004}
   useCenterAnchor: 0
   maxConcurrentPerAnchor: 2
   editorVisualRoot: {fileID: 232144847}
@@ -3050,7 +3050,7 @@ Transform:
   m_GameObject: {fileID: 1726615855}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.54142225, y: 0, z: 0}
+  m_LocalPosition: {x: 0.38547924, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3845,10 +3845,10 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: -0.54142225, y: 0.36400458, z: 0}
-  - {x: 0.54142225, y: 0.36400458, z: 0}
-  - {x: 0.54142225, y: -0.36400458, z: 0}
-  - {x: -0.54142225, y: -0.36400458, z: 0}
+  - {x: -0.38547924, y: 0.29743326, z: 0}
+  - {x: 0.38547924, y: 0.29743326, z: 0}
+  - {x: 0.38547924, y: -0.29743326, z: 0}
+  - {x: -0.38547924, y: -0.29743326, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.015
