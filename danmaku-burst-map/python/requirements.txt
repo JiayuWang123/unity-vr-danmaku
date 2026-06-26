@@ -1,0 +1,11 @@
+# Core optional dependencies for the Python implementation.
+# The analyzer can still emit CSV/JSON/Markdown/HTML without these packages.
+matplotlib>=3.8
+openpyxl>=3.1
+jieba>=0.42
+scikit-learn>=1.4
+seaborn>=0.13
+
+# Optional advanced topic modeling.
+bertopic>=0.16
+sentence-transformers>=3.0

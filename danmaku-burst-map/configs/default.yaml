@@ -1,0 +1,22 @@
+# Default configuration for XML-only danmaku burst-map analysis.
+input_format: bilibili_xml
+window_seconds: 5
+smooth_window_seconds: 10
+merge_gap_seconds: 10
+max_bursts: 10
+opening_guard:
+  min_seconds: 60
+  duration_ratio: 0.02
+thresholds:
+  candidate: max(P90, median + 3 * robust_sigma)
+  strong: max(P95, median + 6 * robust_sigma)
+output:
+  language_for_headers: en
+  preserve_comment_language: true
+  write_png: true
+  write_html: true
+  write_xlsx: true
+labeling:
+  mode: evidence_first
+  allow_llm: false
+  require_source_terms: true

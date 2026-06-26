@@ -1,0 +1,11 @@
+# Toxic/risk terms. These are evidence flags, not automatic deletion rules.
+傻逼
+sb
+滚
+恶心
+脑子
+喷
+黑哨
+裁判疯了
+去死
+垃圾

@@ -1,0 +1,16 @@
+# Short emotional reaction terms that should not be treated as plain noise.
+啊啊啊
+卧槽
+牛逼
+笑死
+哈哈
+哭了
+燃起来了
+离谱
+绷不住
+舒服了
+破防
+爽
+绝了
+吓死
+紧张

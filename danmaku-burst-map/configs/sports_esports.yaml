@@ -1,0 +1,5 @@
+extends: default.yaml
+domain: esports
+dictionaries:
+  - resources/dictionaries/bilibili_common.txt
+  - resources/dictionaries/esports_terms.txt
