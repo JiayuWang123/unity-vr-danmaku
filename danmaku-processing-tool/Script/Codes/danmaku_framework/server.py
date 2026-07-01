@@ -149,6 +149,9 @@ class DanmakuRequestHandler(BaseHTTPRequestHandler):
         response["downloads"] = {
             key: f"/outputs/{Path(path).name}" for key, path in response["files"].items()
         }
+        response["file_names"] = {
+            key: Path(path).name for key, path in response["files"].items()
+        }
         self.send_json(response)
 
     def serve_static(self, path: Path) -> None:
@@ -182,6 +185,7 @@ class DanmakuRequestHandler(BaseHTTPRequestHandler):
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(data)))
+        self.send_header("Cache-Control", "no-store")
         if as_attachment:
             self.send_header("Content-Disposition", f'attachment; filename="{path.name}"')
         self.end_headers()

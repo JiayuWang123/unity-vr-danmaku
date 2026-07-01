@@ -183,9 +183,19 @@
       font-size: 14px;
     }
     .downloads {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
+    }
+    .download-item {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+    .download-name {
+      color: var(--muted);
+      font-size: 13px;
+      overflow-wrap: anywhere;
     }
     .file-name {
       margin-top: 10px;
@@ -200,6 +210,7 @@
     @media (max-width: 620px) {
       main { width: min(100% - 20px, 1080px); padding: 22px 0; }
       .controls, .option-grid, .metrics { grid-template-columns: 1fr; }
+      .downloads { grid-template-columns: 1fr; }
       button { width: 100%; }
     }
   </style>
@@ -325,14 +336,23 @@
       metrics.appendChild(item);
     }
 
-    function labelForDownload(key) {
+    function sampleSourceLabel(value) {
+      const labels = {
+        filtered: "过滤后弹幕",
+        normalized: "标准化未过滤弹幕",
+        raw_minimal: "未标准化核查 JSON"
+      };
+      return labels[value] || value || "未知来源";
+    }
+
+    function labelForDownload(key, data) {
       const labels = {
         raw_minimal: "下载核查最小 JSON",
         normalized: "下载标准化 JSON",
         filtered: "下载过滤后 JSON",
-        noise: "下载 noise JSON",
-        sample: "下载抽样 JSON"
+        noise: "下载 noise JSON"
       };
+      if (key === "sample") return `下载抽样 JSON（${sampleSourceLabel(data.sample_source)}）`;
       return labels[key] || `下载 ${key}`;
     }
 
@@ -349,11 +369,18 @@
       if (data.sample_count) addMetric("抽样", data.sample_count);
 
       Object.entries(data.downloads || {}).forEach(([key, href]) => {
+        const item = document.createElement("div");
+        item.className = "download-item";
         const link = document.createElement("a");
         link.className = "button";
         link.href = href;
-        link.textContent = labelForDownload(key);
-        downloads.appendChild(link);
+        link.textContent = labelForDownload(key, data);
+        const name = document.createElement("div");
+        name.className = "download-name";
+        name.textContent = data.file_names && data.file_names[key] ? data.file_names[key] : href.split("/").pop();
+        item.appendChild(link);
+        item.appendChild(name);
+        downloads.appendChild(item);
       });
       results.style.display = "block";
     }

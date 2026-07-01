@@ -59,6 +59,7 @@ class PipelineResult:
     kept_count: int = 0
     noise_count: int = 0
     sample_count: int = 0
+    sample_source: str = ""
     warning_count: int = 0
     noise_reason_counts: dict[str, int] = field(default_factory=dict)
     files: dict[str, Path] = field(default_factory=dict)
@@ -75,6 +76,7 @@ class PipelineResult:
             "kept_count": self.kept_count,
             "noise_count": self.noise_count,
             "sample_count": self.sample_count,
+            "sample_source": self.sample_source,
             "warning_count": self.warning_count,
             "noise_reason_counts": self.noise_reason_counts,
             "files": {key: rel(path) for key, path in self.files.items()},
@@ -154,13 +156,14 @@ def write_pipeline_outputs(
     sample_count = 0
     if opts.sample_enabled:
         if opts.sample_source == "raw_minimal" and not raw_minimal_records:
-            raw_minimal_records = project_records(parsed_records, "raw_minimal")
-        sample_source_records = select_sample_source(
-            opts.sample_source,
-            raw_minimal_records,
-            normalized_records,
-            filtered_records,
-        )
+            sample_source_records = project_records(parsed_records, "raw_minimal")
+        else:
+            sample_source_records = select_sample_source(
+                opts.sample_source,
+                raw_minimal_records,
+                normalized_records,
+                filtered_records,
+            )
         sampled_records = sample_by_time_strata(
             sample_source_records,
             opts.sample_size,
@@ -180,6 +183,7 @@ def write_pipeline_outputs(
         kept_count=len(filtered_records),
         noise_count=len(noise_records),
         sample_count=sample_count,
+        sample_source=opts.sample_source if opts.sample_enabled else "",
         warning_count=len(warnings),
         noise_reason_counts=reason_counts,
         files=files,
