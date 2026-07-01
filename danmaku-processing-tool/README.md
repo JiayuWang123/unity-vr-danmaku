@@ -61,7 +61,7 @@ python .\Script\Codes\process_xml_danmaku.py .\Danmu\Qatar.xml `
   --sample-seed 20260630
 ```
 
-Minimal normalized profile:
+Minimal review profile:
 
 ```powershell
 python .\Script\Codes\process_xml_danmaku.py .\Danmu\Qatar.xml `
@@ -80,11 +80,10 @@ mode, mode_name, font_size, color_decimal, color_hex, created_at_unix,
 pool, user_hash, danmaku_id, weight
 ```
 
-Minimal normalized records keep:
+Minimal records keep:
 
 ```text
-id, video_id, source_file, index, time_sec, time_mmss, text_raw, text_norm,
-mode, color_hex, danmaku_id
+time_sec, time_mmss, text_raw
 ```
 
 Raw review records keep:

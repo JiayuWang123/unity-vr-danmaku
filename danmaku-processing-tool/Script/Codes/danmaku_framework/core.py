@@ -74,25 +74,13 @@ FULL_NORMALIZED_FIELDS = (
     "weight",
 )
 
-NORMALIZED_MINIMAL_FIELDS = (
-    "id",
-    "video_id",
-    "source_file",
-    "index",
-    "time_sec",
-    "time_mmss",
-    "text_raw",
-    "text_norm",
-    "mode",
-    "color_hex",
-    "danmaku_id",
-)
-
 RAW_REVIEW_FIELDS = (
     "time_sec",
     "time_mmss",
     "text_raw",
 )
+
+MINIMAL_FIELDS = RAW_REVIEW_FIELDS
 
 SUBTITLE_NOISE_RE = re.compile(
     r"^(?:"
@@ -272,7 +260,7 @@ def project_record(record: dict[str, Any], profile: str = "minimal") -> dict[str
     elif profile == "raw_minimal":
         fields = RAW_REVIEW_FIELDS
     elif profile == "minimal":
-        fields = NORMALIZED_MINIMAL_FIELDS
+        fields = MINIMAL_FIELDS
     else:
         raise ValueError(f"Unknown record profile: {profile}")
     return {field: record.get(field, "") for field in fields}
@@ -283,7 +271,7 @@ def project_records(records: list[dict[str, Any]], profile: str) -> list[dict[st
 
 
 def trim_record(record: dict[str, Any]) -> dict[str, Any]:
-    """Backward-compatible minimal normalized projection."""
+    """Project records to the manual-review minimal field set."""
     return project_record(record, "minimal")
 
 
