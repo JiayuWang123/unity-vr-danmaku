@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>弹幕 XML 处理工具</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #16212f;
+      --muted: #607080;
+      --line: #ccd5df;
+      --panel: #ffffff;
+      --wash: #f4f7f9;
+      --field: #fbfcfd;
+      --accent: #0f766e;
+      --accent-dark: #0b5c55;
+      --danger: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--wash);
+    }
+    main {
+      width: min(1080px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 32px 0 44px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      font-weight: 750;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    .subtle {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px;
+    }
+    .dropzone {
+      min-height: 190px;
+      border: 2px dashed #9fb0c0;
+      border-radius: 8px;
+      background: var(--field);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      transition: border-color 160ms ease, background 160ms ease;
+      cursor: pointer;
+    }
+    .dropzone.dragover {
+      border-color: var(--accent);
+      background: #eefaf7;
+    }
+    .drop-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .drop-hint {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    input[type="file"] { display: none; }
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      margin-top: 18px;
+      align-items: end;
+    }
+    .options {
+      margin-top: 22px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .option-line {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--ink);
+      font-size: 14px;
+    }
+    label.field {
+      display: grid;
+      gap: 7px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0 12px;
+      font-size: 15px;
+      color: var(--ink);
+      background: #fff;
+    }
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+    button, .button {
+      height: 42px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--accent);
+      color: white;
+      font-size: 15px;
+      font-weight: 650;
+      padding: 0 18px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+    button:hover, .button:hover { background: var(--accent-dark); }
+    button:disabled {
+      cursor: not-allowed;
+      background: #8aa7a2;
+    }
+    .status {
+      margin-top: 18px;
+      color: var(--muted);
+      min-height: 24px;
+      line-height: 1.6;
+    }
+    .error { color: var(--danger); }
+    .results {
+      display: none;
+      margin-top: 18px;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: var(--field);
+      min-width: 0;
+    }
+    .metric strong {
+      display: block;
+      font-size: 25px;
+      margin-bottom: 4px;
+      overflow-wrap: anywhere;
+    }
+    .metric span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .downloads {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .file-name {
+      margin-top: 10px;
+      color: var(--ink);
+      font-weight: 650;
+      overflow-wrap: anywhere;
+    }
+    .hidden { display: none; }
+    @media (max-width: 860px) {
+      .option-grid, .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 620px) {
+      main { width: min(100% - 20px, 1080px); padding: 22px 0; }
+      .controls, .option-grid, .metrics { grid-template-columns: 1fr; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>弹幕 XML 处理工具</h1>
+    <p class="subtle">上传或拖入 Bilibili XML，按选项生成标准化、过滤、噪声与时间分层抽样 JSON。</p>
+
+    <section class="panel">
+      <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="选择或拖入 XML 文件">
+        <div>
+          <div class="drop-title">拖入 XML 文件</div>
+          <div class="drop-hint">或点击此区域选择文件</div>
+          <button type="button" id="chooseButton">选择 XML</button>
+          <div id="fileName" class="file-name"></div>
+        </div>
+      </div>
+      <input id="fileInput" type="file" accept=".xml,text/xml,application/xml">
+
+      <div class="controls">
+        <label class="field">
+          video_id
+          <input id="videoId" type="text" placeholder="可选；不填则使用 XML chatid 或文件名">
+        </label>
+        <button id="processButton" type="button" disabled>开始处理</button>
+      </div>
+
+      <div class="options">
+        <h2>处理选项</h2>
+        <div class="option-grid">
+          <label class="option-line"><input id="exportRawMinimal" type="checkbox">生成核查最小 JSON</label>
+          <label class="option-line"><input id="normalize" type="checkbox" checked>标准化</label>
+          <label class="field">
+            标准化字段
+            <select id="normalizedProfile">
+              <option value="full" selected>完整信息</option>
+              <option value="minimal">最小字段</option>
+            </select>
+          </label>
+          <label class="option-line"><input id="filterEnabled" type="checkbox" checked>第一阶段明显噪声过滤</label>
+          <label class="option-line"><input id="exportFilterOutputs" type="checkbox" checked>输出 filtered 与 noise</label>
+          <label class="option-line"><input id="sampleEnabled" type="checkbox">生成随机抽样 JSON</label>
+          <label class="field sample-option">
+            抽样来源
+            <select id="sampleSource">
+              <option value="filtered" selected>过滤后弹幕</option>
+              <option value="normalized">标准化未过滤弹幕</option>
+              <option value="raw_minimal">未标准化核查 JSON</option>
+            </select>
+          </label>
+          <label class="field sample-option">
+            抽样数量
+            <input id="sampleSize" type="number" min="1" value="200">
+          </label>
+          <label class="field sample-option">
+            时间分层数
+            <input id="sampleStrata" type="number" min="1" value="10">
+          </label>
+          <label class="field sample-option">
+            随机种子
+            <input id="sampleSeed" type="number" value="20260630">
+          </label>
+        </div>
+      </div>
+
+      <div id="status" class="status"></div>
+
+      <div id="results" class="results">
+        <div class="metrics" id="metrics"></div>
+        <div class="downloads" id="downloads"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const dropzone = document.getElementById("dropzone");
+    const fileInput = document.getElementById("fileInput");
+    const chooseButton = document.getElementById("chooseButton");
+    const processButton = document.getElementById("processButton");
+    const fileName = document.getElementById("fileName");
+    const statusBox = document.getElementById("status");
+    const results = document.getElementById("results");
+    const metrics = document.getElementById("metrics");
+    const downloads = document.getElementById("downloads");
+    const videoId = document.getElementById("videoId");
+    const sampleEnabled = document.getElementById("sampleEnabled");
+    let selectedFile = null;
+
+    const optionIds = [
+      "exportRawMinimal", "normalize", "normalizedProfile", "filterEnabled",
+      "exportFilterOutputs", "sampleEnabled", "sampleSource", "sampleSize",
+      "sampleStrata", "sampleSeed"
+    ];
+
+    function setStatus(message, isError = false) {
+      statusBox.textContent = message;
+      statusBox.className = isError ? "status error" : "status";
+    }
+
+    function selectFile(file) {
+      selectedFile = file || null;
+      fileName.textContent = selectedFile ? selectedFile.name : "";
+      processButton.disabled = !selectedFile;
+      results.style.display = "none";
+      setStatus(selectedFile ? "文件已选择，点击开始处理。" : "");
+    }
+
+    function appendBool(form, name, elementId) {
+      form.append(name, document.getElementById(elementId).checked ? "true" : "false");
+    }
+
+    function refreshSampleControls() {
+      document.querySelectorAll(".sample-option").forEach((node) => {
+        node.classList.toggle("hidden", !sampleEnabled.checked);
+      });
+    }
+
+    function addMetric(label, value) {
+      const item = document.createElement("div");
+      item.className = "metric";
+      item.innerHTML = `<strong>${value}</strong><span>${label}</span>`;
+      metrics.appendChild(item);
+    }
+
+    function labelForDownload(key) {
+      const labels = {
+        raw_minimal: "下载核查最小 JSON",
+        normalized: "下载标准化 JSON",
+        filtered: "下载过滤后 JSON",
+        noise: "下载 noise JSON",
+        sample: "下载抽样 JSON"
+      };
+      return labels[key] || `下载 ${key}`;
+    }
+
+    function renderResults(data) {
+      metrics.innerHTML = "";
+      downloads.innerHTML = "";
+      addMetric("原始弹幕", data.input_count);
+      if (data.raw_minimal_count) addMetric("核查最小", data.raw_minimal_count);
+      if (data.normalized_count) addMetric("标准化", data.normalized_count);
+      if (data.kept_count || data.noise_count) {
+        addMetric("过滤后保留", data.kept_count);
+        addMetric("明显噪声", data.noise_count);
+      }
+      if (data.sample_count) addMetric("抽样", data.sample_count);
+
+      Object.entries(data.downloads || {}).forEach(([key, href]) => {
+        const link = document.createElement("a");
+        link.className = "button";
+        link.href = href;
+        link.textContent = labelForDownload(key);
+        downloads.appendChild(link);
+      });
+      results.style.display = "block";
+    }
+
+    dropzone.addEventListener("click", () => fileInput.click());
+    chooseButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      fileInput.click();
+    });
+    fileInput.addEventListener("change", () => selectFile(fileInput.files[0]));
+    sampleEnabled.addEventListener("change", refreshSampleControls);
+
+    ["dragenter", "dragover"].forEach((name) => {
+      dropzone.addEventListener(name, (event) => {
+        event.preventDefault();
+        dropzone.classList.add("dragover");
+      });
+    });
+    ["dragleave", "drop"].forEach((name) => {
+      dropzone.addEventListener(name, (event) => {
+        event.preventDefault();
+        dropzone.classList.remove("dragover");
+      });
+    });
+    dropzone.addEventListener("drop", (event) => {
+      const file = event.dataTransfer.files[0];
+      selectFile(file);
+    });
+
+    processButton.addEventListener("click", async () => {
+      if (!selectedFile) return;
+      if (!selectedFile.name.toLowerCase().endsWith(".xml")) {
+        setStatus("请选择 .xml 文件。", true);
+        return;
+      }
+
+      const form = new FormData();
+      form.append("xml_file", selectedFile);
+      form.append("video_id", videoId.value.trim());
+      appendBool(form, "export_raw_minimal", "exportRawMinimal");
+      appendBool(form, "normalize", "normalize");
+      form.append("normalized_profile", document.getElementById("normalizedProfile").value);
+      appendBool(form, "filter_enabled", "filterEnabled");
+      appendBool(form, "export_filter_outputs", "exportFilterOutputs");
+      appendBool(form, "sample_enabled", "sampleEnabled");
+      form.append("sample_source", document.getElementById("sampleSource").value);
+      form.append("sample_size", document.getElementById("sampleSize").value);
+      form.append("sample_strata", document.getElementById("sampleStrata").value);
+      form.append("sample_seed", document.getElementById("sampleSeed").value);
+
+      processButton.disabled = true;
+      setStatus("处理中，请稍候...");
+      results.style.display = "none";
+
+      try {
+        const response = await fetch("/api/process", { method: "POST", body: form });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "处理失败");
+        renderResults(data);
+        setStatus(`处理完成，video_id: ${data.video_id}`);
+      } catch (error) {
+        setStatus(error.message, true);
+      } finally {
+        processButton.disabled = !selectedFile;
+      }
+    });
+
+    optionIds.forEach((id) => {
+      const node = document.getElementById(id);
+      if (node) node.addEventListener("change", () => setStatus(selectedFile ? "选项已更新，点击开始处理。" : ""));
+    });
+    refreshSampleControls();
+  </script>
+</body>
+</html>
