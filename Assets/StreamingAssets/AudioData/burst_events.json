@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.0",
+  "video_id": "worldcup_final_10min_sample",
+  "time_range_sec": [
+    0,
+    600
+  ],
+  "bursts": [
+    {
+      "burst_id": "F-1",
+      "start_sec": 42,
+      "peak_sec": 48,
+      "end_sec": 58,
+      "dominant_emotion": "joy",
+      "dominant_content": "event_reaction",
+      "representative_comments": [
+        "进了！！",
+        "梅西！",
+        "啊啊啊啊"
+      ],
+      "vr_design_hint": {
+        "particle_intensity": 0.9,
+        "audio_crowd_level": 0.85,
+        "text_display_limit": 15,
+        "decay_seconds": 12,
+        "tts_enabled": false,
+        "atmosphere_mode": "excited"
+      }
+    },
+    {
+      "burst_id": "F-2",
+      "start_sec": 112,
+      "peak_sec": 125,
+      "end_sec": 138,
+      "dominant_emotion": "anger_confusion",
+      "dominant_content": "referee_rule_dispute",
+      "representative_comments": [
+        "这也越位？",
+        "VAR杀死足球",
+        "裁判疯了"
+      ],
+      "vr_design_hint": {
+        "particle_intensity": 0.4,
+        "audio_crowd_level": 0.55,
+        "text_display_limit": 10,
+        "decay_seconds": 15,
+        "tts_enabled": true,
+        "atmosphere_mode": "tension"
+      }
+    },
+    {
+      "burst_id": "F-3",
+      "start_sec": 185,
+      "peak_sec": 192,
+      "end_sec": 205,
+      "dominant_emotion": "joy",
+      "dominant_content": "event_reaction",
+      "representative_comments": [
+        "世界波！",
+        "这脚法绝了",
+        "法国要小心了"
+      ],
+      "vr_design_hint": {
+        "particle_intensity": 0.95,
+        "audio_crowd_level": 0.92,
+        "text_display_limit": 15,
+        "decay_seconds": 12,
+        "tts_enabled": false,
+        "atmosphere_mode": "goal"
+      }
+    },
+    {
+      "burst_id": "F-4",
+      "start_sec": 258,
+      "peak_sec": 268,
+      "end_sec": 280,
+      "dominant_emotion": "excitement",
+      "dominant_content": "chant_support",
+      "representative_comments": [
+        "阿根廷加油",
+        "Vamos",
+        "蓝白军团冲"
+      ],
+      "vr_design_hint": {
+        "particle_intensity": 0.6,
+        "audio_crowd_level": 0.72,
+        "text_display_limit": 12,
+        "decay_seconds": 10,
+        "tts_enabled": true,
+        "atmosphere_mode": "excited"
+      }
+    },
+    {
+      "burst_id": "F-5",
+      "start_sec": 335,
+      "peak_sec": 348,
+      "end_sec": 362,
+      "dominant_emotion": "anger",
+      "dominant_content": "referee_rule_dispute",
+      "representative_comments": [
+        "黑哨",
+        "这也能判点球？",
+        "离谱"
+      ],
+      "vr_design_hint": {
+        "particle_intensity": 0.5,
+        "audio_crowd_level": 0.62,
+        "text_display_limit": 10,
+        "decay_seconds": 14,
+        "tts_enabled": true,
+        "atmosphere_mode": "tension"
+      }
+    },
+    {
+      "burst_id": "F-6",
+      "start_sec": 415,
+      "peak_sec": 425,
+      "end_sec": 440,
+      "dominant_emotion": "joy",
+      "dominant_content": "event_reaction",
+      "representative_comments": [
+        "扳平比分！",
+        "还有机会",
+        "太刺激了"
+      ],
+      "vr_design_hint": {
+        "particle_intensity": 0.88,
+        "audio_crowd_level": 0.9,
+        "text_display_limit": 15,
+        "decay_seconds": 12,
+        "tts_enabled": false,
+        "atmosphere_mode": "goal"
+      }
+    },
+    {
+      "burst_id": "F-7",
+      "start_sec": 502,
+      "peak_sec": 512,
+      "end_sec": 528,
+      "dominant_emotion": "tension",
+      "dominant_content": "tactical_analysis",
+      "representative_comments": [
+        "加时了",
+        "体力见底",
+        "心跳加速"
+      ],
+      "vr_design_hint": {
+        "particle_intensity": 0.35,
+        "audio_crowd_level": 0.45,
+        "text_display_limit": 8,
+        "decay_seconds": 18,
+        "tts_enabled": true,
+        "atmosphere_mode": "tension"
+      }
+    },
+    {
+      "burst_id": "F-8",
+      "start_sec": 562,
+      "peak_sec": 572,
+      "end_sec": 590,
+      "dominant_emotion": "excitement",
+      "dominant_content": "event_reaction",
+      "representative_comments": [
+        "点球大战？",
+        "屏住呼吸",
+        "史诗决赛"
+      ],
+      "vr_design_hint": {
+        "particle_intensity": 0.85,
+        "audio_crowd_level": 0.88,
+        "text_display_limit": 12,
+        "decay_seconds": 15,
+        "tts_enabled": true,
+        "atmosphere_mode": "excited"
+      }
+    }
+  ]
+}

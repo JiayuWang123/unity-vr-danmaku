@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.1",
+  "video_id": "test_1min",
+  "time_range_sec": [0, 60],
+  "description": "1分钟多特效粒子：不同时间点触发不同颜色/形态",
+  "events": [
+    {
+      "id": "particle_kickoff",
+      "start_sec": 3.0,
+      "effect": "spark_blue",
+      "burst_id": "F-0",
+      "note": "开场微光"
+    },
+    {
+      "id": "particle_mid_build",
+      "start_sec": 8.0,
+      "effect": "buildup_pulse",
+      "burst_id": "F-0b",
+      "note": "中场推进脉冲"
+    },
+    {
+      "id": "particle_tension_spark",
+      "start_sec": 13.0,
+      "effect": "tension_red",
+      "burst_id": "F-1",
+      "note": "越位争议红色闪"
+    },
+    {
+      "id": "particle_var_ring",
+      "start_sec": 18.5,
+      "effect": "dispute_flash",
+      "burst_id": "F-1b",
+      "note": "VAR 白闪"
+    },
+    {
+      "id": "particle_counter",
+      "start_sec": 23.0,
+      "effect": "counter_rush",
+      "burst_id": "F-1c",
+      "note": "反击蓝色冲刺"
+    },
+    {
+      "id": "particle_goal",
+      "start_sec": 29.0,
+      "effect": "goal_burst",
+      "burst_id": "F-2",
+      "note": "进球金色爆发"
+    },
+    {
+      "id": "particle_confetti",
+      "start_sec": 33.5,
+      "effect": "confetti",
+      "burst_id": "F-2b",
+      "note": "进球彩屑"
+    },
+    {
+      "id": "particle_chant",
+      "start_sec": 39.0,
+      "effect": "chant_green",
+      "burst_id": "F-3",
+      "note": "助威绿色波浪"
+    },
+    {
+      "id": "particle_penalty",
+      "start_sec": 45.5,
+      "effect": "tension_red",
+      "burst_id": "F-4",
+      "note": "点球争议"
+    },
+    {
+      "id": "particle_mbappe",
+      "start_sec": 50.5,
+      "effect": "counter_rush",
+      "burst_id": "F-4b",
+      "note": "姆巴佩提速"
+    },
+    {
+      "id": "particle_finale",
+      "start_sec": 55.0,
+      "effect": "finale_cascade",
+      "burst_id": "F-5",
+      "note": "结尾金色瀑布"
+    }
+  ]
+}

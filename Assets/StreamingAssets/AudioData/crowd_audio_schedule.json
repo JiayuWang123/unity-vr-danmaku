@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.0",
+  "video_id": "worldcup_final_10min_sample",
+  "time_range_sec": [
+    0,
+    600
+  ],
+  "description": "由 burst_events.json 自动生成的观众声浪排期",
+  "events": [
+    {
+      "id": "crowd_F-1",
+      "burst_id": "F-1",
+      "start_sec": 42.0,
+      "stop_sec": 58.0,
+      "clip": "Audio/欢呼声/long",
+      "volume": 0.85,
+      "zone": "all",
+      "spatial": "surround",
+      "targets": [
+        "front",
+        "back",
+        "left",
+        "right"
+      ],
+      "loop": false,
+      "dominant_emotion": "joy",
+      "atmosphere_mode": "excited",
+      "note": "爆发点 F-1：event_reaction"
+    },
+    {
+      "id": "crowd_F-2",
+      "burst_id": "F-2",
+      "start_sec": 112.0,
+      "stop_sec": 138.0,
+      "clip": "Audio/心跳声/heart",
+      "volume": 0.55,
+      "zone": "all",
+      "spatial": "directional",
+      "targets": [
+        "front",
+        "back"
+      ],
+      "loop": false,
+      "dominant_emotion": "anger_confusion",
+      "atmosphere_mode": "tension",
+      "note": "爆发点 F-2：referee_rule_dispute"
+    },
+    {
+      "id": "crowd_F-3",
+      "burst_id": "F-3",
+      "start_sec": 185.0,
+      "stop_sec": 205.0,
+      "clip": "Audio/欢呼声/long",
+      "volume": 0.92,
+      "zone": "all",
+      "spatial": "surround",
+      "targets": [
+        "front",
+        "back",
+        "left",
+        "right"
+      ],
+      "loop": false,
+      "dominant_emotion": "joy",
+      "atmosphere_mode": "goal",
+      "note": "爆发点 F-3：event_reaction"
+    },
+    {
+      "id": "crowd_F-4",
+      "burst_id": "F-4",
+      "start_sec": 258.0,
+      "stop_sec": 280.0,
+      "clip": "Audio/阿根廷/2",
+      "volume": 0.72,
+      "zone": "argentina",
+      "spatial": "surround",
+      "targets": [
+        "front",
+        "back",
+        "left",
+        "right"
+      ],
+      "loop": false,
+      "dominant_emotion": "excitement",
+      "atmosphere_mode": "excited",
+      "note": "爆发点 F-4：chant_support"
+    },
+    {
+      "id": "crowd_F-5",
+      "burst_id": "F-5",
+      "start_sec": 335.0,
+      "stop_sec": 362.0,
+      "clip": "Audio/心跳声/heart",
+      "volume": 0.62,
+      "zone": "all",
+      "spatial": "directional",
+      "targets": [
+        "front",
+        "back"
+      ],
+      "loop": false,
+      "dominant_emotion": "anger",
+      "atmosphere_mode": "tension",
+      "note": "爆发点 F-5：referee_rule_dispute"
+    },
+    {
+      "id": "crowd_F-6",
+      "burst_id": "F-6",
+      "start_sec": 415.0,
+      "stop_sec": 440.0,
+      "clip": "Audio/欢呼声/long",
+      "volume": 0.9,
+      "zone": "all",
+      "spatial": "surround",
+      "targets": [
+        "front",
+        "back",
+        "left",
+        "right"
+      ],
+      "loop": false,
+      "dominant_emotion": "joy",
+      "atmosphere_mode": "goal",
+      "note": "爆发点 F-6：event_reaction"
+    },
+    {
+      "id": "crowd_F-7",
+      "burst_id": "F-7",
+      "start_sec": 502.0,
+      "stop_sec": 528.0,
+      "clip": "Audio/心跳声/heart",
+      "volume": 0.45,
+      "zone": "all",
+      "spatial": "directional",
+      "targets": [
+        "front",
+        "back"
+      ],
+      "loop": false,
+      "dominant_emotion": "tension",
+      "atmosphere_mode": "tension",
+      "note": "爆发点 F-7：tactical_analysis"
+    },
+    {
+      "id": "crowd_F-8",
+      "burst_id": "F-8",
+      "start_sec": 562.0,
+      "stop_sec": 590.0,
+      "clip": "Audio/欢呼声/long",
+      "volume": 0.88,
+      "zone": "all",
+      "spatial": "surround",
+      "targets": [
+        "front",
+        "back",
+        "left",
+        "right"
+      ],
+      "loop": false,
+      "dominant_emotion": "excitement",
+      "atmosphere_mode": "excited",
+      "note": "爆发点 F-8：event_reaction"
+    }
+  ]
+}

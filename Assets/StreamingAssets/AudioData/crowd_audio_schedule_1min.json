@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.1",
+  "video_id": "test_1min",
+  "time_range_sec": [0, 60],
+  "description": "1分钟环境音：bed层全程循环 + 前景层心跳/欢呼叠加",
+  "bed": {
+    "clip": "Audio/正常阶段声音/normal",
+    "volume": 0.22,
+    "loop": true,
+    "note": "全程现场底噪，由 CrowdAudioScheduleController.bedAudioSource 播放"
+  },
+  "events": [
+    {
+      "id": "crowd_heart_01",
+      "start_sec": 12.0,
+      "stop_sec": 22.0,
+      "clip": "Audio/心跳声/heart",
+      "volume": 0.42,
+      "spatial": "directional",
+      "targets": ["front", "back"],
+      "loop": true,
+      "note": "VAR争议心跳"
+    },
+    {
+      "id": "crowd_cheer_01",
+      "start_sec": 28.0,
+      "stop_sec": 40.0,
+      "clip": "Audio/欢呼声/long",
+      "volume": 0.55,
+      "spatial": "directional",
+      "targets": ["left", "right"],
+      "loop": true,
+      "note": "进球欢呼层"
+    },
+    {
+      "id": "crowd_chant_arg",
+      "start_sec": 35.0,
+      "stop_sec": 45.0,
+      "clip": "Audio/阿根廷/2",
+      "volume": 0.48,
+      "spatial": "directional",
+      "targets": ["left"],
+      "loop": true,
+      "note": "阿根廷助威"
+    },
+    {
+      "id": "crowd_heart_02",
+      "start_sec": 42.0,
+      "stop_sec": 52.0,
+      "clip": "Audio/心跳声/heart",
+      "volume": 0.40,
+      "spatial": "directional",
+      "targets": ["front", "back"],
+      "loop": true,
+      "note": "点球争议"
+    },
+    {
+      "id": "crowd_cheer_final",
+      "start_sec": 50.0,
+      "stop_sec": 60.0,
+      "clip": "Audio/欢呼声/short",
+      "volume": 0.58,
+      "spatial": "directional",
+      "targets": ["left", "right"],
+      "loop": true,
+      "note": "结尾欢呼"
+    }
+  ]
+}

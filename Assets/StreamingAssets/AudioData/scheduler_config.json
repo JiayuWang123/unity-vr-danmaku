@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.1",
+  "description": "Audio Scheduler 参数配置（供分析组 Python Scheduler 与 Unity 共同参考）",
+
+  "time_window_sec": 600,
+
+  "tts_rules": {
+    "max_concurrent_tts": 1,
+    "min_gap_sec": 0.8,
+    "default_min_gap_after_sec": 0.8,
+    "max_tts_duration_sec": 8.0,
+    "max_events_per_10min": 35,
+    "tts_value_threshold": 0.6,
+    "note_tts_value_threshold": "低于此分数的候选直接丢弃，不进入排期。见 tts_candidates.json 的 tts_value_score 字段"
+  },
+
+  "conflict_resolution": {
+    "strategy": "priority_based_shift_or_drop",
+    "max_shift_sec": 30.0,
+    "note_max_shift": "候选时间超出原始请求时间 30s 则丢弃；设为 30s 以保证高密度爆发点后仍有足够位置",
+    "on_tie_priority": "keep_earlier_time"
+  },
+
+  "burst_interaction": {
+    "burst_tts_delay_sec": 0.5,
+    "allow_tts_crowd_overlap": true,
+    "crowd_peak_delay_threshold": 0.95,
+    "note": "TTS 与环境音默认允许同播；只有 tts_policy=delay_after_peak 或 crowd 强度过高时，TTS 才延后至 peak/end 后"
+  },
+
+  "ducking": {
+    "duck_video_volume": 0.35,
+    "duck_video_tail_sec": 0.3,
+    "crowd_default_duck_volume": 0.65,
+    "crowd_duck_tail_sec": 0.2,
+    "note": "TTS 播放期间视频 AudioSource 音量降至 duck_video_volume；若 crowd_mix_policy=duck_crowd，则环境音降至 crowd_default_duck_volume"
+  },
+
+  "tts_crowd_mix_policies": {
+    "keep_crowd": "环境音保持原音量，TTS 叠加播放",
+    "duck_crowd": "TTS 播放时降低环境音，保留现场感同时保证人声清晰",
+    "delay_tts": "TTS 延后到 crowd 高峰后播放",
+    "suppress_tts": "不播放该 TTS，只保留环境音"
+  },
+
+  "audio_clip": {
+    "tts_clip_base_path": "Audio/TTS/",
+    "tts_clip_naming": "{candidate_id}.mp3",
+    "placeholder_clips": {
+      "neutral_fan":    "Audio/正常阶段声音/normal",
+      "tactical_fan":   "Audio/正常阶段声音/normal",
+      "angry_fan":      "Audio/心跳声/heart",
+      "excited_fan_argentina": "Audio/阿根廷/1",
+      "argentina_fan":  "Audio/阿根廷/2",
+      "excited_fan_france": "Audio/法国/3",
+      "france_fan":     "Audio/法国/3",
+      "tactical_fan_france": "Audio/法国/4"
+    },
+    "note": "TTS mp3 未生成时使用 placeholder；Unity 应优先尝试加载 tts_clip_base_path+candidate_id.mp3，不存在则回退到 placeholder"
+  },
+
+  "spatial_anchors": {
+    "seat_front":  { "description": "前方观众席，中立解说位置" },
+    "seat_back":   { "description": "后方观众席，战术分析位置" },
+    "seat_left":   { "description": "左侧观众席，对应阿根廷球迷区" },
+    "seat_right":  { "description": "右侧观众席，对应法国球迷区" }
+  },
+
+  "zone_camp_mapping": {
+    "argentina": { "spatial_anchor": "seat_left",  "crowd_clips": ["Audio/阿根廷/1", "Audio/阿根廷/2"] },
+    "france":    { "spatial_anchor": "seat_right", "crowd_clips": ["Audio/法国/3", "Audio/法国/4"] },
+    "neutral":   { "spatial_anchor": "seat_front", "crowd_clips": ["Audio/正常阶段声音/normal"] },
+    "all":       { "spatial_anchor": "surround",   "crowd_clips": ["Audio/欢呼声/short", "Audio/欢呼声/long"] }
+  }
+}

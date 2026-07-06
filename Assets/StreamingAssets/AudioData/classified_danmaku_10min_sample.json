@@ -1,0 +1,610 @@
+{
+  "video_id": "worldcup_final_10min_sample",
+  "entries": [
+    {
+      "id": "d_001",
+      "time_sec": 22.0,
+      "text": "开场节奏不快，双方都在试探。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_005",
+      "time_sec": 22.3,
+      "text": "法国队中场控制不错。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_012",
+      "time_sec": 46.0,
+      "text": "阿根廷这边反击打得很漂亮，门前一脚太冷静了。",
+      "emotion": {
+        "primary": "joy",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "argentina",
+      "zone": "argentina"
+    },
+    {
+      "id": "d_020",
+      "time_sec": 46.5,
+      "text": "进了进了！这球漂亮！",
+      "emotion": {
+        "primary": "joy",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "AUDIO_CROWD",
+        "ATMOSPHERE_PARTICLE",
+        "SUPPRESS"
+      ],
+      "camp": "argentina",
+      "zone": "argentina"
+    },
+    {
+      "id": "d_031",
+      "time_sec": 68.0,
+      "text": "法国队需要尽快稳住节奏，刚才那个失球对士气打击很大。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "france",
+      "zone": "france"
+    },
+    {
+      "id": "d_045",
+      "time_sec": 95.0,
+      "text": "两边都在加强边路，看看谁能先创造机会。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "tactical_analysis",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_058",
+      "time_sec": 124.0,
+      "text": "这球真的越位了吗？慢镜头看起来很有争议。",
+      "emotion": {
+        "primary": "anger_confusion",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_062",
+      "time_sec": 124.2,
+      "text": "VAR 这次介入时机太奇怪了。",
+      "emotion": {
+        "primary": "anger",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "france",
+      "zone": "france"
+    },
+    {
+      "id": "d_066",
+      "time_sec": 125.0,
+      "text": "大家都在讨论 VAR，现场情绪一下子起来了。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_082",
+      "time_sec": 155.0,
+      "text": "阿根廷这边开始收缩防线，法国队要耐心传导。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_091",
+      "time_sec": 178.0,
+      "text": "姆巴佩这个冲刺威胁太大了，后卫必须贴身。",
+      "emotion": {
+        "primary": "tension",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "france",
+      "zone": "france"
+    },
+    {
+      "id": "d_102",
+      "time_sec": 190.0,
+      "text": "这脚远射角度太刁钻了，门将毫无办法。",
+      "emotion": {
+        "primary": "joy",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "argentina",
+      "zone": "argentina"
+    },
+    {
+      "id": "d_118",
+      "time_sec": 220.0,
+      "text": "上半场后半段节奏明显加快了。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_130",
+      "time_sec": 265.0,
+      "text": "阿根廷球迷开始集体助威，主场氛围完全起来了。",
+      "emotion": {
+        "primary": "excitement",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "argentina",
+      "zone": "argentina"
+    },
+    {
+      "id": "d_135",
+      "time_sec": 266.0,
+      "text": "Vamos Argentina！加油！",
+      "emotion": {
+        "primary": "excitement",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "AUDIO_CROWD",
+        "ATMOSPHERE_PARTICLE",
+        "SUPPRESS"
+      ],
+      "camp": "argentina",
+      "zone": "argentina"
+    },
+    {
+      "id": "d_148",
+      "time_sec": 295.0,
+      "text": "法国队在左路连续制造威胁，阿根廷要注意协防。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_155",
+      "time_sec": 318.0,
+      "text": "双方体能消耗都很大，换人可能会改变局势。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_168",
+      "time_sec": 346.0,
+      "text": "这个点球判罚太有争议了，弹幕里全在质疑。",
+      "emotion": {
+        "primary": "anger",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_176",
+      "time_sec": 347.0,
+      "text": "从规则上看，这球接触确实在禁区内。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "france",
+      "zone": "france"
+    },
+    {
+      "id": "d_188",
+      "time_sec": 378.0,
+      "text": "阿根廷需要利用定位球机会，这是他们的强项。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "argentina",
+      "zone": "argentina"
+    },
+    {
+      "id": "d_195",
+      "time_sec": 398.0,
+      "text": "比赛进入白热化阶段，每一次进攻都让人屏息。",
+      "emotion": {
+        "primary": "tension",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_205",
+      "time_sec": 422.0,
+      "text": "法国扳平比分了！决赛悬念又回来了。",
+      "emotion": {
+        "primary": "joy",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "france",
+      "zone": "france"
+    },
+    {
+      "id": "d_220",
+      "time_sec": 455.0,
+      "text": "双方都在冒险压上，后防空档会越来越大。",
+      "emotion": {
+        "primary": "tension",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_228",
+      "time_sec": 478.0,
+      "text": "梅西今天串联全队的作用太关键了。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "argentina",
+      "zone": "argentina"
+    },
+    {
+      "id": "d_245",
+      "time_sec": 510.0,
+      "text": "进入加时，双方体力都到极限了，失误可能会决定冠军。",
+      "emotion": {
+        "primary": "tension",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_250",
+      "time_sec": 511.0,
+      "text": "心跳都加速了，这比赛太折磨人了。",
+      "emotion": {
+        "primary": "tension",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "AUDIO_CROWD",
+        "ATMOSPHERE_PARTICLE"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_262",
+      "time_sec": 538.0,
+      "text": "法国队在加时赛换人后中场控制力明显增强。",
+      "emotion": {
+        "primary": "analytical",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "france",
+      "zone": "france"
+    },
+    {
+      "id": "d_275",
+      "time_sec": 568.0,
+      "text": "如果进入点球大战，门将的心理素质将成为决定性因素。",
+      "emotion": {
+        "primary": "tension",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_280",
+      "time_sec": 569.0,
+      "text": "史诗级决赛！无论谁赢都值得铭记。",
+      "emotion": {
+        "primary": "excitement",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    },
+    {
+      "id": "d_290",
+      "time_sec": 588.0,
+      "text": "最后阶段了，任何一次失误都可能是致命的。",
+      "emotion": {
+        "primary": "tension",
+        "polarity": 0.7,
+        "arousal": 0.8,
+        "confidence": 0.85
+      },
+      "content": {
+        "primary": "event_reaction",
+        "confidence": 0.8
+      },
+      "vr_utility": [
+        "TTS_DISCUSSION"
+      ],
+      "camp": "neutral",
+      "zone": "neutral"
+    }
+  ]
+}

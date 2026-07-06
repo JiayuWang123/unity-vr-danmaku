@@ -1,0 +1,3 @@
+﻿sample_id,time_sec,text,annotator,filter_label,content_primary,emotion_primary,is_information_sharing,is_sentiment_expression,camp,vr_utility,burst_id,notes
+d_000000,12.345,好球！绝杀！,,,,,,,,,,
+d_000001,15.001,裁判眼瞎了吧,,,,,,,,,,

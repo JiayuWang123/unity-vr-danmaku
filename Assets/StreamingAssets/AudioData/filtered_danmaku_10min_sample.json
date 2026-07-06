@@ -1,0 +1,316 @@
+{
+  "video_id": "worldcup_final_10min_sample",
+  "time_range_sec": [
+    0,
+    600
+  ],
+  "entries": [
+    {
+      "id": "d_001",
+      "time_sec": 22.0,
+      "text": "开场节奏不快，双方都在试探。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.83,
+      "atmosphere_value_score": 0.61,
+      "tts_value_score": 0.78
+    },
+    {
+      "id": "d_005",
+      "time_sec": 22.3,
+      "text": "法国队中场控制不错。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.76,
+      "atmosphere_value_score": 0.65,
+      "tts_value_score": 0.71
+    },
+    {
+      "id": "d_012",
+      "time_sec": 46.0,
+      "text": "阿根廷这边反击打得很漂亮，门前一脚太冷静…",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.87,
+      "atmosphere_value_score": 0.59,
+      "tts_value_score": 0.82
+    },
+    {
+      "id": "d_020",
+      "time_sec": 46.5,
+      "text": "进了进了！这球漂亮！",
+      "filter_label": "KEEP_ATMOSPHERE",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.4,
+      "atmosphere_value_score": 0.82,
+      "tts_value_score": 0.35
+    },
+    {
+      "id": "d_031",
+      "time_sec": 68.0,
+      "text": "法国队需要尽快稳住节奏，刚才那个失球对士…",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.9,
+      "atmosphere_value_score": 0.57,
+      "tts_value_score": 0.85
+    },
+    {
+      "id": "d_045",
+      "time_sec": 95.0,
+      "text": "两边都在加强边路，看看谁能先创造机会。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.79,
+      "atmosphere_value_score": 0.63,
+      "tts_value_score": 0.74
+    },
+    {
+      "id": "d_058",
+      "time_sec": 124.0,
+      "text": "这球真的越位了吗？慢镜头看起来很有争议。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.96,
+      "atmosphere_value_score": 0.54,
+      "tts_value_score": 0.91
+    },
+    {
+      "id": "d_062",
+      "time_sec": 124.2,
+      "text": "VAR 这次介入时机太奇怪了。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.88,
+      "atmosphere_value_score": 0.58,
+      "tts_value_score": 0.83
+    },
+    {
+      "id": "d_066",
+      "time_sec": 125.0,
+      "text": "大家都在讨论 VAR，现场情绪一下子起来…",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.85,
+      "atmosphere_value_score": 0.6,
+      "tts_value_score": 0.8
+    },
+    {
+      "id": "d_082",
+      "time_sec": 155.0,
+      "text": "阿根廷这边开始收缩防线，法国队要耐心传导…",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.84,
+      "atmosphere_value_score": 0.6,
+      "tts_value_score": 0.79
+    },
+    {
+      "id": "d_091",
+      "time_sec": 178.0,
+      "text": "姆巴佩这个冲刺威胁太大了，后卫必须贴身。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.91,
+      "atmosphere_value_score": 0.57,
+      "tts_value_score": 0.86
+    },
+    {
+      "id": "d_102",
+      "time_sec": 190.0,
+      "text": "这脚远射角度太刁钻了，门将毫无办法。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.89,
+      "atmosphere_value_score": 0.58,
+      "tts_value_score": 0.84
+    },
+    {
+      "id": "d_118",
+      "time_sec": 220.0,
+      "text": "上半场后半段节奏明显加快了。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.75,
+      "atmosphere_value_score": 0.65,
+      "tts_value_score": 0.7
+    },
+    {
+      "id": "d_130",
+      "time_sec": 265.0,
+      "text": "阿根廷球迷开始集体助威，主场氛围完全起来…",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.82,
+      "atmosphere_value_score": 0.61,
+      "tts_value_score": 0.77
+    },
+    {
+      "id": "d_135",
+      "time_sec": 266.0,
+      "text": "Vamos Argentina！加油！",
+      "filter_label": "KEEP_ATMOSPHERE",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.3,
+      "atmosphere_value_score": 0.88,
+      "tts_value_score": 0.25
+    },
+    {
+      "id": "d_148",
+      "time_sec": 295.0,
+      "text": "法国队在左路连续制造威胁，阿根廷要注意协…",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.86,
+      "atmosphere_value_score": 0.59,
+      "tts_value_score": 0.81
+    },
+    {
+      "id": "d_155",
+      "time_sec": 318.0,
+      "text": "双方体能消耗都很大，换人可能会改变局势。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.81,
+      "atmosphere_value_score": 0.62,
+      "tts_value_score": 0.76
+    },
+    {
+      "id": "d_168",
+      "time_sec": 346.0,
+      "text": "这个点球判罚太有争议了，弹幕里全在质疑。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.95,
+      "atmosphere_value_score": 0.55,
+      "tts_value_score": 0.9
+    },
+    {
+      "id": "d_176",
+      "time_sec": 347.0,
+      "text": "从规则上看，这球接触确实在禁区内。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.87,
+      "atmosphere_value_score": 0.59,
+      "tts_value_score": 0.82
+    },
+    {
+      "id": "d_188",
+      "time_sec": 378.0,
+      "text": "阿根廷需要利用定位球机会，这是他们的强项…",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.83,
+      "atmosphere_value_score": 0.61,
+      "tts_value_score": 0.78
+    },
+    {
+      "id": "d_195",
+      "time_sec": 398.0,
+      "text": "比赛进入白热化阶段，每一次进攻都让人屏息…",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.8,
+      "atmosphere_value_score": 0.62,
+      "tts_value_score": 0.75
+    },
+    {
+      "id": "d_205",
+      "time_sec": 422.0,
+      "text": "法国扳平比分了！决赛悬念又回来了。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.88,
+      "atmosphere_value_score": 0.58,
+      "tts_value_score": 0.83
+    },
+    {
+      "id": "d_220",
+      "time_sec": 455.0,
+      "text": "双方都在冒险压上，后防空档会越来越大。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.85,
+      "atmosphere_value_score": 0.6,
+      "tts_value_score": 0.8
+    },
+    {
+      "id": "d_228",
+      "time_sec": 478.0,
+      "text": "梅西今天串联全队的作用太关键了。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.89,
+      "atmosphere_value_score": 0.58,
+      "tts_value_score": 0.84
+    },
+    {
+      "id": "d_245",
+      "time_sec": 510.0,
+      "text": "进入加时，双方体力都到极限了，失误可能会…",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.92,
+      "atmosphere_value_score": 0.56,
+      "tts_value_score": 0.87
+    },
+    {
+      "id": "d_250",
+      "time_sec": 511.0,
+      "text": "心跳都加速了，这比赛太折磨人了。",
+      "filter_label": "KEEP_ATMOSPHERE",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.5,
+      "atmosphere_value_score": 0.78,
+      "tts_value_score": 0.45
+    },
+    {
+      "id": "d_262",
+      "time_sec": 538.0,
+      "text": "法国队在加时赛换人后中场控制力明显增强。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.85,
+      "atmosphere_value_score": 0.6,
+      "tts_value_score": 0.8
+    },
+    {
+      "id": "d_275",
+      "time_sec": 568.0,
+      "text": "如果进入点球大战，门将的心理素质将成为决…",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.91,
+      "atmosphere_value_score": 0.57,
+      "tts_value_score": 0.86
+    },
+    {
+      "id": "d_280",
+      "time_sec": 569.0,
+      "text": "史诗级决赛！无论谁赢都值得铭记。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.84,
+      "atmosphere_value_score": 0.6,
+      "tts_value_score": 0.79
+    },
+    {
+      "id": "d_290",
+      "time_sec": 588.0,
+      "text": "最后阶段了，任何一次失误都可能是致命的。",
+      "filter_label": "KEEP_ANALYSIS",
+      "filter_reason": "tts pipeline sample",
+      "analysis_value_score": 0.82,
+      "atmosphere_value_score": 0.61,
+      "tts_value_score": 0.77
+    }
+  ],
+  "stats": {
+    "raw_count": 420,
+    "kept_analysis": 27,
+    "kept_atmosphere": 3,
+    "downrank_meta": 45,
+    "removed_noise": 38
+  }
+}

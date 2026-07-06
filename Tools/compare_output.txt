@@ -1,0 +1,911 @@
+﻿python : C:\Users\33326\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-pack
+ages\Python311\site-packages\openpyxl\worksheet\_reader.py:329: UserWarning: Unknown extension is not supported and wil
+l be removed
+所在位置 C:\Users\33326\AppData\Local\Temp\ps-script-556356ef-2a2f-426f-b4c0-b0d77b9966e5.ps1:83 字符: 1
++ python "d:\unity\projects\6.22(1)\Tools\compare_danmaku_scores.py" 2> ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\33326\...will be removed:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  warn(msg)
+C:\Users\33326\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Pyth
+on311\site-packages\openpyxl\worksheet\_reader.py:329: UserWarning: Conditional Formatting extension is not supported a
+nd will be removed
+  warn(msg)
+Sources: ['DS_score', '寮瑰箷鎵撳垎_瀹屾暣鏁版嵁', 'gemini3.5', 'danmaku_arou_info_table', '寮瑰箷鎵撳垎.csv']
+Row counts: {'DS_score': 200, '寮瑰箷鎵撳垎_瀹屾暣鏁版嵁': 200, 'gemini3.5': 200, 'danmaku_arou_info_table': 200, '寮瑰箷鎵撳垎.csv': 199}
+
+=== 鎸夎鍙峰榻愶細鍒嗙被涓嶄竴鑷村叡 127 鏉?===
+
+銆愮 10 鏉°€戞椂闂?207.993s | 銆屽瓧骞曚綘鐨刴銆?
+  路 DS_score                arou=0.5  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.15  info=0.18  鈫?inert
+  路 gemini3.5               arou=0.4  info=0.1  鈫?inert
+  路 danmaku_arou_info_table  arou=0.8  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.4  info=0.05  鈫?inert
+
+銆愮 15 鏉°€戞椂闂?217.538s | 銆岃惃宸磋幈濉旀€庝箞瓒婃潵瓒婂儚Jonny sins浜嗐€?
+  路 DS_score                arou=0.5  info=0.2  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.56  info=0.25  鈫?arousal
+  路 gemini3.5               arou=0.6  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.6  info=0.2  鈫?arousal
+
+銆愮 24 鏉°€戞椂闂?2291.246s | 銆岄樋浼熺綏鍦ㄥ摢閲屽晩锛屾槸涓嶆槸鍦?003銆?
+  路 DS_score                arou=0.7  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.34  info=0.55  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.3  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.8  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.5  info=0.3  鈫?mixture
+
+銆愮 27 鏉°€戞椂闂?2866.329s | 銆屾€庝箞鐢熸垚瀛楀箷锛熴€?
+  路 DS_score                arou=0.1  info=0.2  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.22  info=0.72  鈫?information
+  路 gemini3.5               arou=0.2  info=0.3  鈫?inert
+  路 danmaku_arou_info_table  arou=0.2  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎.csv                arou=0.1  info=0.2  鈫?inert
+
+銆愮 28 鏉°€戞椂闂?3011.705s | 銆孡EO銆?
+  路 DS_score                arou=0.2  info=0.2  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.56  info=0.2  鈫?arousal
+  路 gemini3.5               arou=0.5  info=0.2  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.1  info=0.1  鈫?inert
+
+銆愮 32 鏉°€戞椂闂?3285.252s | 銆屽紑濮嬪鍏淬€?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.63  info=0.41  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.6  info=0.3  鈫?mixture
+
+銆愮 37 鏉°€戞椂闂?3373.441s | 銆孏OOD LUCK銆?
+  路 DS_score                arou=0.5  info=0.2  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.7  info=0.12  鈫?arousal
+  路 gemini3.5               arou=0.5  info=0.2  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.6  info=0.2  鈫?arousal
+
+銆愮 39 鏉°€戞椂闂?3581.459s | 銆屾槑骞翠細涓嶄細鏄礇閲屾柉鎶婅繖涓滆タ鎷垮嚭鏉ャ€?
+  路 DS_score                arou=0.3  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.48  info=0.61  鈫?mixture
+  路 gemini3.5               arou=0.5  info=0.6  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.4  info=0.6  鈫?mixture
+
+銆愮 40 鏉°€戞椂闂?3586.941s | 銆屽湥鍗¤タ銆?
+  路 DS_score                arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.36  info=0.4  鈫?inert
+  路 gemini3.5               arou=0.6  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.4  鈫?mixture
+
+銆愮 54 鏉°€戞椂闂?4134.744s | 銆屾牸瀛愮瑧鐨勬瘮鍝繕闅剧湅鏄湡鐨勯毦缁枫€?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.72  info=0.31  鈫?arousal
+  路 gemini3.5               arou=0.8  info=0.6  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.4  鈫?arousal
+
+銆愮 56 鏉°€戞椂闂?4240.186s | 銆屽崲甯冨垪澶紵銆?
+  路 DS_score                arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.24  info=0.35  鈫?inert
+  路 gemini3.5               arou=0.3  info=0.4  鈫?inert
+  路 danmaku_arou_info_table  arou=0.4  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.2  info=0.2  鈫?inert
+
+銆愮 61 鏉°€戞椂闂?5402.094s | 銆?鏈?鍙?锛?銆?
+  路 DS_score                arou=0.1  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.18  info=0.58  鈫?information
+  路 gemini3.5               arou=0.2  info=0.4  鈫?inert
+  路 danmaku_arou_info_table  arou=0.1  info=0.9  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.1  info=0.2  鈫?inert
+
+銆愮 62 鏉°€戞椂闂?5486.607s | 銆岃繖瑁佸垽澶儚绉戦噷绾充簡銆?
+  路 DS_score                arou=0.2  info=0.4  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.42  info=0.54  鈫?mixture
+  路 gemini3.5               arou=0.5  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.5  info=0.6  鈫?mixture
+
+銆愮 64 鏉°€戞椂闂?5506.467s | 銆屼粬璇寸殑鏄疕e did not do nothing銆?
+  路 DS_score                arou=he did something  info=0.2  鈫?0.5
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.22  info=0.92  鈫?information
+  路 gemini3.5               arou=he did something  info=0.4  鈫?0.4
+  路 danmaku_arou_info_table  arou=0.2  info=0.9  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.3  info=0.8  鈫?information
+
+銆愮 65 鏉°€戞椂闂?5526.192s | 銆岃繖寮犲浘浣撶幇浜嗙偣鐞冩瑙掕繘鐞冪巼鏇村ぇ銆?
+  路 DS_score                arou=0.2  info=0.7  鈫?information
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.33  info=0.83  鈫?information
+  路 gemini3.5               arou=0.3  info=0.8  鈫?information
+  路 danmaku_arou_info_table  arou=0.2  info=0.9  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.3  鈫?arousal
+
+銆愮 66 鏉°€戞椂闂?5563.147s | 銆屽皬鍖虹骇搴嗙銆?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.46  info=0.22  鈫?inert
+  路 gemini3.5               arou=0.6  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.0  info=0.0  鈫?inert
+
+銆愮 67 鏉°€戞椂闂?5654.577s | 銆屻€傘€?
+  路 DS_score                arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.01  info=0.01  鈫?inert
+  路 gemini3.5               arou=0.1  info=0.0  鈫?inert
+  路 danmaku_arou_info_table  arou=0.0  info=0.0  鈫?inert
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.2  鈫?arousal
+
+銆愮 68 鏉°€戞椂闂?5758.476s | 銆岄樋鏍瑰环澶剰浜嗐€?
+  路 DS_score                arou=0.6  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.86  info=0.36  鈫?arousal
+  路 gemini3.5               arou=0.8  info=0.3  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.4  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.4  鈫?arousal
+
+銆愮 69 鏉°€戞椂闂?5808.007s | 銆岀鍒板氨鎹傝劯锛屽お缁忓吀浜嗐€?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.71  info=0.48  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.3  鈫?arousal
+
+銆愮 70 鏉°€戞椂闂?5832.052s | 銆屾€庝箞閮戒贡濂椾簡銆?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.67  info=0.32  鈫?arousal
+  路 gemini3.5               arou=0.6  info=0.3  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.6  info=0.7  鈫?mixture
+
+銆愮 71 鏉°€戞椂闂?5915.849s | 銆屽洓寮哄彧鏈変竴涓樋杩絾鏄嬁鍐犲啗浜嗐€?
+  路 DS_score                arou=0.3  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.43  info=0.81  鈫?information
+  路 gemini3.5               arou=0.5  info=0.8  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.4  info=0.9  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.6  info=0.7  鈫?mixture
+
+銆愮 72 鏉°€戞椂闂?6090.946s | 銆岃繖娌″嚭鐣岋紵銆?
+  路 DS_score                arou=0.3  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.52  info=0.58  鈫?mixture
+  路 gemini3.5               arou=0.5  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.5  info=0.3  鈫?mixture
+
+銆愮 73 鏉°€戞椂闂?6220.39s | 銆屾病鐜╄繃娓告垙鍚?娓告垙閮藉彲浠ャ€?
+  路 DS_score                arou=0.2  info=0.2  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.38  info=0.55  鈫?mixture
+  路 gemini3.5               arou=0.4  info=0.5  鈫?inert
+  路 danmaku_arou_info_table  arou=0.6  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.2  鈫?arousal
+
+銆愮 74 鏉°€戞椂闂?6320.82s | 銆岃鏉ヤ簡銆?
+  路 DS_score                arou=0.7  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.82  info=0.28  鈫?arousal
+  路 gemini3.5               arou=0.6  info=0.3  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.2  鈫?arousal
+
+銆愮 75 鏉°€戞椂闂?6406.181s | 銆宮d鍟ヤ篃瑕佸紩鎴樸€?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.65  info=0.24  鈫?arousal
+  路 gemini3.5               arou=0.7  info=0.2  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.3  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.2  info=0.8  鈫?information
+
+銆愮 76 鏉°€戞椂闂?6414.139s | 銆屽啿瓒崇悆涓婇儴鏈濆湴闈㈣涪鍙互鍙嶅脊璧锋潵浣嗘槸楂樺害涓嶉珮銆?
+  路 DS_score                arou=0.1  info=0.7  鈫?information
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.22  info=0.88  鈫?information
+  路 gemini3.5               arou=0.3  info=0.8  鈫?information
+  路 danmaku_arou_info_table  arou=0.1  info=0.9  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.4  鈫?mixture
+
+銆愮 77 鏉°€戞椂闂?6419.939s | 銆岃开椹埄浜氬埆鍝紝绛変笅鏈変綘鍝殑銆?
+  路 DS_score                arou=0.7  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.76  info=0.47  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.2  鈫?arousal
+
+銆愮 78 鏉°€戞椂闂?6692.217s | 銆岀粡鍏稿瀮鍦捐禌銆?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.81  info=0.25  鈫?arousal
+  路 gemini3.5               arou=0.7  info=0.2  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.3  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.5  鈫?mixture
+
+銆愮 79 鏉°€戞椂闂?6863.869s | 銆岄摬浜嗙┖姘斻€?
+  路 DS_score                arou=0.3  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.54  info=0.53  鈫?mixture
+  路 gemini3.5               arou=0.5  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.3  鈫?arousal
+
+銆愮 80 鏉°€戞椂闂?7060.069s | 銆岃繖閲屾病鏈塩缃楋紝鍝堝搱鍝堛€?
+  路 DS_score                arou=0.7  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.73  info=0.32  鈫?arousal
+  路 gemini3.5               arou=0.7  info=0.2  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.4  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.6  鈫?mixture
+
+銆愮 82 鏉°€戞椂闂?7337.486s | 銆屾槸闃挎牴寤风殑鐞冨憳澶細婕斾簡锛岄兘娌＄鍒颁粬锛屼粬椹笂鍊掑湴銆?
+  路 DS_score                arou=0.5  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.82  info=0.54  鈫?mixture
+  路 gemini3.5               arou=0.8  info=0.4  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.8  info=0.9  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.8  鈫?mixture
+
+銆愮 83 鏉°€戞椂闂?7342.36s | 銆屽簲璇ョ粰鍥炬媺濮嗛粍鐗岋紝杩欐槸鏄庢樉鐨勫啿鎾炵姱瑙勩€?
+  路 DS_score                arou=0.4  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.48  info=0.89  鈫?information
+  路 gemini3.5               arou=0.6  info=0.7  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.9  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.3  info=0.9  鈫?information
+
+銆愮 84 鏉°€戞椂闂?7349.675s | 銆岄鍏堬紝杩欐槸鍖呭す涔嬪悗缁婂€掔殑涓嶆槸鍐叉挒锛屽叾娆★紝杩欐槸绌嗛樋灏笺€?
+  路 DS_score                arou=0.2  info=0.8  鈫?information
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.31  info=0.94  鈫?information
+  路 gemini3.5               arou=0.5  info=0.9  鈫?information
+  路 danmaku_arou_info_table  arou=0.3  info=0.9  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.0  info=0.1  鈫?inert
+
+銆愮 87 鏉°€戞椂闂?7465.753s | 銆岃嚜鍔ㄧ敓鎴愬瓧骞曘€?
+  路 DS_score                arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.05  info=0.15  鈫?inert
+  路 gemini3.5               arou=0.1  info=0.2  鈫?inert
+  路 danmaku_arou_info_table  arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.1  鈫?arousal
+
+銆愮 88 鏉°€戞椂闂?7526.224s | 銆屾垬鐘€?
+  路 DS_score                arou=0.7  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.84  info=0.22  鈫?arousal
+  路 gemini3.5               arou=0.8  info=0.2  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.4  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.5  鈫?mixture
+
+銆愮 89 鏉°€戞椂闂?7541.846s | 銆屽氨鏄亣鎽旓紝浣嗘槸浣犳病鍔炴硶銆傘€?
+  路 DS_score                arou=0.5  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.63  info=0.72  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.1  info=0.1  鈫?inert
+
+銆愮 90 鏉°€戞椂闂?7689.366s | 銆岋紵銆?
+  路 DS_score                arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.18  info=0.06  鈫?inert
+  路 gemini3.5               arou=0.4  info=0.1  鈫?inert
+  路 danmaku_arou_info_table  arou=0.6  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.0  鈫?arousal
+
+銆愮 93 鏉°€戞椂闂?8344.672s | 銆屾病浜虹瓟鐞嗕綘銆?
+  路 DS_score                arou=0.5  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.44  info=0.2  鈫?inert
+  路 gemini3.5               arou=0.4  info=0.1  鈫?inert
+  路 danmaku_arou_info_table  arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.5  info=0.6  鈫?mixture
+
+銆愮 94 鏉°€戞椂闂?8506.939s | 銆岃繖浣撹兘銆?
+  路 DS_score                arou=0.3  info=0.4  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.42  info=0.56  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.7  鈫?mixture
+
+銆愮 96 鏉°€戞椂闂?8867.347s | 銆岃繖鍔ㄤ綔銆?
+  路 DS_score                arou=0.2  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.45  info=0.28  鈫?inert
+  路 gemini3.5               arou=0.5  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.3  info=0.8  鈫?information
+
+銆愮 97 鏉°€戞椂闂?8879.418s | 銆屼笘鐣屾澂涓€鑸笉浼氳交鏄撶粰鐩寸孩銆?
+  路 DS_score                arou=0.2  info=0.7  鈫?information
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.28  info=0.89  鈫?information
+  路 gemini3.5               arou=0.4  info=0.8  鈫?information
+  路 danmaku_arou_info_table  arou=0.2  info=0.9  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.6  info=0.3  鈫?mixture
+
+銆愮 98 鏉°€戞椂闂?8894.733s | 銆屾媴鏋舵晳涓€涓嬨€?
+  路 DS_score                arou=0.4  info=0.2  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.63  info=0.36  鈫?mixture
+  路 gemini3.5               arou=0.5  info=0.3  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.5  info=0.4  鈫?mixture
+
+銆愮 99 鏉°€戞椂闂?8902.395s | 銆屽ご涓婂叏鏄按锛熻繕鏄睏鍟婏紵銆?
+  路 DS_score                arou=0.2  info=0.2  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.51  info=0.57  鈫?mixture
+  路 gemini3.5               arou=0.4  info=0.4  鈫?inert
+  路 danmaku_arou_info_table  arou=0.4  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.1  info=0.8  鈫?information
+
+銆愮 100 鏉°€戞椂闂?8919.777s | 銆屾睏姘淬€?
+  路 DS_score                arou=0.1  info=0.2  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.16  info=0.66  鈫?information
+  路 gemini3.5               arou=0.2  info=0.3  鈫?inert
+  路 danmaku_arou_info_table  arou=0.1  info=0.8  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.3  鈫?arousal
+
+銆愮 101 鏉°€戞椂闂?9032.568s | 銆屽痉淇濈綏鐪熸儴銆?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.71  info=0.39  鈫?arousal
+  路 gemini3.5               arou=0.7  info=0.3  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.7  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.6  鈫?mixture
+
+銆愮 102 鏉°€戞椂闂?9065.24s | 銆屽讥琛ヤ簡闃挎牴寤锋病鏈夊唴椹皵銆?
+  路 DS_score                arou=0.3  info=0.4  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.46  info=0.63  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.4  鈫?arousal
+
+銆愮 103 鏉°€戞椂闂?9384.208s | 銆岃繖闂ㄥ皢鎷间簡銆?
+  路 DS_score                arou=0.5  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.81  info=0.57  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.1  info=0.0  鈫?inert
+
+銆愮 104 鏉°€戞椂闂?9729.532s | 銆?767680000000000003889887780892478336039691572916694586228736銆?
+  路 DS_score                arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.12  info=0.03  鈫?inert
+  路 gemini3.5               arou=0.5  info=0.1  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎.csv                arou=0.0  info=0.1  鈫?inert
+
+銆愮 105 鏉°€戞椂闂?9839.931s | 銆屾爣娓呫€?
+  路 DS_score                arou=0.1  info=0.2  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.09  info=0.16  鈫?inert
+  路 gemini3.5               arou=0.2  info=0.2  鈫?inert
+  路 danmaku_arou_info_table  arou=0.1  info=0.8  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.1  info=0.1  鈫?inert
+
+銆愮 106 鏉°€戞椂闂?10065.779s | 銆岋紵銆?
+  路 DS_score                arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.18  info=0.06  鈫?inert
+  路 gemini3.5               arou=0.4  info=0.1  鈫?inert
+  路 danmaku_arou_info_table  arou=0.6  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.1  info=0.1  鈫?inert
+
+銆愮 107 鏉°€戞椂闂?10069.23s | 銆岋紵銆?
+  路 DS_score                arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.18  info=0.06  鈫?inert
+  路 gemini3.5               arou=0.4  info=0.1  鈫?inert
+  路 danmaku_arou_info_table  arou=0.6  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.0  info=0.0  鈫?inert
+
+銆愮 108 鏉°€戞椂闂?10229.136s | 銆?銆?
+  路 DS_score                arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.06  info=0.02  鈫?inert
+  路 gemini3.5               arou=0.2  info=0.1  鈫?inert
+  路 danmaku_arou_info_table  arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.7  鈫?mixture
+
+銆愮 109 鏉°€戞椂闂?10288.52s | 銆屽ゥ濉旈棬杩嫋娌撲簡銆?
+  路 DS_score                arou=0.4  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.46  info=0.73  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.6  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.2  鈫?arousal
+
+銆愮 114 鏉°€戞椂闂?10433.22s | 銆屽お甯呬簡銆?
+  路 DS_score                arou=0.8  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.86  info=0.21  鈫?arousal
+  路 gemini3.5               arou=0.8  info=0.1  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.8  鈫?mixture
+
+銆愮 116 鏉°€戞椂闂?10444.567s | 銆岃繖鍟ヨВ璇?涓€鐐归兘涓嶆縺鍔ㄣ€?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.74  info=0.34  鈫?arousal
+  路 gemini3.5               arou=0.6  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.5  鈫?mixture
+
+銆愮 118 鏉°€戞椂闂?10472.881s | 銆?2鍒嗛嵕钀藉緦涓€鐞冩暍閫欓杭灏勯杸涔熸槸澶у績鑷熴€?
+  路 DS_score                arou=0.5  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.83  info=0.72  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.8  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.9  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.4  鈫?arousal
+
+銆愮 119 鏉°€戞椂闂?10499.946s | 銆岀‘瀹炵墰鎵瑰晩杩欎竴鐞冦€?
+  路 DS_score                arou=0.8  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.84  info=0.48  鈫?arousal
+  路 gemini3.5               arou=0.8  info=0.4  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.6  鈫?mixture
+
+銆愮 123 鏉°€戞椂闂?10775.092s | 銆屽亣鎽斻€?
+  路 DS_score                arou=0.5  info=0.3  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.71  info=0.41  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.3  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.5  鈫?arousal
+
+銆愮 124 鏉°€戞椂闂?10813.785s | 銆屽悗鑴戦噸鍑伙紒銆?
+  路 DS_score                arou=0.7  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.87  info=0.59  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.4  鈫?arousal
+
+銆愮 125 鏉°€戞椂闂?10905.834s | 銆?6骞?鏈堢湅杩欏満姣旇禌渚濇棫楂樼噧锛併€?
+  路 DS_score                arou=0.8  info=0.4  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.91  info=0.56  鈫?arousal
+  路 gemini3.5               arou=0.9  info=0.5  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.8  鈫?mixture
+
+銆愮 126 鏉°€戞椂闂?10969.968s | 銆岃秺浣嶄簡銆?
+  路 DS_score                arou=0.2  info=0.7  鈫?information
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.42  info=0.82  鈫?information
+  路 gemini3.5               arou=0.5  info=0.6  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.9  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.0  info=0.1  鈫?inert
+
+銆愮 128 鏉°€戞椂闂?10998.21s | 銆岃嚜鍔ㄧ敓鎴愬瓧骞曘€?
+  路 DS_score                arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.05  info=0.15  鈫?inert
+  路 gemini3.5               arou=0.1  info=0.2  鈫?inert
+  路 danmaku_arou_info_table  arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎.csv                arou=0.2  info=0.9  鈫?information
+
+銆愮 129 鏉°€戞椂闂?11040.934s | 銆屾崲涓嬬殑涓嶈兘鍐嶆崲涓娿€?
+  路 DS_score                arou=0.2  info=0.7  鈫?information
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.27  info=0.86  鈫?information
+  路 gemini3.5               arou=0.3  info=0.7  鈫?information
+  路 danmaku_arou_info_table  arou=0.2  info=0.9  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.7  鈫?mixture
+
+銆愮 130 鏉°€戞椂闂?11139.546s | 銆屽ゥ濉旈棬杩紓浜殑闃插畧銆傘€?
+  路 DS_score                arou=0.4  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.64  info=0.72  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.6  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.2  鈫?arousal
+
+銆愮 131 鏉°€戞椂闂?11182.379s | 銆屽ソ鎯婇櫓銆?
+  路 DS_score                arou=0.7  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.82  info=0.35  鈫?arousal
+  路 gemini3.5               arou=0.7  info=0.3  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.8  info=0.4  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.3  info=0.9  鈫?information
+
+銆愮 133 鏉°€戞椂闂?11247.088s | 銆屽満涓嬬粰鐗屼竴鑸氨鏄獋浜鸿瑁佸垽鍚浜嗐€?
+  路 DS_score                arou=0.2  info=0.7  鈫?information
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.34  info=0.88  鈫?information
+  路 gemini3.5               arou=0.4  info=0.7  鈫?inert
+  路 danmaku_arou_info_table  arou=0.2  info=0.9  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.6  鈫?mixture
+
+銆愮 134 鏉°€戞椂闂?11258.829s | 銆屾仼浣愬洖杩姐€?
+  路 DS_score                arou=0.2  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.54  info=0.66  鈫?mixture
+  路 gemini3.5               arou=0.5  info=0.6  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.5  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.6  info=0.4  鈫?mixture
+
+銆愮 135 鏉°€戞椂闂?11631.159s | 銆岃鍒や篃鍠濇按涓€?
+  路 DS_score                arou=0.2  info=0.2  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.19  info=0.34  鈫?inert
+  路 gemini3.5               arou=0.3  info=0.4  鈫?inert
+  路 danmaku_arou_info_table  arou=0.3  info=0.8  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.6  鈫?mixture
+
+銆愮 137 鏉°€戞椂闂?11963.523s | 銆屽勾绾ぇ浜嗐€?
+  路 DS_score                arou=0.2  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.49  info=0.54  鈫?mixture
+  路 gemini3.5               arou=0.5  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.5  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.3  鈫?arousal
+
+銆愮 138 鏉°€戞椂闂?11976.729s | 銆岃姊呰タ鑰佷簡锛岄偅鎴戦棶C缃楀憿锛熴€?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.65  info=0.57  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.2  鈫?arousal
+
+銆愮 139 鏉°€戞椂闂?12156.739s | 銆岄樋鏍瑰环鏄剰鐨勪笉鑳藉啀鑴忎簡銆?
+  路 DS_score                arou=0.6  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.88  info=0.33  鈫?arousal
+  路 gemini3.5               arou=0.8  info=0.3  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.4  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.6  鈫?mixture
+
+銆愮 140 鏉°€戞椂闂?12333.017s | 銆屼负鍟ユ瘡娆℃甯镐簤鎶㈢悆闃挎牴寤峰繀鍚圭姱瑙勶紝娉曞浗鍩烘湰涓嶅惞銆?
+  路 DS_score                arou=0.5  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.73  info=0.76  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.2  鈫?arousal
+
+銆愮 141 鏉°€戞椂闂?12717.242s | 銆屽缃椾綘鐪熸槸銆?
+  路 DS_score                arou=0.5  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.69  info=0.35  鈫?arousal
+  路 gemini3.5               arou=0.7  info=0.3  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.8  info=0.4  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.4  鈫?mixture
+
+銆愮 142 鏉°€戞椂闂?12789.815s | 銆屽崲濉炲皵鐞冨満鐪熷ソ鐪嬨€?
+  路 DS_score                arou=0.3  info=0.4  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.61  info=0.56  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.3  鈫?arousal
+
+銆愮 143 鏉°€戞椂闂?13066.094s | 銆屾垜褰撴椂浠ヤ负缁堜簬缁撴潫浜嗐€?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.73  info=0.56  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.4  鈫?arousal
+
+銆愮 145 鏉°€戞椂闂?13121.505s | 銆岋紵鏃╂湁浜?2骞淬€?
+  路 DS_score                arou=0.2  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.34  info=0.66  鈫?information
+  路 gemini3.5               arou=0.4  info=0.4  鈫?inert
+  路 danmaku_arou_info_table  arou=0.5  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.5  鈫?arousal
+
+銆愮 146 鏉°€戞椂闂?13155.056s | 銆岃穼瀹曡捣浼忥紝椹笂灏辨壋骞充簡锛岀湡鍒烘縺銆?
+  路 DS_score                arou=0.8  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.91  info=0.69  鈫?mixture
+  路 gemini3.5               arou=0.8  info=0.6  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.9  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.4  info=0.2  鈫?inert
+
+銆愮 147 鏉°€戞椂闂?13155.894s | 銆岃繘搴︽潯涓嶅銆?
+  路 DS_score                arou=0.1  info=0.2  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.32  info=0.53  鈫?mixture
+  路 gemini3.5               arou=0.4  info=0.3  鈫?inert
+  路 danmaku_arou_info_table  arou=0.4  info=0.8  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.4  鈫?arousal
+
+銆愮 148 鏉°€戞椂闂?13167.547s | 銆屽綋骞寸湅杩欏満鍒板悗闈㈠氨宸病涓婃晳蹇冧父浜嗭紝澶埡婵€浜嗐€?
+  路 DS_score                arou=0.8  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.95  info=0.62  鈫?arousal
+  路 gemini3.5               arou=0.9  info=0.4  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.3  鈫?arousal
+
+銆愮 149 鏉°€戞椂闂?13225.401s | 銆岄樋鍦綏浣犺繖涓績鑴忔偁鐫€鐐广€?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.78  info=0.47  鈫?arousal
+  路 gemini3.5               arou=0.6  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.4  鈫?arousal
+
+銆愮 151 鏉°€戞椂闂?13581.154s | 銆屽鏋滄硶鍥藉姞鏃惰禌璧簡锛岃挋閾佸皵鍥炶嚜宸辫€佸鍗楃編鐪熸湁鍙兘琚櫠銆傘€傛垚浜嗚繖鍦烘瘮璧涚殑缃汉浜嗐€?
+  路 DS_score                arou=0.4  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.84  info=0.88  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.6  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.2  鈫?arousal
+
+銆愮 152 鏉°€戞椂闂?13595.061s | 銆岃挋鐗涜繖鑳芥暣娲汇€?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.48  info=0.24  鈫?inert
+  路 gemini3.5               arou=0.6  info=0.3  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.3  鈫?arousal
+
+銆愮 153 鏉°€戞椂闂?13596.466s | 銆岃姝伙紝鏄庢槑鏄洿鎱屼簡銆?
+  路 DS_score                arou=0.7  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.81  info=0.39  鈫?arousal
+  路 gemini3.5               arou=0.7  info=0.3  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.8  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.4  info=0.5  鈫?mixture
+
+銆愮 154 鏉°€戞椂闂?13611.638s | 銆屽紵寮熷焹鍞愶紵銆?
+  路 DS_score                arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.25  info=0.28  鈫?inert
+  路 gemini3.5               arou=0.3  info=0.4  鈫?inert
+  路 danmaku_arou_info_table  arou=0.6  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.6  鈫?mixture
+
+銆愮 155 鏉°€戞椂闂?13617.075s | 銆岃窡浣犵浉鍙嶆垜杩欎細鍙嶈€屼竴鐐逛笉榛勶紝杩欐椂鍊欏凡缁忛夯鏈ㄤ簡锛岀偣鐞冨ぇ鎴橀樋鏍瑰环鑲畾绋炽€?
+  路 DS_score                arou=0.4  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.79  info=0.74  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.4  info=0.8  鈫?information
+
+銆愮 156 鏉°€戞椂闂?13811.302s | 銆屾渶鍚庣湡鐨勭湅鍑洪粦浜轰綋鍔涗紭鍔裤€?
+  路 DS_score                arou=0.3  info=0.7  鈫?information
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.42  info=0.68  鈫?mixture
+  路 gemini3.5               arou=0.5  info=0.7  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.4  鈫?arousal
+
+銆愮 157 鏉°€戞椂闂?13938.299s | 銆岃繖涓€鍒伙紝鎴戞兂鍒颁簡鏍肩瓥銆?
+  路 DS_score                arou=0.4  info=0.2  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.69  info=0.6  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.6  鈫?mixture
+
+銆愮 158 鏉°€戞椂闂?13939.086s | 銆屼紶浜嗙湡杩涗簡 浣嗘槸鏄皝璋佷篃涓嶄細浼犮€?
+  路 DS_score                arou=0.3  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.72  info=0.66  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.6  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.6  info=0.1  鈫?arousal
+
+銆愮 159 鏉°€戞椂闂?14032.425s | 銆岃憽鎸烇紒銆?
+  路 DS_score                arou=0.5  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.74  info=0.15  鈫?arousal
+  路 gemini3.5               arou=0.6  info=0.1  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.8  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.6  鈫?mixture
+
+銆愮 160 鏉°€戞椂闂?14043.471s | 銆岃繕濂芥仼浣愮鍒扮悆浜嗭紝涓嶇劧銆傘€傘€傘€傛仼浣愮寷銆傚喎闈欙紒锛侊紒銆?
+  路 DS_score                arou=0.7  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.9  info=0.72  鈫?mixture
+  路 gemini3.5               arou=0.8  info=0.6  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.9  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.4  鈫?arousal
+
+銆愮 161 鏉°€戞椂闂?14358.325s | 銆岃寰楀綋鏃舵弧鑴戝瓙姊呰タ杩欑悆瑕佽繘鍟婏紝杈撲簡閮芥棤鎵€璋撱€?
+  路 DS_score                arou=0.8  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.93  info=0.61  鈫?arousal
+  路 gemini3.5               arou=0.8  info=0.4  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.3  鈫?arousal
+
+銆愮 162 鏉°€戞椂闂?14363.459s | 銆屾暣涓樋鏍瑰环閮藉湪浠栫殑鑲╀笂銆?
+  路 DS_score                arou=0.7  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.82  info=0.65  鈫?mixture
+  路 gemini3.5               arou=0.8  info=0.4  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.8  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.3  鈫?arousal
+
+銆愮 163 鏉°€戞椂闂?14364.155s | 銆屾瑗胯繖鐞冮€燂紝褰撴椂缁欐垜鍚撴銆?
+  路 DS_score                arou=0.8  info=0.4  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.89  info=0.48  鈫?arousal
+  路 gemini3.5               arou=0.8  info=0.4  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.4  鈫?mixture
+
+銆愮 164 鏉°€戞椂闂?14404.004s | 銆岄┈涓佸唴鏂湁鐐瑰効鎰忔€濄€?
+  路 DS_score                arou=0.5  info=0.3  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.58  info=0.52  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.4  鈫?arousal
+
+銆愮 165 鏉°€戞椂闂?14436.655s | 銆屼粬鍍忎釜璞瑰瓙涓€鏍锋墤鍚戠寧鐗┿€?
+  路 DS_score                arou=0.4  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.84  info=0.59  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.8  鈫?mixture
+
+銆愮 166 鏉°€戞椂闂?14450.996s | 銆屾礇閲屼絾鍑℃櫄鍗婄鎵戯紝杩欑悆灏辫鎸″嚭鍘讳簡銆?
+  路 DS_score                arou=0.4  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.63  info=0.79  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.7  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.9  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.2  鈫?arousal
+
+銆愮 167 鏉°€戞椂闂?14501.092s | 銆屽痉灏氾細鍚冩墜鎵嬶紝鎵嬫墜鐪熷ソ鍚冣棆釔佲棆銆?
+  路 DS_score                arou=0.5  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.73  info=0.22  鈫?arousal
+  路 gemini3.5               arou=0.6  info=0.2  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.8  info=0.4  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.5  鈫?mixture
+
+銆愮 168 鏉°€戞椂闂?14544.789s | 銆屽崸妲斤紝濮嗗反浣╁眳鐒舵槸娉曞浗闃熸渶鐧介偅涓€?
+  路 DS_score                arou=0.7  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.82  info=0.36  鈫?arousal
+  路 gemini3.5               arou=0.7  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.9  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.4  鈫?mixture
+
+銆愮 169 鏉°€戞椂闂?14551.643s | 銆岄粦浜洪槦銆?
+  路 DS_score                arou=0.2  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.41  info=0.23  鈫?inert
+  路 gemini3.5               arou=0.6  info=0.2  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.5  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.5  鈫?mixture
+
+銆愮 170 鏉°€戞椂闂?14594.023s | 銆岃繕鏈変袱娆℃満浼氥€?
+  路 DS_score                arou=0.3  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.73  info=0.64  鈫?mixture
+  路 gemini3.5               arou=0.5  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.1  鈫?arousal
+
+銆愮 173 鏉°€戞椂闂?14663.372s | 銆屽晩榛勶紝缃楀嚭绂佺墖銆?
+  路 DS_score                arou=0.6  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.31  info=0.14  鈫?inert
+  路 gemini3.5               arou=0.4  info=0.1  鈫?inert
+  路 danmaku_arou_info_table  arou=0.8  info=0.3  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.2  鈫?arousal
+
+銆愮 174 鏉°€戞椂闂?14800.699s | 銆屽鎬?鎴戞櫄涓婂悆浜嗗嚭闃跨背灏笺€?
+  路 DS_score                arou=0.4  info=0.1  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.37  info=0.19  鈫?inert
+  路 gemini3.5               arou=0.5  info=0.2  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.4  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.3  鈫?arousal
+
+銆愮 175 鏉°€戞椂闂?14808.69s | 銆屼綘鐪嬪鎬荤瑧鐨勫寮€蹇冦€?
+  路 DS_score                arou=0.2  info=0.2  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.68  info=0.46  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.3  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.6  info=0.7  鈫?mixture
+
+銆愮 176 鏉°€戞椂闂?14816.633s | 銆屾劅瑙夋敮鎾戣剼宸竴鐐圭偣婊戝埌銆?
+  路 DS_score                arou=0.3  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.52  info=0.71  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.9  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.3  鈫?arousal
+
+銆愮 177 鏉°€戞椂闂?14835.242s | 銆屼粈涔堟椂鍊欑湅閮芥縺鍔ㄧ殑姣旇禌銆?
+  路 DS_score                arou=0.8  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.93  info=0.54  鈫?arousal
+  路 gemini3.5               arou=0.8  info=0.3  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.4  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.3  info=0.2  鈫?inert
+
+銆愮 178 鏉°€戞椂闂?14847.895s | 銆屽彸涓嬭浠€涔堝憖銆?
+  路 DS_score                arou=0.1  info=0.1  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.29  info=0.58  鈫?mixture
+  路 gemini3.5               arou=0.3  info=0.2  鈫?inert
+  路 danmaku_arou_info_table  arou=0.3  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.2  鈫?arousal
+
+銆愮 179 鏉°€戞椂闂?15513.567s | 銆屼簲鏄熺孩鏃椼€?
+  路 DS_score                arou=0.2  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.56  info=0.38  鈫?mixture
+  路 gemini3.5               arou=0.4  info=0.3  鈫?inert
+  路 danmaku_arou_info_table  arou=0.6  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.1  鈫?arousal
+
+銆愮 180 鏉°€戞椂闂?15697.272s | 銆宻iu!!!!銆?
+  路 DS_score                arou=0.8  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.88  info=0.12  鈫?arousal
+  路 gemini3.5               arou=0.7  info=0.1  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.2  info=0.9  鈫?information
+
+銆愮 181 鏉°€戞椂闂?16172.916s | 銆岃幈鑼电灏旓紝闃垮叞甯屽嫆锛岃垂杩崡銆?
+  路 DS_score                arou=0.2  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.21  info=0.91  鈫?information
+  路 gemini3.5               arou=0.4  info=0.7  鈫?inert
+  路 danmaku_arou_info_table  arou=0.3  info=0.9  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.3  info=0.9  鈫?information
+
+銆愮 182 鏉°€戞椂闂?16283.292s | 銆岃摤鐨锛屽反钂傛柉濉旓紝86涓栫晫鏉啝鍐涢槦浠ｈ〃銆?
+  路 DS_score                arou=0.2  info=0.4  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.26  info=0.95  鈫?information
+  路 gemini3.5               arou=0.5  info=0.8  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.3  info=0.9  鈫?information
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.6  鈫?mixture
+
+銆愮 183 鏉°€戞椂闂?16422.796s | 銆屾渶璞崕鐨勪竴鍦洪濂栦华寮忋€?
+  路 DS_score                arou=0.5  info=0.3  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.74  info=0.66  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.2  info=0.3  鈫?inert
+
+銆愮 184 鏉°€戞椂闂?16438.631s | 銆岄┈鍏嬮緳锛歸def銆?
+  路 DS_score                arou=0.5  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.48  info=0.44  鈫?inert
+  路 gemini3.5               arou=0.5  info=0.2  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.4  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.2  鈫?arousal
+
+銆愮 185 鏉°€戞椂闂?16489.089s | 銆屽張鏉ュ暒銆?
+  路 DS_score                arou=0.6  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.62  info=0.24  鈫?arousal
+  路 gemini3.5               arou=0.5  info=0.2  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.3  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.1  鈫?arousal
+
+銆愮 186 鏉°€戞椂闂?16618.393s | 銆屽叓鐖峰搱鍝堝搱銆?
+  路 DS_score                arou=0.7  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.76  info=0.18  鈫?arousal
+  路 gemini3.5               arou=0.6  info=0.3  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.5  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.2  鈫?arousal
+
+銆愮 187 鏉°€戞椂闂?16627.8s | 銆岃亴涓氬亣绗戝ぇ鐧界墮锛屾垜绗戞浜嗐€?
+  路 DS_score                arou=0.8  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.87  info=0.33  鈫?arousal
+  路 gemini3.5               arou=0.7  info=0.3  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.2  鈫?arousal
+
+銆愮 188 鏉°€戞椂闂?16761.455s | 銆屽皬鐪肩銆?
+  路 DS_score                arou=0.2  info=0.2  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.44  info=0.32  鈫?inert
+  路 gemini3.5               arou=0.5  info=0.2  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.4  鈫?mixture
+
+銆愮 189 鏉°€戞椂闂?16764.312s | 銆岄暅澶村氨绛夌潃鎶撹繖涓€鐪笺€?
+  路 DS_score                arou=0.2  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.59  info=0.61  鈫?mixture
+  路 gemini3.5               arou=0.5  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.4  鈫?arousal
+
+銆愮 190 鏉°€戞椂闂?16771.712s | 銆岃繖閲戦澊鎺変簡鎴戞槸鐪熸病缁蜂綇銆?
+  路 DS_score                arou=0.8  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.84  info=0.57  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.9  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.4  鈫?arousal
+
+銆愮 191 鏉°€戞椂闂?16779.602s | 銆屾劅瑙夎繖涓椂鍊欎粬鏄湪寮哄繊鐫€涓嶅摥鍑烘潵鐨勭姸鎬併€?
+  路 DS_score                arou=0.7  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.71  info=0.74  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.8  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.4  info=0.8  鈫?information
+
+銆愮 192 鏉°€戞椂闂?16870.134s | 銆岃浼楅噷杩樺潗浜嗕釜寰蜂繚缃椼€?
+  路 DS_score                arou=0.3  info=0.4  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.42  info=0.63  鈫?mixture
+  路 gemini3.5               arou=0.5  info=0.5  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.6  info=0.9  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.5  info=0.8  鈫?mixture
+
+銆愮 193 鏉°€戞椂闂?16879.249s | 銆岃繖涓椂鍊欓毦閬撻┈鍏嬮緳瑕佺瑧鍚楋紵杩欒〃鎯呭緢瀵癸紝浠栦唬琛ㄦ硶鍥戒汉姘戯紝灏辫杩欑琛ㄦ儏銆?
+  路 DS_score                arou=0.4  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.53  info=0.9  鈫?information
+  路 gemini3.5               arou=0.6  info=0.7  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.9  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.3  鈫?arousal
+
+銆愮 194 鏉°€戞椂闂?16900.008s | 銆岄樋鏍瑰环鎵撹触娉曞浗鎵撹触鎽╂礇鍝ユ墦璐ヨ憽钀勭墮锛佺瓑浜庨樋鏍瑰环鎵撹触钁¤悇鐗欙紒銆?
+  路 DS_score                arou=0.5  info=0.3  鈫?mixture
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.78  info=0.71  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.6  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.8  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.6  info=0.2  鈫?arousal
+
+銆愮 195 鏉°€戞椂闂?17011.048s | 銆屾杩庝簹鍐涖€?
+  路 DS_score                arou=0.6  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.57  info=0.28  鈫?mixture
+  路 gemini3.5               arou=0.6  info=0.4  鈫?mixture
+  路 danmaku_arou_info_table  arou=0.7  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.8  info=0.3  鈫?arousal
+
+銆愮 196 鏉°€戞椂闂?17366.262s | 銆屾繁浜曞啺鍚楋紵鍥涗釜瀛楁尅浣忛珮鍏夋椂鍒烩€︹€︺€?
+  路 DS_score                arou=0.6  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.82  info=0.36  鈫?arousal
+  路 gemini3.5               arou=0.7  info=0.3  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.9  info=0.7  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.3  鈫?arousal
+
+銆愮 197 鏉°€戞椂闂?17533.964s | 銆屼笘鐣屾澂濂栨澂灏辨槸濂界湅銆?
+  路 DS_score                arou=0.2  info=0.3  鈫?inert
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.72  info=0.61  鈫?mixture
+  路 gemini3.5               arou=0.7  info=0.3  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.7  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.6  info=0.2  鈫?arousal
+
+銆愮 198 鏉°€戞椂闂?17600.937s | 銆屽弸鎯呮彁绀猴細浣犱笉蹇呰窡鐫€涓€璧锋憞澶淬€?
+  路 DS_score                arou=0.5  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.31  info=0.78  鈫?information
+  路 gemini3.5               arou=0.6  info=0.2  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.6  info=0.6  鈫?mixture
+  路 寮瑰箷鎵撳垎.csv                arou=0.9  info=0.1  鈫?arousal
+
+銆愮 199 鏉°€戞椂闂?17627.388s | 銆岀粓浜庛€?
+  路 DS_score                arou=0.7  info=0.1  鈫?arousal
+  路 寮瑰箷鎵撳垎_瀹屾暣鏁版嵁               arou=0.84  info=0.26  鈫?arousal
+  路 gemini3.5               arou=0.8  info=0.2  鈫?arousal
+  路 danmaku_arou_info_table  arou=0.8  info=0.2  鈫?arousal
+  路 寮瑰箷鎵撳垎.csv                arou=0.7  info=0.5  鈫?mixture
+
+
+=== 鎸夋椂闂?鏂囨湰瀵归綈锛氬垎绫讳笉涓€鑷村叡 80 鏉?===
+(涓庢寜琛屽彿缁撴灉鏉℃暟涓嶅悓锛岃鏄庨儴鍒嗘枃浠惰搴忎笉涓€鑷?

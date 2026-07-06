@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "video_id": "worldcup_final_10min_sample",
+  "time_range_sec": [0, 600],
+  "default_mode": "neutral",
+  "description": "10分钟模拟环境灯光排期，与 burst_events / crowd_audio_schedule 时间对齐",
+  "events": [
+    {
+      "id": "light_F-1",
+      "burst_id": "F-1",
+      "start_sec": 42.0,
+      "stop_sec": 58.0,
+      "mode": "excited",
+      "note": "开场进球反应，暖色兴奋"
+    },
+    {
+      "id": "light_F-2",
+      "burst_id": "F-2",
+      "start_sec": 112.0,
+      "stop_sec": 138.0,
+      "mode": "tension",
+      "note": "VAR 争议，冷色紧张"
+    },
+    {
+      "id": "light_F-3_window",
+      "burst_id": "F-3",
+      "start_sec": 185.0,
+      "stop_sec": 205.0,
+      "mode": "excited",
+      "note": "世界波后持续兴奋氛围"
+    },
+    {
+      "id": "light_F-3_flash",
+      "burst_id": "F-3",
+      "start_sec": 192.0,
+      "stop_sec": 192.4,
+      "mode": "goal",
+      "note": "世界波瞬间进球闪光"
+    },
+    {
+      "id": "light_F-4",
+      "burst_id": "F-4",
+      "start_sec": 258.0,
+      "stop_sec": 280.0,
+      "mode": "excited",
+      "note": "阿根廷助威"
+    },
+    {
+      "id": "light_F-5",
+      "burst_id": "F-5",
+      "start_sec": 335.0,
+      "stop_sec": 362.0,
+      "mode": "tension",
+      "note": "点球争议"
+    },
+    {
+      "id": "light_F-6_window",
+      "burst_id": "F-6",
+      "start_sec": 415.0,
+      "stop_sec": 440.0,
+      "mode": "excited",
+      "note": "法国扳平"
+    },
+    {
+      "id": "light_F-6_flash",
+      "burst_id": "F-6",
+      "start_sec": 425.0,
+      "stop_sec": 425.4,
+      "mode": "goal",
+      "note": "扳平进球闪光"
+    },
+    {
+      "id": "light_F-7",
+      "burst_id": "F-7",
+      "start_sec": 502.0,
+      "stop_sec": 528.0,
+      "mode": "tension",
+      "note": "加时紧张"
+    },
+    {
+      "id": "light_F-8",
+      "burst_id": "F-8",
+      "start_sec": 562.0,
+      "stop_sec": 590.0,
+      "mode": "excited",
+      "note": "点球大战前高潮"
+    }
+  ]
+}

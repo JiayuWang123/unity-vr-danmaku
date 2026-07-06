@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "video_id": "test_1min",
+  "time_range_sec": [0, 60],
+  "default_mode": "neutral",
+  "description": "1分钟灯光：与心跳/欢呼/人声/粒子同步",
+  "events": [
+    {
+      "id": "light_open",
+      "start_sec": 0.0,
+      "stop_sec": 12.0,
+      "mode": "neutral",
+      "note": "开场平静"
+    },
+    {
+      "id": "light_tension_01",
+      "start_sec": 12.0,
+      "stop_sec": 20.0,
+      "mode": "tension",
+      "note": "VAR争议，冷色紧张"
+    },
+    {
+      "id": "light_neutral_mid",
+      "start_sec": 20.0,
+      "stop_sec": 28.0,
+      "mode": "neutral",
+      "note": "短暂回落"
+    },
+    {
+      "id": "light_goal_window",
+      "start_sec": 28.0,
+      "stop_sec": 38.0,
+      "mode": "excited",
+      "note": "进球后兴奋暖色"
+    },
+    {
+      "id": "light_goal_flash",
+      "start_sec": 29.0,
+      "stop_sec": 29.4,
+      "mode": "goal",
+      "note": "进球瞬间闪光"
+    },
+    {
+      "id": "light_chant",
+      "start_sec": 38.0,
+      "stop_sec": 45.0,
+      "mode": "excited",
+      "note": "阿根廷助威"
+    },
+    {
+      "id": "light_tension_02",
+      "start_sec": 45.0,
+      "stop_sec": 52.0,
+      "mode": "tension",
+      "note": "点球争议"
+    },
+    {
+      "id": "light_finale",
+      "start_sec": 52.0,
+      "stop_sec": 60.0,
+      "mode": "excited",
+      "note": "结尾高潮"
+    },
+    {
+      "id": "light_finale_flash",
+      "start_sec": 53.0,
+      "stop_sec": 53.4,
+      "mode": "goal",
+      "note": "结尾小闪光"
+    }
+  ]
+}

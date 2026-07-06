@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "video_id": "worldcup_final",
+  "source_file": "d:\\unity\\projects\\6.22(1)\\Assets\\StreamingAssets\\test_danmaku.xml",
+  "sampling": {
+    "method": "stratified_random_by_time_bin",
+    "n_total": 2,
+    "n_source": 2,
+    "duration_sec": 15.0,
+    "bin_sec": 60.0,
+    "n_bins": 1,
+    "burst_oversample": 1.5,
+    "min_per_bin": 1,
+    "overlap_pilot_n": 2,
+    "random_seed": 42,
+    "references": [
+      "Zhang et al. CHI 2025 CoKnowledge (random + IRR)",
+      "He et al. CSCW 2021 (dual-axis info/sentiment)"
+    ]
+  },
+  "annotators": [
+    "A",
+    "B",
+    "C"
+  ],
+  "samples": [
+    {
+      "id": "d_000000",
+      "time_sec": 12.345,
+      "text": "好球！绝杀！",
+      "bin_index": 0,
+      "density_weight": 1.0,
+      "video_clip_hint_sec": [
+        7.345000000000001,
+        17.345
+      ]
+    },
+    {
+      "id": "d_000001",
+      "time_sec": 15.001,
+      "text": "裁判眼瞎了吧",
+      "bin_index": 0,
+      "density_weight": 1.0,
+      "video_clip_hint_sec": [
+        10.001,
+        20.000999999999998
+      ]
+    }
+  ]
+}
