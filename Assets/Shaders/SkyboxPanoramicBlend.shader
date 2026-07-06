@@ -2,8 +2,8 @@ Shader "Skybox/Panoramic Blend"
 {
     Properties
     {
-        _TexA ("Panoramic A (Base)", 2D) = "grey" {}
-        _TexB ("Panoramic B (Light or Dark)", 2D) = "grey" {}
+        _TexA ("Panoramic A (Bright)", 2D) = "grey" {}
+        _TexB ("Panoramic B (Dark)", 2D) = "grey" {}
         _Blend ("Blend", Range(0, 1)) = 0
         _Exposure ("Exposure", Float) = 1.0
         _Rotation ("Rotation", Range(0, 360)) = 0
@@ -14,8 +14,6 @@ Shader "Skybox/Panoramic Blend"
     {
         Tags { "Queue"="Background" "RenderType"="Background" "PreviewType"="Skybox" }
         Cull Off ZWrite Off
-        ZTest LEqual
-        Fog { Mode Off }
 
         Pass
         {
@@ -41,6 +39,7 @@ Shader "Skybox/Panoramic Blend"
 
             float2 DirToEquirectUV(float3 dir)
             {
+                // 与 Unity 内置 Skybox/Panoramic 一致：v = asin(y)/PI + 0.5
                 dir = normalize(dir);
                 float u = 0.5 + atan2(dir.z, dir.x) / (2.0 * UNITY_PI);
                 float v = 0.5 + asin(clamp(dir.y, -1.0, 1.0)) / UNITY_PI;
@@ -81,5 +80,5 @@ Shader "Skybox/Panoramic Blend"
         }
     }
 
-    Fallback "Skybox/Panoramic"
+    Fallback Off
 }
