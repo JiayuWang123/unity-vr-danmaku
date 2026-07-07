@@ -769,13 +769,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 241804438}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.012624543, y: 0.010798007, z: -0.00031542033, w: 0.999862}
+  m_LocalRotation: {x: 0.000008948146, y: 0.66685945, z: 0.14452437, w: 0.73103434}
   m_LocalPosition: {x: -0.01595857, y: -0.020406961, z: 0.0941468}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1177373594}
-  m_LocalEulerAnglesHint: {x: 1.447, y: 1.237, z: -0.021}
+  m_LocalEulerAnglesHint: {x: -11.113, y: 83.528, z: 12.436}
 --- !u!114 &241804440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2448,7 +2448,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1475186703}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -3301,7 +3301,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1751893001}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -3794,6 +3794,79 @@ Material:
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+--- !u!1 &1822006702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1822006704}
+  - component: {fileID: 1822006703}
+  m_Layer: 0
+  m_Name: memeBubbleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1822006703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822006702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55fefd2613714eba965736d75b226ce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1899937954}
+  screenTransform: {fileID: 1899937958}
+  midZoneFrame: {fileID: 1666705374}
+  fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
+  jsonFileName: classify/memes_joking.json
+  sideOutwardOffset: 0.68
+  verticalRangeRatio: 0.75
+  spawnForwardOffset: 0.22
+  fontSize: 28
+  worldScale: 0.002
+  maxBubbleWidth: 600
+  minBubbleWidth: 140
+  textPaddingH: 28
+  textPaddingV: 18
+  iconSize: 44
+  tailWidth: 26
+  tailHeight: 18
+  tailSideInset: 20
+  laughingIcon: {fileID: 21300000, guid: dad9dffa63dfd014485db5dc09ccbb0f, type: 3}
+  bubbleBgColor: {r: 1, g: 0.96, b: 0.78, a: 0.93}
+  bubbleBorderColor: {r: 1, g: 0.68, b: 0.1, a: 0.9}
+  textColor: {r: 0.2, g: 0.1, b: 0, a: 1}
+  bubbleBorderWidth: 4
+  canvasSortOrder: 210
+  dwellMin: 2
+  dwellMax: 5
+  fadeOut: 0.45
+  minSpawnGap: 0.8
+  maxConcurrent: 2
+--- !u!4 &1822006704
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822006702}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.3531528, y: 3.8451502, z: -0.31099334}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1844141701
 GameObject:
   m_ObjectHideFlags: 0
@@ -4483,3 +4556,4 @@ SceneRoots:
   - {fileID: 877462518}
   - {fileID: 993148531}
   - {fileID: 2095025185}
+  - {fileID: 1822006704}
