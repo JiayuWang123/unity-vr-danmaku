@@ -769,13 +769,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 241804438}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000008948146, y: 0.66685945, z: 0.14452437, w: 0.73103434}
+  m_LocalRotation: {x: 0.011975586, y: -0.002510935, z: -0.016324304, w: 0.99979186}
   m_LocalPosition: {x: -0.01595857, y: -0.020406961, z: 0.0941468}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1177373594}
-  m_LocalEulerAnglesHint: {x: -11.113, y: 83.528, z: 12.436}
+  m_LocalEulerAnglesHint: {x: 1.367, y: -0.31, z: -1.875}
 --- !u!114 &241804440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4239,8 +4239,8 @@ Transform:
   m_GameObject: {fileID: 1899937952}
   serializedVersion: 2
   m_LocalRotation: {x: -0.05425703, y: 0.6792243, z: 0.050470654, w: 0.73018026}
-  m_LocalPosition: {x: 5.4988956, y: 2.85, z: 0.14517379}
-  m_LocalScale: {x: 7.67077, y: 4.794231, z: 7.9903855}
+  m_LocalPosition: {x: 5.4988956, y: 3.69, z: 0.14517379}
+  m_LocalScale: {x: 9.419597, y: 5.6217484, z: 7.9903855}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 167311789}
@@ -4314,6 +4314,94 @@ Transform:
   - {fileID: 1177373594}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -13.851, y: 85.448, z: 0.153}
+--- !u!1 &1955000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1955000003}
+  - component: {fileID: 1955000002}
+  m_Layer: 0
+  m_Name: socializationPanelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1955000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a1e29c4d6b5487d9f2a6e1c0b3d4f81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1899937954}
+  headTransform: {fileID: 0}
+  fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
+  jsonFileName: classify/socialization.json
+  localOffset: {x: 0, y: -0.09, z: 0.85}
+  collapsedLocalOffset: {x: 0, y: -0.4, z: 0.85}
+  localEulerAngles: {x: 12, y: 0, z: 0}
+  canvasScale: 0.0016
+  collapsedSize: {x: 300, y: 64}
+  expandedSize: {x: 700, y: 420}
+  maxVisibleMessages: 30
+  autoScrollThreshold: 0.06
+  fontSize: 22
+  titleFontSize: 24
+  titleTextOffset: {x: 9, y: -10}
+  avatarSize: 46
+  bubbleTextPaddingH: 22
+  bubbleTextPaddingV: 14
+  bubbleTailWidth: 16
+  bubbleTailHeight: 12
+  bubbleTailSideInset: 10
+  bubbleBorderWidth: 2.5
+  chatBubbleFillColor: {r: 0.07, g: 0.1, b: 0.22, a: 0.8}
+  chatBubbleBorderColor: {r: 0.35, g: 0.85, b: 1, a: 0.92}
+  avatarPalette:
+  - {r: 0.3, g: 0.85, b: 1, a: 1}
+  - {r: 0.66, g: 0.4, b: 1, a: 1}
+  - {r: 1, g: 0.45, b: 0.75, a: 1}
+  - {r: 0.4, g: 1, b: 0.85, a: 1}
+  panelFillColor: {r: 0.04, g: 0.06, b: 0.15, a: 0.6}
+  borderColorA: {r: 0.25, g: 0.9, b: 1, a: 0.95}
+  borderColorB: {r: 0.66, g: 0.36, b: 1, a: 0.95}
+  glowColor: {r: 0.42, g: 0.55, b: 1, a: 0.55}
+  messageTextColor: {r: 0.87, g: 0.95, b: 1, a: 1}
+  titleTextColor: {r: 0.75, g: 0.92, b: 1, a: 1}
+  redDotColor: {r: 1, g: 0.22, b: 0.3, a: 1}
+  borderWidth: 3
+  cornerRadius: 20
+  glowSize: 22
+  canvasSortOrder: 220
+  scrollbarWidth: 9.29
+  scrollbarTrackColor: {r: 0.12, g: 0.14, b: 0.18, a: 0.45}
+  scrollbarHandleColor: {r: 0.52, g: 0.54, b: 0.58, a: 0.88}
+  chatContentPaddingLeft: 14
+--- !u!4 &1955000003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955000001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2095025182
 GameObject:
   m_ObjectHideFlags: 0
@@ -4557,3 +4645,4 @@ SceneRoots:
   - {fileID: 993148531}
   - {fileID: 2095025185}
   - {fileID: 1822006704}
+  - {fileID: 1955000003}
