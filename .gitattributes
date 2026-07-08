@@ -1,0 +1,2 @@
+Assets/font/SIMHEI[[:space:]]SDF.asset filter=lfs diff=lfs merge=lfs -text
+Assets/font/SIMHEI[[:space:]]SDF[[:space:]]1.asset filter=lfs diff=lfs merge=lfs -text
