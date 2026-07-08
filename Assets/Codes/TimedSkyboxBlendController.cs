@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -10,6 +11,8 @@ public class TimedSkyboxBlendController : MonoBehaviour
     [Header("视频时间轴")]
     public VideoPlayer videoPlayer;
     public bool onlyWhenVideoPlaying = true;
+    public bool autoPlayVideo = false;
+    [Min(0)] public int autoPlayDelayFrames = 2;
 
     [Header("Skybox 混合材质（Skybox/Panoramic Blend）")]
     public Material skyboxBlendMaterial;
@@ -40,10 +43,29 @@ public class TimedSkyboxBlendController : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(StartSequence());
+    }
+
+    IEnumerator StartSequence()
+    {
+        if (autoPlayVideo && videoPlayer != null)
+        {
+            for (int i = 0; i < autoPlayDelayFrames; i++)
+                yield return null;
+
+            if (!videoPlayer.isPrepared)
+                videoPlayer.Prepare();
+
+            while (!videoPlayer.isPrepared)
+                yield return null;
+
+            videoPlayer.Play();
+        }
+
         if (skyboxBlendMaterial == null)
         {
             Debug.LogWarning("[TimedSkyboxBlendController] 未指定 skyboxBlendMaterial。");
-            return;
+            yield break;
         }
 
         _runtimeMat = new Material(skyboxBlendMaterial);
