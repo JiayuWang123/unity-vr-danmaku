@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 241804442}
   - component: {fileID: 241804441}
   - component: {fileID: 241804440}
+  - component: {fileID: 241804443}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -393,6 +394,25 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+--- !u!114 &241804443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241804438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a4e2c1b9f8d3e6a5c4b2d1e0f9a8b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xrOrigin: {fileID: 1938119431}
+  vrCameraMount: {fileID: 1177373594}
+  trackedPoseDriver: {fileID: 241804440}
+  mouseSensitivity: 2
+  minPitch: -85
+  maxPitch: 85
+  requireRightMouseButton: 1
 --- !u!81 &241804441
 AudioListener:
   m_ObjectHideFlags: 0

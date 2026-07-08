@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Video;
+using UnityEngine.XR;
 
 /// <summary>
 /// 进入 Play 后：摆正 Editor 相机、自动播放 screen 上的视频。
@@ -27,7 +28,8 @@ public class PopUpScenePlayBootstrap : MonoBehaviour
         if (videoPlayer == null)
             videoPlayer = screen != null ? screen.GetComponent<VideoPlayer>() : FindObjectOfType<VideoPlayer>();
 
-        SetupEditorCamera();
+        if (!XRSettings.isDeviceActive)
+            SetupEditorCamera();
 
         if (videoPlayer == null)
         {
@@ -75,6 +77,11 @@ public class PopUpScenePlayBootstrap : MonoBehaviour
             viewDir = (target - cam.transform.position).normalized;
 
         cam.transform.position = target + viewDir * cameraDistance + Vector3.up * 0.3f;
-        cam.transform.LookAt(target);
+
+        var viewCtrl = cam.GetComponent<CameraViewController>();
+        if (viewCtrl != null)
+            viewCtrl.LookAtPoint(target);
+        else
+            cam.transform.LookAt(target);
     }
 }
