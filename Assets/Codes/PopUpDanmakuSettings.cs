@@ -49,7 +49,7 @@ public class PopUpDanmakuSettings : MonoBehaviour
     public int canvasSortingOrder = 200;
     [Tooltip("勾选后用下方 Fallback Color 作为字色；不勾选则用 JSON 颜色十进制")]
     public bool forceHighContrastText = true;
-    [Range(0f, 1f)] public float outlineWidth = 0.28f;
+    [Range(0f, 1f)] public float outlineWidth = 0f;
     public Color outlineColor = new Color(0f, 0f, 0f, 0.85f);
 
     [Header("锚点布局（相对 screen 本地坐标）")]

@@ -2,17 +2,19 @@ using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class PopUpDanmakuInstance : MonoBehaviour
+public class SemanticDanmakuInstance : MonoBehaviour
 {
     CanvasGroup canvasGroup;
     Canvas canvas;
     RectTransform rectTransform;
     TextMeshProUGUI label;
-    PopUpDanmakuAnchor ownerAnchor;
-    PopUpDanmakuSettings settings;
-    PopUpDanmakuRecord record;
-    PopUpDanmakuZone zone;
-    public PopUpDanmakuZone Zone => zone;
+    SemanticDanmakuSettings settings;
+    SemanticDanmakuRecord record;
+    CurvedCloudLayerKind layerKind;
+    CurvedDanmakuSurfaceLayer surfaceLayer;
+    float clusterU;
+    float clusterV;
+    float clusterRadiusOffset;
 
     float fadeInDuration;
     float dwellDuration;
@@ -21,14 +23,38 @@ public class PopUpDanmakuInstance : MonoBehaviour
     enum Phase { FadeIn, Dwell, FadeOut, Done }
     Phase phase = Phase.FadeIn;
 
-    public void Initialize(PopUpDanmakuRecord sourceRecord, PopUpDanmakuSettings config, PopUpDanmakuZone targetZone, PopUpDanmakuAnchor anchor)
+    public CurvedCloudLayerKind LayerKind => layerKind;
+    public DanmakuSemanticLayer SemanticLayer => record != null ? record.semanticLayer : DanmakuSemanticLayer.Info;
+
+    public void Initialize(
+        SemanticDanmakuRecord sourceRecord,
+        SemanticDanmakuSettings config,
+        CurvedDanmakuSurfaceLayer surface,
+        CurvedCloudLayerKind cloudLayerKind,
+        float u,
+        float v,
+        float radiusOffset = 0f)
     {
         settings = config;
         record = sourceRecord;
-        zone = targetZone;
-        ownerAnchor = anchor;
+        surfaceLayer = surface;
+        layerKind = cloudLayerKind;
+        clusterRadiusOffset = radiusOffset;
+        if (surface != null)
+        {
+            float spreadU = Mathf.Max(surface.clusterSpreadU, 0.06f);
+            float spreadV = Mathf.Max(surface.clusterSpreadV, 0.05f);
+            clusterU = surface.ClampU(Mathf.Clamp01(u + Random.Range(-spreadU, spreadU)));
+            clusterV = Mathf.Clamp01(v + Random.Range(-spreadV, spreadV));
+        }
+        else
+        {
+            clusterU = u;
+            clusterV = v;
+        }
+
         fadeInDuration = Mathf.Max(0.01f, settings.fadeInDuration);
-        dwellDuration = settings.GetDwell(zone);
+        dwellDuration = settings.GetDwell(layerKind);
         fadeOutDuration = Mathf.Max(0.01f, settings.fadeOutDuration);
 
         canvasGroup = GetComponent<CanvasGroup>();
@@ -38,20 +64,11 @@ public class PopUpDanmakuInstance : MonoBehaviour
 
         ApplyLayoutSettings();
         ApplyTextVisualSettings();
+        UpdateWorldPose();
 
-        canvasGroup.alpha = phase == Phase.FadeIn ? 0f : 1f;
+        canvasGroup.alpha = 0f;
         elapsed = 0f;
-        if (phase != Phase.Dwell && phase != Phase.FadeOut)
-            phase = Phase.FadeIn;
-    }
-
-    public void RefreshVisualSettings()
-    {
-        if (settings == null)
-            return;
-
-        ApplyLayoutSettings();
-        ApplyTextVisualSettings();
+        phase = Phase.FadeIn;
     }
 
     void ApplyLayoutSettings()
@@ -66,6 +83,9 @@ public class PopUpDanmakuInstance : MonoBehaviour
         {
             canvas.overrideSorting = true;
             canvas.sortingOrder = settings.canvasSortingOrder;
+            Camera viewCamera = DanmakuCameraUtility.ResolveViewCamera();
+            if (viewCamera != null)
+                canvas.worldCamera = viewCamera;
         }
     }
 
@@ -75,19 +95,29 @@ public class PopUpDanmakuInstance : MonoBehaviour
             return;
 
         if (record != null)
-            label.text = record.弹幕内容;
+            label.text = record.text;
 
-        label.fontSize = settings.GetFontSize(zone);
-        label.color = settings.BuildTextColor(zone, record);
+        label.fontSize = settings.GetFontSize(layerKind);
+        label.color = settings.BuildTextColor(record, layerKind);
         label.ForceMeshUpdate(true, true);
         label.fontStyle = FontStyles.Bold;
     }
 
+    void UpdateWorldPose()
+    {
+        if (surfaceLayer == null)
+            return;
+
+        transform.localPosition = surfaceLayer.GetLocalPosition(clusterU, clusterV, clusterRadiusOffset);
+
+        Camera viewCamera = DanmakuCameraUtility.ResolveViewCamera();
+        Vector3 worldPosition = transform.position;
+        transform.rotation = surfaceLayer.GetBillboardRotation(worldPosition, viewCamera);
+    }
+
     void LateUpdate()
     {
-        Camera cam = Camera.main;
-        if (cam != null)
-            transform.rotation = Quaternion.LookRotation(transform.position - cam.transform.position);
+        UpdateWorldPose();
     }
 
     void Update()
@@ -119,16 +149,9 @@ public class PopUpDanmakuInstance : MonoBehaviour
                 if (elapsed >= fadeOutDuration)
                 {
                     phase = Phase.Done;
-                    Finish();
+                    Destroy(gameObject);
                 }
                 break;
         }
-    }
-
-    void Finish()
-    {
-        if (ownerAnchor != null)
-            ownerAnchor.Release(this);
-        Destroy(gameObject);
     }
 }
