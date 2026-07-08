@@ -1919,10 +1919,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useLegacyPopUpJson: 0
+  useFarLayerCategoryFiles: 1
+  farLayerFileA: comment_on_the_game_the_play.json
+  farLayerFileB: critique_athletes_teams_referees.json
   classifiedJsonFileName: information_critical_commentary_summary.json
   legacyNearJsonFileName: pop_up_near.json
   legacyMidJsonFileName: pop_up_mid.json
   legacyFarJsonFileName: pop_up_far.json
+  clusterHalfGapDegrees: 30
+  clusterInwardTiltDegrees: 190
+  clusterRowSpacing: 0.5
+  clusterColumnsPerRow: 1
+  clusterColumnSpacing: 0.55
+  clusterBaseRowOffset: 0
+  leftClusterCategory: 1
+  rightClusterCategory: 2
   layoutWindowSeconds: 8
   layoutRefreshInterval: 0.5
   emotionDwellDuration: 1.8
@@ -1932,14 +1943,14 @@ MonoBehaviour:
   fadeOutDuration: 0.35
   emotionFontSize: 40
   midInfoFontSize: 36
-  farInfoFontSize: 34
+  farInfoFontSize: 50
   emotionLayerAlpha: 1
   midInfoLayerAlpha: 0.95
   farInfoLayerAlpha: 0.88
   infoFallbackColor: {r: 0.92, g: 0.95, b: 1, a: 1}
   emotionFallbackColor: {r: 1, g: 1, b: 1, a: 1}
-  worldLabelScale: 0.006
-  labelSize: {x: 900, y: 160}
+  worldLabelScale: 0.005
+  labelSize: {x: 1500, y: 160}
   canvasSortingOrder: 220
   outlineWidth: 0
   outlineColor: {r: 0, g: 0, b: 0, a: 0.85}
@@ -5284,7 +5295,7 @@ Transform:
   m_GameObject: {fileID: 2020217193}
   serializedVersion: 2
   m_LocalRotation: {x: 0.0037160816, y: 0.99932593, z: -0.018295417, w: -0.031608406}
-  m_LocalPosition: {x: -0.055, y: -0.108, z: -0.877}
+  m_LocalPosition: {x: -0.065, y: -0.08, z: -1.011}
   m_LocalScale: {x: 0.13036501, y: 0.20858403, z: 0.12515041}
   m_ConstrainProportionsScale: 0
   m_Children:

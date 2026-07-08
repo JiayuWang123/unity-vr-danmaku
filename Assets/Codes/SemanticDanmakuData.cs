@@ -40,6 +40,8 @@ public class InformationCommentaryFileDto
 {
     public string 信息类别;
     public string information_category;
+    public string category;
+    public string category_zh;
     public int count;
     public InformationCommentaryItemDto[] items;
 }
@@ -92,6 +94,84 @@ public static class SemanticDanmakuLoader
         records.Sort((a, b) => a.timeSeconds.CompareTo(b.timeSeconds));
         Debug.Log($"Loaded {records.Count} classified danmaku entries from {fileName}");
         return records;
+    }
+
+    // 按文件整体分类的模式：每个 JSON 文件顶层带一个 category/category_zh，
+    // 文件里所有条目都归到同一个分类（不需要每条都带细分类别字段）。
+    public static List<SemanticDanmakuRecord> LoadFarLayerCategoryFiles(string fileNameA, string fileNameB)
+    {
+        var records = new List<SemanticDanmakuRecord>();
+        records.AddRange(LoadSingleCategoryFile(fileNameA));
+        records.AddRange(LoadSingleCategoryFile(fileNameB));
+        records.Sort((a, b) => a.timeSeconds.CompareTo(b.timeSeconds));
+        return records;
+    }
+
+    static List<SemanticDanmakuRecord> LoadSingleCategoryFile(string fileName)
+    {
+        var records = new List<SemanticDanmakuRecord>();
+        if (string.IsNullOrWhiteSpace(fileName))
+            return records;
+
+        string path = Path.Combine(Application.streamingAssetsPath, "SemanticDanmaku", fileName);
+        if (!File.Exists(path))
+        {
+            Debug.LogWarning($"Semantic danmaku JSON not found: {path}");
+            return records;
+        }
+
+        string json = File.ReadAllText(path).Trim();
+        if (string.IsNullOrEmpty(json))
+            return records;
+
+        InformationCommentaryFileDto file = JsonUtility.FromJson<InformationCommentaryFileDto>(json);
+        if (file?.items == null || file.items.Length == 0)
+        {
+            Debug.LogWarning($"Category danmaku JSON is empty or invalid: {fileName}");
+            return records;
+        }
+
+        DanmakuSemanticCategory category = ParseFileLevelCategory(file);
+        for (int i = 0; i < file.items.Length; i++)
+        {
+            InformationCommentaryItemDto item = file.items[i];
+            if (item == null || string.IsNullOrWhiteSpace(item.弹幕内容))
+                continue;
+
+            records.Add(new SemanticDanmakuRecord
+            {
+                text = item.弹幕内容,
+                timeSeconds = item.新视频中的时间,
+                charCount = item.长度,
+                semanticLayer = DanmakuSemanticLayer.Info,
+                category = category,
+                alpha = 1f,
+                sourceFile = fileName
+            });
+        }
+
+        Debug.Log($"Loaded {records.Count} entries from {fileName} as {category}");
+        return records;
+    }
+
+    static DanmakuSemanticCategory ParseFileLevelCategory(InformationCommentaryFileDto file)
+    {
+        string raw = string.Join(" ", new[]
+        {
+            file.category,
+            file.category_zh,
+            file.信息类别,
+            file.information_category
+        }).ToLowerInvariant();
+
+        if (raw.Contains("game") || raw.Contains("play") || raw.Contains("比赛") || raw.Contains("历史"))
+            return DanmakuSemanticCategory.MatchHistory;
+
+        if (raw.Contains("athlete") || raw.Contains("team") || raw.Contains("referee")
+            || raw.Contains("球员") || raw.Contains("球队") || raw.Contains("裁判"))
+            return DanmakuSemanticCategory.EntityRelated;
+
+        return DanmakuSemanticCategory.Unknown;
     }
 
     static List<SemanticDanmakuRecord> LoadInformationCommentaryJson(string json, string fileName)

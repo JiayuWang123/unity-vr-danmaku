@@ -14,6 +14,7 @@ public class SemanticDanmakuController : MonoBehaviour
     SemanticDanmakuSettings settings;
     SemanticDanmakuInstance labelTemplate;
     readonly DynamicInfoCloudLayout cloudLayout = new DynamicInfoCloudLayout();
+    readonly TopClusterDanmakuLayout topClusterLayout = new TopClusterDanmakuLayout();
     readonly List<SemanticDanmakuRecord> records = new List<SemanticDanmakuRecord>();
     readonly List<SemanticDanmakuInstance> spawnedInstances = new List<SemanticDanmakuInstance>();
 
@@ -175,6 +176,12 @@ public class SemanticDanmakuController : MonoBehaviour
                 settings.legacyMidJsonFileName,
                 settings.legacyFarJsonFileName));
         }
+        else if (settings.useFarLayerCategoryFiles)
+        {
+            records.AddRange(SemanticDanmakuLoader.LoadFarLayerCategoryFiles(
+                settings.farLayerFileA,
+                settings.farLayerFileB));
+        }
         else
         {
             records.AddRange(SemanticDanmakuLoader.LoadClassifiedFile(settings.classifiedJsonFileName));
@@ -196,6 +203,12 @@ public class SemanticDanmakuController : MonoBehaviour
             if (socialPanel != null)
                 socialPanel.Enqueue(record);
             return true;
+        }
+
+        if (settings.useFarLayerCategoryFiles && record.semanticLayer == DanmakuSemanticLayer.Info
+            && (record.category == settings.leftClusterCategory || record.category == settings.rightClusterCategory))
+        {
+            return TrySpawnClusterRecord(record);
         }
 
         CurvedDanmakuSurfaceLayer surfaceLayer;
@@ -250,13 +263,62 @@ public class SemanticDanmakuController : MonoBehaviour
         return true;
     }
 
+    // 两簇布局：同一分类固定在同一侧，簇内按行（必要时列）堆叠，行数不够就一直往上叠，
+    // 保证同一时间可见的弹幕互相之间都有间隔、不会重叠。
+    bool TrySpawnClusterRecord(SemanticDanmakuRecord record)
+    {
+        CurvedDanmakuSurfaceLayer layer = cloudRig != null ? cloudRig.farInfoLayer : null;
+        if (layer == null)
+        {
+            Debug.LogWarning($"SemanticDanmaku: 找不到 FarInfoLayer，跳过「{record.text}」");
+            return true;
+        }
+
+        if (CountActiveOnLayer(CurvedCloudLayerKind.FarInfo) >= settings.GetMaxConcurrent(CurvedCloudLayerKind.FarInfo))
+            return true;
+
+        bool isLeft = record.category == settings.leftClusterCategory;
+        float sideSign = isLeft ? -1f : 1f;
+        float effectiveRadius = Mathf.Max(0.05f, layer.radius);
+        float horizontalOffset = sideSign * Mathf.Sin(settings.clusterHalfGapDegrees * Mathf.Deg2Rad) * effectiveRadius;
+
+        int columns = Mathf.Max(1, settings.clusterColumnsPerRow);
+        int slot = topClusterLayout.AcquireSlot(record.category);
+        int row = slot / columns;
+        int col = slot % columns;
+        float colOffsetMeters = (col - (columns - 1) * 0.5f) * settings.clusterColumnSpacing;
+        float rowOffsetMeters = settings.clusterBaseRowOffset + row * settings.clusterRowSpacing;
+
+        SemanticDanmakuInstance instance = Instantiate(labelTemplate, layer.transform, false);
+        instance.gameObject.SetActive(true);
+        instance.InitializeClusterSlot(record, settings, layer, CurvedCloudLayerKind.FarInfo, horizontalOffset, rowOffsetMeters, colOffsetMeters, 0f, isLeft);
+
+        DanmakuSemanticCategory releaseCategory = record.category;
+        instance.onDespawn = () => topClusterLayout.ReleaseSlot(releaseCategory, slot);
+        spawnedInstances.Add(instance);
+
+        if (spawnedLogCount < 5)
+        {
+            spawnedLogCount++;
+            Camera cam = DanmakuCameraUtility.ResolveViewCamera();
+            float dist = cam != null ? Vector3.Distance(instance.transform.position, cam.transform.position) : -1f;
+            Debug.Log($"SemanticDanmaku 诊断: 生成「{record.text}」side={(isLeft ? "左" : "右")} row={row} col={col} worldPos={instance.transform.position} 距摄像机={dist}m");
+        }
+
+        return true;
+    }
+
     void RefreshLayout(bool force)
     {
         if (!force && videoPlayer == null)
             return;
 
-        float videoTime = videoPlayer != null ? (float)videoPlayer.time : 0f;
-        cloudLayout.Rebuild(records, videoTime, settings.layoutWindowSeconds, cloudRig);
+        if (!settings.useFarLayerCategoryFiles)
+        {
+            float videoTime = videoPlayer != null ? (float)videoPlayer.time : 0f;
+            cloudLayout.Rebuild(records, videoTime, settings.layoutWindowSeconds, cloudRig);
+        }
+
         nextLayoutRefreshTime = Time.time + settings.layoutRefreshInterval;
     }
 
@@ -325,11 +387,12 @@ public class SemanticDanmakuController : MonoBehaviour
         for (int i = spawnedInstances.Count - 1; i >= 0; i--)
         {
             if (spawnedInstances[i] != null)
-                Destroy(spawnedInstances[i]);
+                Destroy(spawnedInstances[i].gameObject);
         }
 
         spawnedInstances.Clear();
         cloudLayout.ResetSpawnCounters();
+        topClusterLayout.Reset();
     }
 
     void EnsureLabelTemplate()

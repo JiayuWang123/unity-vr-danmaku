@@ -74,6 +74,56 @@ public class CurvedDanmakuSurfaceLayer : MonoBehaviour
         return new Vector3(Mathf.Sin(angle) * effectiveRadius, y, -Mathf.Cos(angle) * effectiveRadius);
     }
 
+    // 聚类堆叠专用定位（弧形，旧）：左右深度不同，容易造成两簇不在同一平面。
+    public Vector3 GetClusterLocalPosition(float horizontalAngleDeg, float rowOffsetMeters, float colOffsetMeters, float radiusOffset)
+    {
+        float angle = (horizontalAngleDeg + horizontalAngleOffset) * Mathf.Deg2Rad;
+        float y = verticalOffset + rowOffsetMeters;
+        float effectiveRadius = Mathf.Max(0.05f, radius + radiusOffset);
+        Vector3 pos = new Vector3(Mathf.Sin(angle) * effectiveRadius, y, -Mathf.Cos(angle) * effectiveRadius);
+
+        if (Mathf.Abs(colOffsetMeters) > 0.0001f)
+        {
+            Vector3 tangent = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+            pos += tangent * colOffsetMeters;
+        }
+
+        return pos;
+    }
+
+    // 聚类堆叠专用定位（平面）：左右两簇共用同一 Z 深度，保证在同一平面上。
+    public Vector3 GetClusterFlatLocalPosition(float horizontalOffsetMeters, float rowOffsetMeters, float colOffsetMeters, float radiusOffset)
+    {
+        float effectiveRadius = Mathf.Max(0.05f, radius + radiusOffset);
+        return new Vector3(
+            horizontalOffsetMeters + colOffsetMeters,
+            verticalOffset + rowOffsetMeters,
+            -effectiveRadius);
+    }
+
+    // 两簇共用同一基准朝向；inwardTiltDegrees=0 时左右完全同平面。
+    // 增大 inwardTiltDegrees 时，左簇朝右内扣、右簇朝左内扣（绕世界上方向 Y 轴）。
+    public Quaternion GetClusterPlaneRotation(bool isLeftCluster, float inwardTiltDegrees, Camera camera)
+    {
+        if (camera == null)
+            return transform.rotation;
+
+        Vector3 localCenter = new Vector3(0f, verticalOffset, -Mathf.Max(0.05f, radius));
+        Vector3 worldCenter = transform.TransformPoint(localCenter);
+        Vector3 toCamera = camera.transform.position - worldCenter;
+        if (toCamera.sqrMagnitude < 0.0001f)
+            return transform.rotation;
+
+        Quaternion faceCamera = Quaternion.LookRotation(toCamera.normalized, Vector3.up);
+        float inwardYaw = isLeftCluster ? inwardTiltDegrees : -inwardTiltDegrees;
+        return faceCamera * Quaternion.Euler(0f, inwardYaw, 0f);
+    }
+
+    public Vector3 GetClusterWorldPosition(float horizontalAngleDeg, float rowOffsetMeters, float colOffsetMeters, float radiusOffset)
+    {
+        return transform.TransformPoint(GetClusterLocalPosition(horizontalAngleDeg, rowOffsetMeters, colOffsetMeters, radiusOffset));
+    }
+
     public float ClampU(float u)
     {
         u = Mathf.Clamp01(u);

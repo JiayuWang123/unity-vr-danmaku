@@ -15,8 +15,11 @@ public class SemanticDanmakuControllerEditor : Editor
             "1. 在 screen 下创建 CurvedDanmakuCloudRig，并放 NearEmotionLayer / MidInfoLayer / FarInfoLayer 三个子物体\n" +
             "2. 每层挂 CurvedDanmakuSurfaceLayer\n" +
             "3. 暂时 Disable 旧的 PopUpDanmakuController\n" +
-            "4. 分类 JSON 放在 StreamingAssets/SemanticDanmaku/\n" +
-            "   当前默认：information_critical_commentary_summary.json（中/远层动态云）",
+            "4. 分类 JSON 放在 StreamingAssets/SemanticDanmaku/\n\n" +
+            "当前默认模式（Use Far Layer Category Files 勾选）：\n" +
+            "只读取 Far Layer File A / B 两个文件，且只在 FarInfoLayer 上以「两簇」形式展示，\n" +
+            "左右两簇分别对应 Left/Right Cluster Category。\n" +
+            "两簇的开合角度、内扣倾斜、行距、每行列数都在 Settings 的“顶层双簇聚类布局”里手动调整。",
             MessageType.Info);
 
         if (GUILayout.Button("自动查找 Cloud Rig / Social Panel"))

@@ -16,6 +16,15 @@ public class SemanticDanmakuInstance : MonoBehaviour
     float clusterV;
     float clusterRadiusOffset;
 
+    bool useClusterSlotMode;
+    float clusterHorizontalOffsetMeters;
+    float clusterRowOffsetMeters;
+    float clusterColOffsetMeters;
+    bool clusterIsLeft;
+
+    // 由外部（Controller）在生成弹幕时赋值，弹幕销毁时用来归还占用的槽位/资源。
+    public System.Action onDespawn;
+
     float fadeInDuration;
     float dwellDuration;
     float fadeOutDuration;
@@ -40,6 +49,8 @@ public class SemanticDanmakuInstance : MonoBehaviour
         surfaceLayer = surface;
         layerKind = cloudLayerKind;
         clusterRadiusOffset = radiusOffset;
+        useClusterSlotMode = false;
+
         if (surface != null)
         {
             float spreadU = Mathf.Max(surface.clusterSpreadU, 0.06f);
@@ -53,6 +64,37 @@ public class SemanticDanmakuInstance : MonoBehaviour
             clusterV = v;
         }
 
+        CommonInit();
+    }
+
+    // 聚类堆叠模式：用于「同一类同一侧、垂直堆叠不重叠」的顶层双簇布局。
+    public void InitializeClusterSlot(
+        SemanticDanmakuRecord sourceRecord,
+        SemanticDanmakuSettings config,
+        CurvedDanmakuSurfaceLayer surface,
+        CurvedCloudLayerKind cloudLayerKind,
+        float horizontalOffsetMeters,
+        float rowOffsetMeters,
+        float colOffsetMeters,
+        float radiusOffset,
+        bool isLeftCluster)
+    {
+        settings = config;
+        record = sourceRecord;
+        surfaceLayer = surface;
+        layerKind = cloudLayerKind;
+        clusterRadiusOffset = radiusOffset;
+        useClusterSlotMode = true;
+        clusterHorizontalOffsetMeters = horizontalOffsetMeters;
+        clusterRowOffsetMeters = rowOffsetMeters;
+        clusterColOffsetMeters = colOffsetMeters;
+        clusterIsLeft = isLeftCluster;
+
+        CommonInit();
+    }
+
+    void CommonInit()
+    {
         fadeInDuration = Mathf.Max(0.01f, settings.fadeInDuration);
         dwellDuration = settings.GetDwell(layerKind);
         fadeOutDuration = Mathf.Max(0.01f, settings.fadeOutDuration);
@@ -69,6 +111,12 @@ public class SemanticDanmakuInstance : MonoBehaviour
         canvasGroup.alpha = 0f;
         elapsed = 0f;
         phase = Phase.FadeIn;
+    }
+
+    void OnDestroy()
+    {
+        onDespawn?.Invoke();
+        onDespawn = null;
     }
 
     void ApplyLayoutSettings()
@@ -108,11 +156,14 @@ public class SemanticDanmakuInstance : MonoBehaviour
         if (surfaceLayer == null)
             return;
 
-        transform.localPosition = surfaceLayer.GetLocalPosition(clusterU, clusterV, clusterRadiusOffset);
+        transform.localPosition = useClusterSlotMode
+            ? surfaceLayer.GetClusterFlatLocalPosition(clusterHorizontalOffsetMeters, clusterRowOffsetMeters, clusterColOffsetMeters, clusterRadiusOffset)
+            : surfaceLayer.GetLocalPosition(clusterU, clusterV, clusterRadiusOffset);
 
         Camera viewCamera = DanmakuCameraUtility.ResolveViewCamera();
-        Vector3 worldPosition = transform.position;
-        transform.rotation = surfaceLayer.GetBillboardRotation(worldPosition, viewCamera);
+        transform.rotation = useClusterSlotMode
+            ? surfaceLayer.GetClusterPlaneRotation(clusterIsLeft, settings.clusterInwardTiltDegrees, viewCamera)
+            : surfaceLayer.GetBillboardRotation(transform.position, viewCamera);
     }
 
     void LateUpdate()
