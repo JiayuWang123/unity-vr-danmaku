@@ -34,6 +34,11 @@ public class SemanticDanmakuController : MonoBehaviour
             ClearSpawnedInstances();
     }
 
+    void OnDestroy()
+    {
+        ClearSpawnedInstances();
+    }
+
     void Start()
     {
         if (videoPlayer == null)

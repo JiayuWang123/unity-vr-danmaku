@@ -94,6 +94,9 @@ public class MemeBubbleController : MonoBehaviour
 
     void OnDisable()
     {
+        if (Application.isPlaying)
+            ClearActiveBubbles();
+
         initialized = false;
     }
 
@@ -312,7 +315,10 @@ public class MemeBubbleController : MonoBehaviour
         for (int i = activeInstances.Count - 1; i >= 0; i--)
         {
             if (activeInstances[i] != null)
+            {
+                UiSpriteCleanupUtil.DestroyGeneratedSprites(activeInstances[i].gameObject);
                 Destroy(activeInstances[i].gameObject);
+            }
         }
         activeInstances.Clear();
     }

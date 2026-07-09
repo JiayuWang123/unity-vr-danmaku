@@ -98,6 +98,7 @@ public class MemeBubbleInstance : MonoBehaviour
     void Finish()
     {
         onFinished?.Invoke(this);
+        UiSpriteCleanupUtil.DestroyGeneratedSprites(gameObject);
         Destroy(gameObject);
     }
 }

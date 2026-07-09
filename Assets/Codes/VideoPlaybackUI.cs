@@ -65,6 +65,15 @@ public class VideoPlaybackUI : MonoBehaviour
             videoPlayer.prepareCompleted -= OnVideoPrepared;
     }
 
+    void OnDisable()
+    {
+        if (!Application.isPlaying || videoPlayer == null)
+            return;
+
+        if (videoPlayer.isPlaying)
+            videoPlayer.Stop();
+    }
+
     void Update()
     {
         if (videoPlayer == null || progressSlider == null)

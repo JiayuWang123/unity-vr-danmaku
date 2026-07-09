@@ -130,7 +130,15 @@ public class SocializationPanelController : MonoBehaviour
 
     void OnDisable()
     {
+        if (Application.isPlaying)
+            ReleaseRuntimeResources();
+
         initialized = false;
+    }
+
+    void OnDestroy()
+    {
+        ReleaseRuntimeResources();
     }
 
     void Start()
@@ -603,7 +611,7 @@ public class SocializationPanelController : MonoBehaviour
         while (activeItems.Count > maxVisibleMessages)
         {
             var old = activeItems.Dequeue();
-            if (old != null) Destroy(old);
+            DestroyMessageItem(old);
         }
 
         if (isExpanded && wasNearBottom)
@@ -785,13 +793,54 @@ public class SocializationPanelController : MonoBehaviour
     void ClearMessages()
     {
         while (activeItems.Count > 0)
-        {
-            var go = activeItems.Dequeue();
-            if (go != null) Destroy(go);
-        }
+            DestroyMessageItem(activeItems.Dequeue());
+
         hasUnread = false;
         if (redDotGo != null) redDotGo.SetActive(false);
         ScrollToBottom();
+    }
+
+    void DestroyMessageItem(GameObject go)
+    {
+        if (go == null)
+            return;
+
+        UiSpriteCleanupUtil.DestroyGeneratedSprites(go);
+        Destroy(go);
+    }
+
+    void ReleaseRuntimeResources()
+    {
+        ClearMessages();
+
+        if (expandedRoot != null)
+        {
+            UiSpriteCleanupUtil.DestroyGeneratedSprites(expandedRoot.gameObject);
+            Destroy(expandedRoot.gameObject);
+            expandedRoot = null;
+        }
+
+        if (collapsedRoot != null)
+        {
+            UiSpriteCleanupUtil.DestroyGeneratedSprites(collapsedRoot.gameObject);
+            Destroy(collapsedRoot.gameObject);
+            collapsedRoot = null;
+        }
+
+        expandedGo = null;
+        collapsedGo = null;
+        expandedRt = null;
+        collapsedRt = null;
+        contentRt = null;
+        scrollRect = null;
+        verticalScrollbar = null;
+        redDotGo = null;
+
+        if (measureLabel != null)
+        {
+            Destroy(measureLabel.transform.root.gameObject);
+            measureLabel = null;
+        }
     }
 
     // ---------- 工具 ----------
