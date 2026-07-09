@@ -21,36 +21,40 @@ public class MemeBubbleController : MonoBehaviour
     [Header("JSON")]
     public string jsonFileName = "classify/memes_joking.json";
 
-    [Header("随机位置（Mid 中层区域，略往外避免遮挡）")]
-    [Tooltip("在 Mid 左右锚点基础上，再往外侧偏移（screen 本地单位）；越大离视频越远")]
-    public float sideOutwardOffset = 0.58f;
+    [Header("随机位置（Mid 中层区域，靠视频一侧对齐）")]
+    [Tooltip("气泡靠视频一侧对齐锚点后，再往外侧留出的间距（screen 本地单位）")]
+    public float sideOutwardOffset = 0.06f;
     [Tooltip("Y 方向随机范围（相对 Mid 区域高度）")]
     [Range(0.2f, 1f)] public float verticalRangeRatio = 0.75f;
     [Tooltip("相对视频平面向相机偏移（screen 本地 Z）；可略压住视频边缘，但不会被挡住")]
     public float spawnForwardOffset = 0.22f;
+    [Tooltip("同侧相邻气泡之间的最小垂直间距（screen 本地单位）")]
+    public float bubbleVerticalGap = 0.04f;
 
     [Header("字号与气泡大小 ← 字体在这里调")]
     [Tooltip("弹幕文字字号（调大/调小文字）")]
     [Range(8f, 96f)] public float fontSize = 28f;
     [Tooltip("气泡整体 3D 大小（VR 里看起来很大时优先调小这个）")]
     [Range(0.001f, 0.008f)] public float worldScale = 0.002f;
-    public float maxBubbleWidth = 600f;
+    public float maxBubbleWidth = 380f;
     public float minBubbleWidth = 140f;
-    public float textPaddingH = 28f;
-    public float textPaddingV = 18f;
+    public float textPaddingH = 22f;
+    public float textPaddingV = 14f;
     public float iconSize = 44f;
     [Tooltip("对话框底部小尖角宽度/高度（像素）")]
-    public float tailWidth = 26f;
-    public float tailHeight = 18f;
+    public float tailWidth = 16f;
+    public float tailHeight = 12f;
     [Tooltip("尖角从外缘往中间平移量，留出外侧一条底边横线（像素）")]
-    public float tailSideInset = 20f;
+    public float tailSideInset = 10f;
 
-    [Header("外观")]
+    [Header("外观（默认与聊天室气泡同款赛博朋克配色）")]
     public Sprite laughingIcon;
-    public Color bubbleBgColor = new Color(1f, 0.96f, 0.78f, 0.93f);
-    public Color bubbleBorderColor = new Color(1f, 0.68f, 0.1f, 0.9f);
-    public Color textColor = new Color(0.2f, 0.1f, 0f, 1f);
-    [Range(2, 8)] public int bubbleBorderWidth = 4;
+    public Color bubbleBgColor = new Color(0.07f, 0.1f, 0.22f, 0.8f);
+    public Color bubbleBorderColor = new Color(0.35f, 0.85f, 1f, 0.92f);
+    public Color textColor = new Color(0.87f, 0.95f, 1f, 1f);
+    [Range(1f, 8f)] public float bubbleBorderWidth = 2.5f;
+    [Tooltip("启动时若存在 SocializationPanelController，则同步其气泡配色与尺寸")]
+    public bool syncStyleFromChatPanel = true;
     [Range(0, 300)] public int canvasSortOrder = 210;
 
     [Header("时间控制")]
@@ -118,6 +122,8 @@ public class MemeBubbleController : MonoBehaviour
             midZoneFrame = FindMidZoneFrame();
 
         EnsureFontAsset();
+        if (syncStyleFromChatPanel)
+            ApplyStyleFromChatPanel();
         EnsureMeasureCanvas();
         EnsureBubbleRoot();
         CacheMidAnchors();
@@ -159,6 +165,22 @@ public class MemeBubbleController : MonoBehaviour
         var popUp = FindObjectOfType<PopUpDanmakuController>();
         if (popUp != null && popUp.fontAsset != null)
             fontAsset = popUp.fontAsset;
+    }
+
+    void ApplyStyleFromChatPanel()
+    {
+        var chat = FindObjectOfType<SocializationPanelController>();
+        if (chat == null) return;
+
+        bubbleBgColor = chat.chatBubbleFillColor;
+        bubbleBorderColor = chat.chatBubbleBorderColor;
+        textColor = chat.messageTextColor;
+        textPaddingH = chat.bubbleTextPaddingH;
+        textPaddingV = chat.bubbleTextPaddingV;
+        tailWidth = chat.bubbleTailWidth;
+        tailHeight = chat.bubbleTailHeight;
+        tailSideInset = chat.bubbleTailSideInset;
+        bubbleBorderWidth = chat.bubbleBorderWidth;
     }
 
     void EnsureBubbleRoot()
@@ -289,9 +311,28 @@ public class MemeBubbleController : MonoBehaviour
         if (activeInstances.Count >= maxConcurrent) return false;
         if (Time.time - lastSpawnTime < minSpawnGap) return false;
 
-        bool isLeft = UnityEngine.Random.value < 0.5f;
+        float estHalfH = EstimateBubbleLocalHalfHeight(rec.弹幕内容);
+        bool preferLeft = UnityEngine.Random.value < 0.5f;
+        bool isLeft = preferLeft;
+        if (!TryFindNonOverlappingPosition(preferLeft, estHalfH, out Vector3 localPos))
+        {
+            if (!TryFindNonOverlappingPosition(!preferLeft, estHalfH, out localPos))
+                return false;
+            isLeft = !preferLeft;
+        }
+
         var go = BuildBubbleGo(rec.弹幕内容, isLeft);
-        Vector3 localPos = GetRandomLocalPosition(isLeft);
+        float actualHalfH = GetBubbleLocalHalfHeight(go, worldScale);
+        if (!CanPlaceAt(localPos.y, actualHalfH, isLeft))
+        {
+            if (!TryFindNonOverlappingPosition(isLeft, actualHalfH, out localPos))
+            {
+                UiSpriteCleanupUtil.DestroyGeneratedSprites(go);
+                Destroy(go);
+                return false;
+            }
+        }
+
         float dwell = Mathf.Clamp(rec.长度 * 0.22f, dwellMin, dwellMax);
 
         go.transform.SetParent(bubbleRoot, false);
@@ -299,7 +340,7 @@ public class MemeBubbleController : MonoBehaviour
         go.transform.localRotation = Quaternion.identity;
 
         var inst = go.AddComponent<MemeBubbleInstance>();
-        inst.Initialize(dwell, fadeOut, worldScale, OnBubbleFinished);
+        inst.Initialize(dwell, fadeOut, worldScale, isLeft, actualHalfH, OnBubbleFinished);
         activeInstances.Add(inst);
         lastSpawnTime = Time.time;
         return true;
@@ -332,30 +373,151 @@ public class MemeBubbleController : MonoBehaviour
         }
     }
 
-    Vector3 GetRandomLocalPosition(bool leftSide)
+    float EstimateBubbleLocalHalfHeight(string text)
+    {
+        float iconW = laughingIcon != null ? iconSize : 0f;
+        float contentMaxW = Mathf.Max(40f, maxBubbleWidth - iconW - textPaddingH * 2.5f);
+        Vector2 bodySize = CalcBubbleSize(text, contentMaxW, iconW);
+        return (bodySize.y + tailHeight) * worldScale * 0.5f;
+    }
+
+    static float GetBubbleLocalHalfHeight(GameObject go, float scale)
+    {
+        var rt = go.GetComponent<RectTransform>();
+        return rt != null ? rt.sizeDelta.y * scale * 0.5f : 0f;
+    }
+
+    bool CanPlaceAt(float centerY, float localHalfHeight, bool leftSide)
+    {
+        if (localHalfHeight <= 0f) return false;
+
+        float baseY = GetAnchorBaseLocalY(leftSide);
+        float halfRange = GetMidHalfHeight() * verticalRangeRatio;
+        float yMin = baseY - halfRange + localHalfHeight;
+        float yMax = baseY + halfRange - localHalfHeight;
+        if (centerY < yMin || centerY > yMax) return false;
+
+        for (int i = 0; i < activeInstances.Count; i++)
+        {
+            var inst = activeInstances[i];
+            if (inst == null || inst.IsLeft != leftSide) continue;
+
+            float minDist = localHalfHeight + inst.LayoutHalfHeight + bubbleVerticalGap;
+            if (Mathf.Abs(centerY - inst.transform.localPosition.y) < minDist)
+                return false;
+        }
+
+        return true;
+    }
+
+    bool TryFindNonOverlappingPosition(bool leftSide, float localHalfHeight, out Vector3 localPos)
+    {
+        localPos = default;
+        if (localHalfHeight <= 0f) return false;
+
+        float baseY = GetAnchorBaseLocalY(leftSide);
+        float halfRange = GetMidHalfHeight() * verticalRangeRatio;
+        float yMin = baseY - halfRange + localHalfHeight;
+        float yMax = baseY + halfRange - localHalfHeight;
+        if (yMin > yMax) return false;
+
+        const int attempts = 32;
+        for (int i = 0; i < attempts; i++)
+        {
+            float y = UnityEngine.Random.Range(yMin, yMax);
+            if (!CanPlaceAt(y, localHalfHeight, leftSide)) continue;
+            localPos = ComposeAnchorLocalPos(leftSide, y);
+            return true;
+        }
+
+        if (TryFindLargestGapCenter(leftSide, localHalfHeight, yMin, yMax, out float gapY))
+        {
+            localPos = ComposeAnchorLocalPos(leftSide, gapY);
+            return true;
+        }
+
+        return false;
+    }
+
+    bool TryFindLargestGapCenter(bool leftSide, float localHalfHeight, float yMin, float yMax, out float centerY)
+    {
+        centerY = (yMin + yMax) * 0.5f;
+        var blocked = new List<(float min, float max)>();
+
+        for (int i = 0; i < activeInstances.Count; i++)
+        {
+            var inst = activeInstances[i];
+            if (inst == null || inst.IsLeft != leftSide) continue;
+            float cy = inst.transform.localPosition.y;
+            float blockHalf = localHalfHeight + inst.LayoutHalfHeight + bubbleVerticalGap;
+            blocked.Add((cy - blockHalf, cy + blockHalf));
+        }
+
+        blocked.Sort((a, b) => a.min.CompareTo(b.min));
+        var merged = new List<(float min, float max)>();
+        for (int i = 0; i < blocked.Count; i++)
+        {
+            if (merged.Count == 0 || blocked[i].min > merged[merged.Count - 1].max)
+                merged.Add(blocked[i]);
+            else
+            {
+                var last = merged[merged.Count - 1];
+                merged[merged.Count - 1] = (last.min, Mathf.Max(last.max, blocked[i].max));
+            }
+        }
+
+        float bestLen = -1f;
+        float cursor = yMin;
+
+        for (int i = 0; i <= merged.Count; i++)
+        {
+            float next = i < merged.Count ? merged[i].min : yMax;
+            if (next > cursor)
+            {
+                float len = next - cursor;
+                if (len > bestLen)
+                {
+                    bestLen = len;
+                    centerY = (cursor + next) * 0.5f;
+                }
+            }
+
+            if (i < merged.Count)
+                cursor = Mathf.Max(cursor, merged[i].max);
+        }
+
+        return bestLen >= 0f && CanPlaceAt(centerY, localHalfHeight, leftSide);
+    }
+
+    float GetAnchorBaseLocalY(bool leftSide)
+    {
+        Transform anchor = leftSide ? midAnchorLeft : midAnchorRight;
+        if (anchor != null && bubbleRoot != null)
+            return bubbleRoot.InverseTransformPoint(anchor.position).y;
+
+        return midZoneFrame != null ? midZoneFrame.transform.localPosition.y : 0f;
+    }
+
+    Vector3 ComposeAnchorLocalPos(bool leftSide, float centerY)
     {
         Transform anchor = leftSide ? midAnchorLeft : midAnchorRight;
 
         if (anchor != null && bubbleRoot != null)
         {
             Vector3 local = bubbleRoot.InverseTransformPoint(anchor.position);
-            float halfH = GetMidHalfHeight();
             local.x += leftSide ? -sideOutwardOffset : sideOutwardOffset;
-            local.y += UnityEngine.Random.Range(-halfH * verticalRangeRatio, halfH * verticalRangeRatio);
+            local.y = centerY;
             local.z = ResolveSpawnLocalZ(local.z);
             return local;
         }
 
-        // 兜底：按 Mid 区域框估算
         float halfW = midZoneFrame != null ? midZoneFrame.frameSize.x * 0.5f : 0.64f;
-        float halfH2 = GetMidHalfHeight();
         Vector3 frameLocal = midZoneFrame != null ? midZoneFrame.transform.localPosition : Vector3.zero;
         float x = leftSide
             ? frameLocal.x - halfW - sideOutwardOffset
             : frameLocal.x + halfW + sideOutwardOffset;
-        float y = frameLocal.y + UnityEngine.Random.Range(-halfH2 * verticalRangeRatio, halfH2 * verticalRangeRatio);
         float z = ResolveSpawnLocalZ(frameLocal.z);
-        return new Vector3(x, y, z);
+        return new Vector3(x, centerY, z);
     }
 
     /// <summary>Mid 锚点常在视频平面后方；保证 Z 在 screen 本地视频平面（≈0）朝向相机一侧。</summary>
@@ -384,6 +546,10 @@ public class MemeBubbleController : MonoBehaviour
 
         var rt = root.GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(totalW, bodyH + tailH);
+        // 靠视频一侧对齐：左侧气泡右缘贴锚点，右侧气泡左缘贴锚点
+        rt.pivot = isLeft ? new Vector2(1f, 0.5f) : new Vector2(0f, 0.5f);
+        rt.anchorMin = rt.pivot;
+        rt.anchorMax = rt.pivot;
         root.AddComponent<CanvasGroup>();
 
         // 一体化对话框底图（填充 + 外圈描边）
@@ -391,7 +557,8 @@ public class MemeBubbleController : MonoBehaviour
         StretchFill(shapeGo, 0f, 0f);
         var shapeImg = shapeGo.AddComponent<Image>();
         var bubbleSprite = MemeBubbleShapeUtil.CreateUnifiedBubble(
-            totalW, bodyH, isLeft, tailW, tailH, tailInset, bubbleBorderWidth, bubbleBgColor, bubbleBorderColor);
+            totalW, bodyH, isLeft, tailW, tailH, tailInset,
+            Mathf.RoundToInt(bubbleBorderWidth), bubbleBgColor, bubbleBorderColor);
         MemeBubbleShapeUtil.ApplyUnifiedBubble(shapeImg, bubbleSprite);
 
         // 文字区在矩形主体内（避开底部尖角）
@@ -463,7 +630,7 @@ public class MemeBubbleController : MonoBehaviour
         }
 
         float w = Mathf.Clamp(pref.x + iconW + textPaddingH * 2.5f, minBubbleWidth, maxBubbleWidth);
-        float h = Mathf.Clamp(pref.y + textPaddingV * 2f, fontSize + textPaddingV * 2f, fontSize * 4f + textPaddingV * 2f);
+        float h = Mathf.Clamp(pref.y + textPaddingV * 2f, fontSize + textPaddingV * 2f, fontSize * 5f + textPaddingV * 2f);
         return new Vector2(w, h);
     }
 

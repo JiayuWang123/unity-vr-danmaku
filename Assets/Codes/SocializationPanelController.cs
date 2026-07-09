@@ -26,15 +26,23 @@ public class SocializationPanelController : MonoBehaviour
     public string jsonFileName = "classify/socialization.json";
 
     [Header("头显跟随（相对相机本地坐标，Z 为前方距离）")]
-    [Tooltip("展开后面板的位置")]
-    public Vector3 localOffset = new Vector3(0f, -0.14f, 0.85f);
-    [Tooltip("收起时「点击展开聊天室」按钮的位置（默认在视野更靠下）")]
-    public Vector3 collapsedLocalOffset = new Vector3(0f, -0.34f, 0.85f);
+    [Tooltip("展开后面板的位置（底边对齐点，与收起条同一高度时展开后向上生长）")]
+    public Vector3 localOffset = new Vector3(0f, -0.42f, 0.85f);
+    [Tooltip("收起时「点击展开聊天室」按钮的位置（底边对齐点）")]
+    public Vector3 collapsedLocalOffset = new Vector3(0f, -0.42f, 0.85f);
     [Tooltip("面板倾斜角度：X 为俯仰（正值让顶部往里倾，像平板立起来一点看向你），Y 为左右偏转，Z 为翻滚。\n" +
         "Play 模式下可在 Hierarchy 里选中 Main Camera 下的 SocializationPanelRoot，用旋转工具(E)实时试角度，\n" +
         "满意后把 Inspector 里 Rotation 的数值抄回这里的 Local Euler Angles（退出 Play 模式后手动改）。")]
     public Vector3 localEulerAngles = new Vector3(12f, 0f, 0f);
     [Range(0.0006f, 0.004f)] public float canvasScale = 0.0016f;
+
+    [Header("抬头限制（防遮挡视频）")]
+    [Tooltip("开启后：低头/平视时面板完全跟随头显；抬头超过阈值时锁定世界高度，只跟随左右转头")]
+    public bool limitPanelOnHeadPitch = true;
+    [Tooltip("抬头超过此角度（相对水平面）后锁定面板世界 Y，不再随头上移")]
+    [Range(0f, 45f)] public float headPitchLockStart = 10f;
+    [Tooltip("从锁定开始到完全锁定的俯仰过渡区间（度），越大切换越平滑")]
+    [Range(2f, 30f)] public float headPitchLockRange = 14f;
 
     [Header("折叠条 / 展开面板大小")]
     public Vector2 collapsedSize = new Vector2(300f, 64f);
@@ -108,6 +116,8 @@ public class SocializationPanelController : MonoBehaviour
     bool hasUnread;
     bool initialized;
     int messageSeq;
+    float expandedLockedWorldY;
+    float collapsedLockedWorldY;
 
     readonly List<SocializationRecord> records = new();
     readonly Queue<GameObject> activeItems = new();
@@ -181,6 +191,62 @@ public class SocializationPanelController : MonoBehaviour
             SpawnMessage(records[recordIdx].弹幕内容);
             recordIdx++;
         }
+    }
+
+    void LateUpdate()
+    {
+        ApplyHeadFollow(expandedRoot, localOffset, isExpanded, ref expandedLockedWorldY);
+        ApplyHeadFollow(collapsedRoot, collapsedLocalOffset, !isExpanded, ref collapsedLockedWorldY);
+    }
+
+    void ApplyHeadFollow(RectTransform root, Vector3 baseLocalOffset, bool active, ref float lockedWorldY)
+    {
+        if (root == null || !active || headTransform == null) return;
+
+        Quaternion panelTilt = Quaternion.Euler(localEulerAngles);
+        Quaternion fullWorldRot = headTransform.rotation * panelTilt;
+        Vector3 fullWorldPos = headTransform.TransformPoint(baseLocalOffset);
+        Quaternion yawRot = GetYawOnlyRotation(headTransform);
+        Vector3 yawLockedPos = headTransform.position + yawRot * baseLocalOffset;
+        Quaternion yawLockedRot = yawRot * panelTilt;
+
+        float pitchUp = GetHeadPitchUpDegrees(headTransform);
+        float lockBlend = 0f;
+
+        if (pitchUp <= headPitchLockStart)
+            lockedWorldY = fullWorldPos.y;
+        else if (limitPanelOnHeadPitch)
+        {
+            float range = Mathf.Max(1f, headPitchLockRange);
+            lockBlend = Mathf.Clamp01((pitchUp - headPitchLockStart) / range);
+            lockBlend = lockBlend * lockBlend * (3f - 2f * lockBlend);
+        }
+
+        yawLockedPos.y = lockedWorldY;
+        Vector3 targetPos = Vector3.Lerp(fullWorldPos, yawLockedPos, lockBlend);
+        Quaternion targetRot = Quaternion.Slerp(fullWorldRot, yawLockedRot, lockBlend);
+        root.SetPositionAndRotation(targetPos, targetRot);
+    }
+
+    /// <summary>相对水平面的抬头角度：0=平视，正值=往上看。</summary>
+    static float GetHeadPitchUpDegrees(Transform head)
+    {
+        Vector3 flatForward = Vector3.ProjectOnPlane(head.forward, Vector3.up);
+        if (flatForward.sqrMagnitude < 1e-6f)
+            return head.forward.y > 0f ? 90f : -90f;
+
+        flatForward.Normalize();
+        // VR 主相机本地轴与直觉相反，取反后：正值=抬头，负值=低头
+        return -Vector3.SignedAngle(flatForward, head.forward, head.right);
+    }
+
+    static Quaternion GetYawOnlyRotation(Transform head)
+    {
+        Vector3 flatForward = Vector3.ProjectOnPlane(head.forward, Vector3.up);
+        if (flatForward.sqrMagnitude < 1e-6f)
+            return Quaternion.Euler(0f, head.eulerAngles.y, 0f);
+
+        return Quaternion.LookRotation(flatForward.normalized, Vector3.up);
     }
 
     void EnsureFontAsset()
@@ -298,6 +364,9 @@ public class SocializationPanelController : MonoBehaviour
 
         var rt = rootGo.GetComponent<RectTransform>();
         rt.sizeDelta = size;
+        rt.pivot = new Vector2(0.5f, 0f);
+        rt.anchorMin = rt.pivot;
+        rt.anchorMax = rt.pivot;
     }
 
     void BuildCollapsedBar()

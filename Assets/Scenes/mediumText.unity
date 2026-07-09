@@ -3828,24 +3828,25 @@ MonoBehaviour:
   midZoneFrame: {fileID: 1666705374}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
   jsonFileName: classify/memes_joking.json
-  sideOutwardOffset: 0.68
+  sideOutwardOffset: 0.06
   verticalRangeRatio: 0.75
   spawnForwardOffset: 0.22
   fontSize: 28
   worldScale: 0.002
-  maxBubbleWidth: 600
+  maxBubbleWidth: 380
   minBubbleWidth: 140
-  textPaddingH: 28
-  textPaddingV: 18
+  textPaddingH: 22
+  textPaddingV: 14
   iconSize: 44
-  tailWidth: 26
-  tailHeight: 18
-  tailSideInset: 20
+  tailWidth: 16
+  tailHeight: 12
+  tailSideInset: 10
   laughingIcon: {fileID: 21300000, guid: dad9dffa63dfd014485db5dc09ccbb0f, type: 3}
-  bubbleBgColor: {r: 1, g: 0.96, b: 0.78, a: 0.93}
-  bubbleBorderColor: {r: 1, g: 0.68, b: 0.1, a: 0.9}
-  textColor: {r: 0.2, g: 0.1, b: 0, a: 1}
-  bubbleBorderWidth: 4
+  bubbleBgColor: {r: 0.07, g: 0.1, b: 0.22, a: 0.8}
+  bubbleBorderColor: {r: 0.35, g: 0.85, b: 1, a: 0.92}
+  textColor: {r: 0.87, g: 0.95, b: 1, a: 1}
+  bubbleBorderWidth: 2.5
+  syncStyleFromChatPanel: 1
   canvasSortOrder: 210
   dwellMin: 2
   dwellMax: 5
@@ -4347,8 +4348,8 @@ MonoBehaviour:
   headTransform: {fileID: 0}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
   jsonFileName: classify/socialization.json
-  localOffset: {x: 0, y: -0.09, z: 0.85}
-  collapsedLocalOffset: {x: 0, y: -0.4, z: 0.85}
+  localOffset: {x: 0, y: -0.42, z: 0.85}
+  collapsedLocalOffset: {x: 0, y: -0.42, z: 0.85}
   localEulerAngles: {x: 12, y: 0, z: 0}
   canvasScale: 0.0016
   collapsedSize: {x: 300, y: 64}

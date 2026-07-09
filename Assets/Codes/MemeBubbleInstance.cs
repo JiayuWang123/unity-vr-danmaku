@@ -19,8 +19,13 @@ public class MemeBubbleInstance : MonoBehaviour
     const float OverScaleMul = 1.12f;
     const float StartScaleMul = 0.6f;
 
-    public void Initialize(float dwell, float fadeOut, float worldScale, Action<MemeBubbleInstance> onDone)
+    public bool IsLeft { get; private set; }
+    public float LayoutHalfHeight { get; private set; }
+
+    public void Initialize(float dwell, float fadeOut, float worldScale, bool isLeft, float layoutHalfHeight, Action<MemeBubbleInstance> onDone)
     {
+        IsLeft = isLeft;
+        LayoutHalfHeight = layoutHalfHeight;
         canvasGroup = GetComponent<CanvasGroup>();
         dwellDuration = dwell;
         fadeOutDuration = Mathf.Max(0.01f, fadeOut);

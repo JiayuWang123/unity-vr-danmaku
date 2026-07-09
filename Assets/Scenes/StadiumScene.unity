@@ -4855,24 +4855,26 @@ MonoBehaviour:
   midZoneFrame: {fileID: 1666705374}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
   jsonFileName: classify/memes_joking.json
-  sideOutwardOffset: 0.68
+  sideOutwardOffset: 0.06
   verticalRangeRatio: 0.75
   spawnForwardOffset: 0.22
-  fontSize: 28
-  worldScale: 0.002
-  maxBubbleWidth: 600
+  bubbleVerticalGap: 0.04
+  fontSize: 16.9
+  worldScale: 0.00167
+  maxBubbleWidth: 250
   minBubbleWidth: 140
-  textPaddingH: 28
-  textPaddingV: 18
+  textPaddingH: 22
+  textPaddingV: 14
   iconSize: 44
-  tailWidth: 26
-  tailHeight: 18
-  tailSideInset: 20
-  laughingIcon: {fileID: 21300000, guid: dad9dffa63dfd014485db5dc09ccbb0f, type: 3}
-  bubbleBgColor: {r: 1, g: 0.96, b: 0.78, a: 0.93}
-  bubbleBorderColor: {r: 1, g: 0.68, b: 0.1, a: 0.9}
-  textColor: {r: 0.2, g: 0.1, b: 0, a: 1}
-  bubbleBorderWidth: 4
+  tailWidth: 16
+  tailHeight: 12
+  tailSideInset: 10
+  laughingIcon: {fileID: 21300000, guid: 23a59fbd70093e5448c69ef5d30db2ab, type: 3}
+  bubbleBgColor: {r: 0.07, g: 0.1, b: 0.22, a: 0.8}
+  bubbleBorderColor: {r: 0.35, g: 0.85, b: 1, a: 0.92}
+  textColor: {r: 0.87, g: 0.95, b: 1, a: 1}
+  bubbleBorderWidth: 2.5
+  syncStyleFromChatPanel: 1
   canvasSortOrder: 210
   dwellMin: 2
   dwellMax: 5
@@ -5158,7 +5160,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899937952}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: fe5be3046291e6f47bd2d25be4016902, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 5b0913fbf930ef846b783031d4e708b3, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -5348,7 +5350,7 @@ Transform:
   m_GameObject: {fileID: 1938119431}
   serializedVersion: 2
   m_LocalRotation: {x: -0.087680735, y: 0.67363477, z: 0.082778424, w: 0.7291612}
-  m_LocalPosition: {x: -1.86, y: 0.11981571, z: -0.25441217}
+  m_LocalPosition: {x: -5.07, y: 0.11981571, z: -0.25441217}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5388,12 +5390,15 @@ MonoBehaviour:
   headTransform: {fileID: 0}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
   jsonFileName: classify/socialization.json
-  localOffset: {x: 0, y: -0.09, z: 0.85}
-  collapsedLocalOffset: {x: 0, y: -0.4, z: 0.85}
-  localEulerAngles: {x: 12, y: 0, z: 0}
-  canvasScale: 0.0016
+  localOffset: {x: 0, y: -0.9, z: 0.85}
+  collapsedLocalOffset: {x: 0, y: -0.42, z: 0.85}
+  localEulerAngles: {x: 50, y: 0, z: 0}
+  canvasScale: 0.0011
+  limitPanelOnHeadPitch: 1
+  headPitchLockStart: 12.4
+  headPitchLockRange: 12.8
   collapsedSize: {x: 300, y: 64}
-  expandedSize: {x: 700, y: 420}
+  expandedSize: {x: 800, y: 480}
   maxVisibleMessages: 30
   autoScrollThreshold: 0.06
   fontSize: 22
@@ -5424,9 +5429,9 @@ MonoBehaviour:
   cornerRadius: 20
   glowSize: 22
   canvasSortOrder: 220
-  scrollbarWidth: 9.29
+  scrollbarWidth: 14
   scrollbarTrackColor: {r: 0.12, g: 0.14, b: 0.18, a: 0.45}
-  scrollbarHandleColor: {r: 0.52, g: 0.54, b: 0.58, a: 0.88}
+  scrollbarHandleColor: {r: 0.25936466, g: 0.69536436, b: 0.99371064, a: 0.88}
   chatContentPaddingLeft: 14
 --- !u!4 &1955000003
 Transform:
