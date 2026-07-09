@@ -5503,6 +5503,86 @@ MonoBehaviour:
   midLayerObjectName: MidInfoLayer
   farLayerObjectName: FarInfoLayer
   autoNormalizeParentScale: 1
+--- !u!1 &2044100001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2044100003}
+  - component: {fileID: 2044100002}
+  m_Layer: 0
+  m_Name: emotionBubbleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2044100002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044100001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1899937954}
+  screenTransform: {fileID: 1899937958}
+  fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
+  jsonFileName: classify/emotion.json
+  spawnHorizontalRange: {x: -0.5, y: 0.5}
+  spawnBaseHeight: -0.5
+  spawnHeightJitter: 0.06
+  spawnForwardOffset: 1
+  minHorizontalGap: 0.05
+  minVerticalGap: 0.06
+  spawnPlacementAttempts: 14
+  riseSpeed: 0.15
+  riseSpeedJitter: 0.25
+  fadeInDuration: 0.08
+  dwellMin: 1.6
+  dwellMax: 3
+  fadeOutDuration: 0.9
+  fontSize: 17
+  worldScale: 0.003
+  maxTextWidth: 480
+  maxAlpha: 0.95
+  glowSize: 26
+  glowIntensity: 0.6
+  canvasSortOrder: 215
+  positivePalette:
+  - {r: 1, g: 0.35, b: 0.3, a: 1}
+  - {r: 1, g: 0.55, b: 0.15, a: 1}
+  - {r: 1, g: 0.8, b: 0.2, a: 1}
+  negativePalette:
+  - {r: 0.3, g: 0.55, b: 1, a: 1}
+  - {r: 0.45, g: 0.35, b: 1, a: 1}
+  - {r: 0.7, g: 0.3, b: 0.95, a: 1}
+  hueJitterDegrees: 12
+  brightnessJitter: 0.12
+  maxConcurrent: 6
+  minSpawnGap: 0.15
+--- !u!4 &2044100003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044100001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.3531528, y: 3.8451502, z: -0.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2095025182
 GameObject:
   m_ObjectHideFlags: 0
@@ -5787,84 +5867,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1445342940}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2044100001
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2044100003}
-  - component: {fileID: 2044100002}
-  m_Layer: 0
-  m_Name: emotionBubbleManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2044100002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2044100001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 1899937954}
-  screenTransform: {fileID: 1899937958}
-  fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
-  jsonFileName: classify/emotion.json
-  spawnHorizontalRange: {x: -0.5, y: 0.5}
-  spawnBaseHeight: -0.5
-  spawnHeightJitter: 0.06
-  spawnForwardOffset: 1
-  minHorizontalGap: 0.05
-  riseSpeed: 0.15
-  riseSpeedJitter: 0.25
-  fadeInDuration: 0.35
-  dwellMin: 1.6
-  dwellMax: 3
-  fadeOutDuration: 0.9
-  fontSize: 30
-  worldScale: 0.005
-  maxTextWidth: 480
-  maxAlpha: 0.95
-  glowSize: 26
-  glowIntensity: 0.6
-  canvasSortOrder: 215
-  positivePalette:
-  - {r: 1, g: 0.35, b: 0.3, a: 1}
-  - {r: 1, g: 0.55, b: 0.15, a: 1}
-  - {r: 1, g: 0.8, b: 0.2, a: 1}
-  negativePalette:
-  - {r: 0.3, g: 0.55, b: 1, a: 1}
-  - {r: 0.45, g: 0.35, b: 1, a: 1}
-  - {r: 0.7, g: 0.3, b: 0.95, a: 1}
-  hueJitterDegrees: 12
-  brightnessJitter: 0.12
-  maxConcurrent: 6
-  minSpawnGap: 0.15
---- !u!4 &2044100003
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2044100001}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.3531528, y: 3.8451502, z: -0.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

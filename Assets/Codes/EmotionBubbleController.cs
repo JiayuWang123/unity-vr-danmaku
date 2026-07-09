@@ -32,6 +32,10 @@ public class EmotionBubbleController : MonoBehaviour
     public float spawnForwardOffset = 1.0f;
     [Tooltip("同一时刻气泡之间的最小水平间距（米），避免刚出生就完全叠在一起")]
     public float minHorizontalGap = 0.05f;
+    [Tooltip("同一时刻气泡之间的最小垂直间距（米）；只要有一个方向错开足够远（比如老气泡已经升高了）就不算重叠")]
+    public float minVerticalGap = 0.06f;
+    [Tooltip("找不到不重叠的位置时最多重试几次；调大能进一步减少重叠，但太拥挤时可能让新气泡稍微延后出现")]
+    public int spawnPlacementAttempts = 14;
 
     [Header("上升运动")]
     [Tooltip("气泡上升速度（米/秒）")]
@@ -320,8 +324,12 @@ public class EmotionBubbleController : MonoBehaviour
 
         Vector2 textSize = CalcTextSize(rec.弹幕内容);
         float halfWidthLocal = textSize.x * worldScale * 0.5f;
-        float x = PickSpawnX(halfWidthLocal);
+        float halfHeightLocal = textSize.y * worldScale * 0.5f;
         float y = spawnBaseHeight + UnityEngine.Random.Range(-spawnHeightJitter, spawnHeightJitter);
+
+        if (!TryPickSpawnX(halfWidthLocal, halfHeightLocal, y, out float x))
+            return false; // 附近位置都太挤，这次先不生成，下一帧再试（不会强行叠在一起）
+
         float z = spawnForwardOffset;
 
         var go = BuildBubbleGo(rec.弹幕内容, color, textSize);
@@ -333,33 +341,45 @@ public class EmotionBubbleController : MonoBehaviour
         float riseSpeedInstance = riseSpeed * UnityEngine.Random.Range(1f - riseSpeedJitter, 1f + riseSpeedJitter);
 
         var inst = go.AddComponent<EmotionBubbleInstance>();
-        inst.Initialize(fadeInDuration, dwell, fadeOutDuration, worldScale, maxAlpha, riseSpeedInstance, halfWidthLocal, OnBubbleFinished);
+        inst.Initialize(fadeInDuration, dwell, fadeOutDuration, worldScale, maxAlpha, riseSpeedInstance, halfWidthLocal, halfHeightLocal, OnBubbleFinished);
         activeInstances.Add(inst);
         lastSpawnTime = Time.time;
         return true;
     }
 
-    float PickSpawnX(float halfWidthLocal)
+    bool TryPickSpawnX(float halfWidthLocal, float halfHeightLocal, float y, out float x)
     {
-        const int attempts = 8;
-        float x = 0f;
+        int attempts = Mathf.Max(1, spawnPlacementAttempts);
+        x = 0f;
         for (int i = 0; i < attempts; i++)
         {
             x = UnityEngine.Random.Range(spawnHorizontalRange.x, spawnHorizontalRange.y);
-            if (IsFarEnoughFromActive(x, halfWidthLocal))
-                return x;
+            if (IsFarEnoughFromActive(x, y, halfWidthLocal, halfHeightLocal))
+                return true;
         }
-        return x;
+        return false;
     }
 
-    bool IsFarEnoughFromActive(float x, float halfWidthLocal)
+    /// <summary>
+    /// 用左右 + 上下两个方向一起判断是否会视觉重叠。
+    /// 之前只看左右间距，哪怕老气泡已经升起来跟新气泡完全不在一个高度，也会被当成"占位"，
+    /// 结果反而让新气泡被挤到别的地方、或者在真正拥挤时判断不出来。
+    /// 现在只有左右和上下都靠得太近才算重叠，任意一个方向错开够远就放行。
+    /// </summary>
+    bool IsFarEnoughFromActive(float x, float y, float halfWidthLocal, float halfHeightLocal)
     {
         for (int i = 0; i < activeInstances.Count; i++)
         {
             var inst = activeInstances[i];
             if (inst == null) continue;
-            float minDist = halfWidthLocal + inst.HalfWidth + minHorizontalGap;
-            if (Mathf.Abs(x - inst.transform.localPosition.x) < minDist)
+
+            float minDistX = halfWidthLocal + inst.HalfWidth + minHorizontalGap;
+            float minDistY = halfHeightLocal + inst.HalfHeight + minVerticalGap;
+
+            bool overlapX = Mathf.Abs(x - inst.transform.localPosition.x) < minDistX;
+            bool overlapY = Mathf.Abs(y - inst.transform.localPosition.y) < minDistY;
+
+            if (overlapX && overlapY)
                 return false;
         }
         return true;

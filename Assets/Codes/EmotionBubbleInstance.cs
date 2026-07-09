@@ -24,6 +24,7 @@ public class EmotionBubbleInstance : MonoBehaviour
     const float PopInScaleMul = 0.7f;
 
     public float HalfWidth { get; private set; }
+    public float HalfHeight { get; private set; }
 
     public void Initialize(
         float fadeIn,
@@ -33,6 +34,7 @@ public class EmotionBubbleInstance : MonoBehaviour
         float maxAlphaValue,
         float riseSpeedValue,
         float halfWidth,
+        float halfHeight,
         Action<EmotionBubbleInstance> onDone)
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -43,6 +45,7 @@ public class EmotionBubbleInstance : MonoBehaviour
         maxAlpha = Mathf.Clamp01(maxAlphaValue);
         riseSpeed = riseSpeedValue;
         HalfWidth = halfWidth;
+        HalfHeight = halfHeight;
         onFinished = onDone;
 
         transform.localScale = Vector3.one * (baseWorldScale * PopInScaleMul);
