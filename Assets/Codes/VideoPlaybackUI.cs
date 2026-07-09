@@ -63,6 +63,13 @@ public class VideoPlaybackUI : MonoBehaviour
     {
         if (videoPlayer != null)
             videoPlayer.prepareCompleted -= OnVideoPrepared;
+
+        if (attachTarget != null)
+        {
+            var existing = attachTarget.Find("VideoPlaybackPanel");
+            if (existing != null)
+                Destroy(existing.gameObject);
+        }
     }
 
     void OnDisable()
@@ -157,6 +164,10 @@ public class VideoPlaybackUI : MonoBehaviour
             Debug.LogWarning("VideoPlaybackUI: attachTarget is missing.");
             return;
         }
+
+        var existing = attachTarget.Find("VideoPlaybackPanel");
+        if (existing != null)
+            Destroy(existing.gameObject);
 
         var panelRoot = new GameObject("VideoPlaybackPanel", typeof(RectTransform));
         panelRoot.transform.SetParent(attachTarget, false);

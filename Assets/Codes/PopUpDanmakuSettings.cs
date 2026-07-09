@@ -49,8 +49,11 @@ public class PopUpDanmakuSettings : MonoBehaviour
     public int canvasSortingOrder = 200;
     [Tooltip("勾选后用下方 Fallback Color 作为字色；不勾选则用 JSON 颜色十进制")]
     public bool forceHighContrastText = true;
-    [Range(0f, 1f)] public float outlineWidth = 0f;
-    public Color outlineColor = new Color(0f, 0f, 0f, 0.85f);
+    [Header("最远层（Far 区）描边")]
+    [Range(0f, 1f)]
+    [Tooltip("仅 Far 区信息弹幕生效；0 = 不加描边")]
+    public float outlineWidth = 0.22f;
+    public Color outlineColor = new Color(0f, 0f, 0f, 0.9f);
 
     [Header("锚点布局（相对 screen 本地坐标）")]
     [Tooltip("已改用 Scene 中的 PopUpDanmakuZoneFrame 调节框；仅在没有区域框且 autoSetupAnchors=true 时使用")]

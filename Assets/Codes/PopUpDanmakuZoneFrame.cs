@@ -23,6 +23,12 @@ public class PopUpDanmakuZoneFrame : MonoBehaviour
 
     public IReadOnlyList<PopUpDanmakuAnchor> Anchors => anchors;
 
+    void Awake()
+    {
+        if (Application.isPlaying)
+            HideEditorVisualImmediate();
+    }
+
     void OnEnable()
     {
         EnsureEditorVisual();
@@ -199,6 +205,14 @@ public class PopUpDanmakuZoneFrame : MonoBehaviour
     {
         if (editorVisualRoot != null)
             editorVisualRoot.gameObject.SetActive(active);
+    }
+
+    void HideEditorVisualImmediate()
+    {
+        if (editorOutline != null)
+            editorOutline.enabled = false;
+
+        SetEditorVisualActive(false);
     }
 
     public Color GetZoneColor()

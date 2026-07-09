@@ -56,8 +56,12 @@ public class SemanticDanmakuSettings : MonoBehaviour
     public float worldLabelScale = 0.0045f;
     public Vector2 labelSize = new Vector2(900f, 160f);
     public int canvasSortingOrder = 220;
-    [Range(0f, 1f)] public float outlineWidth = 0f;
-    public Color outlineColor = new Color(0f, 0f, 0f, 0.85f);
+
+    [Header("最远层（Far Info 双簇）描边")]
+    [Range(0f, 1f)]
+    [Tooltip("仅 FarInfoLayer 两簇信息弹幕生效；0 = 不加描边")]
+    public float farInfoOutlineWidth = 0.22f;
+    public Color farInfoOutlineColor = new Color(0f, 0f, 0f, 0.9f);
 
     [Header("并发与 Seek")]
     public int maxConcurrentEmotion = 0;

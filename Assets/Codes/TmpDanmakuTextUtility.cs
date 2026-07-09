@@ -8,27 +8,29 @@ public static class TmpDanmakuTextUtility
         if (label == null)
             return;
 
-        label.fontStyle = FontStyles.Normal;
-
         if (outlineWidth <= 0f || label.font == null)
-            return;
-
-        label.ForceMeshUpdate(true, true);
-
-        if (label.fontSharedMaterial == null)
         {
             label.fontStyle = FontStyles.Bold;
             return;
         }
 
+        label.fontStyle = FontStyles.Normal;
+        label.ForceMeshUpdate(true, true);
+
         try
         {
+            Material mat = label.fontMaterial;
+            if (mat != null)
+                mat.EnableKeyword("OUTLINE_ON");
+
             label.outlineWidth = outlineWidth;
             label.outlineColor = outlineColor;
+            label.UpdateMeshPadding();
+            label.ForceMeshUpdate(true, true);
         }
         catch
         {
-            // SIMHEI 等部分 SDF 字体不支持运行时 outline，退回加粗保证可读性。
+            // 部分 SDF 字体不支持运行时 outline，退回加粗保证可读性。
             label.fontStyle = FontStyles.Bold;
         }
     }

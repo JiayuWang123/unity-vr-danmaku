@@ -80,7 +80,11 @@ public class PopUpDanmakuInstance : MonoBehaviour
         label.fontSize = settings.GetFontSize(zone);
         label.color = settings.BuildTextColor(zone, record);
         label.ForceMeshUpdate(true, true);
-        label.fontStyle = FontStyles.Bold;
+
+        if (zone == PopUpDanmakuZone.Far)
+            TmpDanmakuTextUtility.ApplyReadableStyle(label, settings.outlineWidth, settings.outlineColor);
+        else
+            label.fontStyle = FontStyles.Bold;
     }
 
     void LateUpdate()

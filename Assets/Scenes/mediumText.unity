@@ -1232,7 +1232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4193,7 +4193,7 @@ MeshRenderer:
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
-  m_MotionVectors: 1
+  m_MotionVectors: 0
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
@@ -4388,6 +4388,63 @@ MonoBehaviour:
   scrollbarTrackColor: {r: 0.12, g: 0.14, b: 0.18, a: 0.45}
   scrollbarHandleColor: {r: 0.52, g: 0.54, b: 0.58, a: 0.88}
   chatContentPaddingLeft: 14
+--- !u!1 &1955000101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1955000102}
+  - component: {fileID: 1955000103}
+  m_Layer: 0
+  m_Name: EmotionSkyboxController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1955000102
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955000101}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1955000103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955000101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3e2d1c0b9a8476584938271a0b1c2d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1899937954}
+  skyboxBlendMaterial: {fileID: 2100000, guid: 4d5e6f708192a3b4c5d6e7f8091a2b3c, type: 2}
+  baseTexture: {fileID: 2800000, guid: 08c3ad7a0e62ef546b37255f8419d729, type: 3}
+  lightTexture: {fileID: 2800000, guid: 1493c6b6106263d4ea91d540bf44188e, type: 3}
+  darkTexture: {fileID: 2800000, guid: c3f564ef6d2f03d4a919e2bcfc5de249, type: 3}
+  emotionJsonFileName: classify/emotional_interactions_emotion_from_excel.json
+  windowSeconds: 14
+  minCountToTrigger: 3
+  dominanceMargin: 1
+  fadeInDuration: 2.5
+  holdDuration: 4
+  fadeOutDuration: 2.5
+  cooldownAfterPulse: 6
 --- !u!4 &1955000003
 Transform:
   m_ObjectHideFlags: 0
