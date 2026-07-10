@@ -15,6 +15,8 @@ public class SemanticDanmakuController : MonoBehaviour
     SemanticDanmakuInstance labelTemplate;
     readonly DynamicInfoCloudLayout cloudLayout = new DynamicInfoCloudLayout();
     readonly TopClusterDanmakuLayout topClusterLayout = new TopClusterDanmakuLayout();
+    FarInfoScrollTickerLane leftTickerLane;
+    FarInfoScrollTickerLane rightTickerLane;
     readonly List<SemanticDanmakuRecord> records = new List<SemanticDanmakuRecord>();
     readonly List<SemanticDanmakuInstance> spawnedInstances = new List<SemanticDanmakuInstance>();
 
@@ -63,6 +65,7 @@ public class SemanticDanmakuController : MonoBehaviour
             socialPanel = FindObjectOfType<HeadLockedSocialPanel>();
 
         EnsureLabelTemplate();
+        EnsureFarInfoTickerLanes();
         LoadRecords();
         ResetPlaybackIndex();
         RefreshLayout(true);
@@ -279,6 +282,9 @@ public class SemanticDanmakuController : MonoBehaviour
             return true;
         }
 
+        if (settings.farInfoUseScrollTicker)
+            return TrySpawnTickerRecord(record, layer);
+
         if (CountActiveOnLayer(CurvedCloudLayerKind.FarInfo) >= settings.GetMaxConcurrent(CurvedCloudLayerKind.FarInfo))
             return true;
 
@@ -313,6 +319,57 @@ public class SemanticDanmakuController : MonoBehaviour
         return true;
     }
 
+    bool TrySpawnTickerRecord(SemanticDanmakuRecord record, CurvedDanmakuSurfaceLayer layer)
+    {
+        EnsureFarInfoTickerLanes();
+        bool isLeft = record.category == settings.leftClusterCategory;
+        FarInfoScrollTickerLane lane = isLeft ? leftTickerLane : rightTickerLane;
+        if (lane == null)
+            return true;
+
+        if (CountActiveOnLayer(CurvedCloudLayerKind.FarInfo) >= settings.GetMaxConcurrent(CurvedCloudLayerKind.FarInfo) * 2)
+            return false;
+
+        if (!lane.TryEnqueue(record))
+            return false;
+
+        if (spawnedLogCount < 5)
+        {
+            spawnedLogCount++;
+            Debug.Log($"SemanticDanmaku 诊断: 滚动生成「{record.text}」side={(isLeft ? "左" : "右")}");
+        }
+
+        return true;
+    }
+
+    void EnsureFarInfoTickerLanes()
+    {
+        if (!settings.farInfoUseScrollTicker || !settings.useFarLayerCategoryFiles)
+            return;
+
+        CurvedDanmakuSurfaceLayer layer = cloudRig != null ? cloudRig.farInfoLayer : null;
+        if (layer == null)
+            return;
+
+        float effectiveRadius = Mathf.Max(0.05f, layer.radius);
+        float horizontalOffset = Mathf.Sin(settings.clusterHalfGapDegrees * Mathf.Deg2Rad) * effectiveRadius;
+
+        if (leftTickerLane == null)
+            leftTickerLane = CreateTickerLane(layer.transform, "LeftInfoTickerLane", true, -horizontalOffset);
+
+        if (rightTickerLane == null)
+            rightTickerLane = CreateTickerLane(layer.transform, "RightInfoTickerLane", false, horizontalOffset);
+    }
+
+    FarInfoScrollTickerLane CreateTickerLane(Transform parent, string name, bool isLeft, float horizontalOffset)
+    {
+        var go = new GameObject(name);
+        go.transform.SetParent(parent, false);
+        var lane = go.AddComponent<FarInfoScrollTickerLane>();
+        lane.Initialize(cloudRig.farInfoLayer, settings, fontAsset, isLeft, horizontalOffset);
+        return lane;
+    }
+
     void RefreshLayout(bool force)
     {
         if (!force && videoPlayer == null)
@@ -335,6 +392,12 @@ public class SemanticDanmakuController : MonoBehaviour
         {
             if (spawnedInstances[i] != null && spawnedInstances[i].LayerKind == layerKind)
                 count++;
+        }
+
+        if (layerKind == CurvedCloudLayerKind.FarInfo && settings.farInfoUseScrollTicker)
+        {
+            if (leftTickerLane != null) count += leftTickerLane.ActiveCount;
+            if (rightTickerLane != null) count += rightTickerLane.ActiveCount;
         }
 
         return count;
@@ -398,6 +461,8 @@ public class SemanticDanmakuController : MonoBehaviour
         spawnedInstances.Clear();
         cloudLayout.ResetSpawnCounters();
         topClusterLayout.Reset();
+        if (leftTickerLane != null) leftTickerLane.ClearAll();
+        if (rightTickerLane != null) rightTickerLane.ClearAll();
     }
 
     void EnsureLabelTemplate()

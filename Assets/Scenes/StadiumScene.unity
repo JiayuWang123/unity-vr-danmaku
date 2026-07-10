@@ -1934,6 +1934,20 @@ MonoBehaviour:
   clusterBaseRowOffset: 0
   leftClusterCategory: 1
   rightClusterCategory: 2
+  farInfoUseScrollTicker: 1
+  tickerLaneWidth: 1100
+  tickerViewportHeight: 448
+  tickerRowHeight: 88
+  tickerScrollSpeed: 105
+  tickerVerticalOffsetMeters: 0
+  tickerSpeakerSize: 34
+  tickerTextGap: 8
+  tickerSpeakerColor: {r: 1, g: 0.82, b: 0.25, a: 1}
+  tickerSpeakerSprite: {fileID: 21300000, guid: 4f0a79f06c26a4d469c60da2958e3807, type: 3}
+  tickerSpeakerSpriteResource: 
+  tickerInwardYawDegrees: 0
+  tickerExtraEulerOffset: {x: 0, y: 180, z: 0}
+  tickerEdgeFadeWidth: 500
   layoutWindowSeconds: 8
   layoutRefreshInterval: 0.5
   emotionDwellDuration: 1.8
