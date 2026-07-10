@@ -57,8 +57,8 @@ public class EmotionBubbleController : MonoBehaviour
     [Tooltip("暂留阶段的最大不透明度")]
     [Range(0f, 1f)] public float maxAlpha = 0.95f;
 
-    [Header("辉光效果")]
-    [Tooltip("文字周围辉光扩散半径（像素）")]
+    [Header("辉光效果（整句话套一层圆角矩形描边 + 柔和外发光，圆角比最初版本小一些，没那么像胶囊）")]
+    [Tooltip("辉光向外扩散的柔和范围（像素），越大辉光越明显")]
     [Range(0, 60)] public int glowSize = 26;
     [Tooltip("辉光强度，越大辉光越明显")]
     [Range(0f, 1f)] public float glowIntensity = 0.6f;
@@ -414,10 +414,11 @@ public class EmotionBubbleController : MonoBehaviour
     {
         for (int i = activeInstances.Count - 1; i >= 0; i--)
         {
-            if (activeInstances[i] != null)
+            var inst = activeInstances[i];
+            if (inst != null)
             {
-                UiSpriteCleanupUtil.DestroyGeneratedSprites(activeInstances[i].gameObject);
-                Destroy(activeInstances[i].gameObject);
+                UiSpriteCleanupUtil.DestroyGeneratedSprites(inst.gameObject);
+                Destroy(inst.gameObject);
             }
         }
         activeInstances.Clear();
@@ -473,29 +474,13 @@ public class EmotionBubbleController : MonoBehaviour
         rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(0.5f, 0.5f);
         root.AddComponent<CanvasGroup>();
 
-        if (glowSize > 0 && glowIntensity > 0f)
-        {
-            var glowGo = MakeChild(root.transform, "Glow");
-            var glowRt = glowGo.GetComponent<RectTransform>();
-            glowRt.anchorMin = glowRt.anchorMax = glowRt.pivot = new Vector2(0.5f, 0.5f);
-            glowRt.sizeDelta = new Vector2(coreW + glowSize * 2, coreH + glowSize * 2);
-
-            var glowImg = glowGo.AddComponent<Image>();
-            Color edgeColor = new Color(color.r, color.g, color.b, glowIntensity);
-            Color outerGlowColor = new Color(color.r, color.g, color.b, glowIntensity * 0.55f);
-            int cornerRadius = Mathf.RoundToInt(coreH * 0.5f);
-            Sprite glowSprite = SocializationPanelShapeUtil.CreatePanel(
-                coreW, coreH, cornerRadius, glowSize, 1f,
-                Color.clear, edgeColor, edgeColor, outerGlowColor);
-            SocializationPanelShapeUtil.Apply(glowImg, glowSprite);
-        }
-
         var textGo = MakeChild(root.transform, "Text");
         var textRt = textGo.GetComponent<RectTransform>();
         textRt.anchorMin = Vector2.zero;
         textRt.anchorMax = Vector2.one;
         textRt.offsetMin = Vector2.zero;
         textRt.offsetMax = Vector2.zero;
+        textRt.pivot = new Vector2(0.5f, 0.5f);
 
         var label = textGo.AddComponent<TextMeshProUGUI>();
         if (fontAsset != null)
@@ -511,7 +496,33 @@ public class EmotionBubbleController : MonoBehaviour
         label.overflowMode = TextOverflowModes.Overflow;
         label.ForceMeshUpdate();
 
+        if (glowSize > 0 && glowIntensity > 0f)
+            BuildWholeBoxGlow(root.transform, color, coreW, coreH);
+
         return root;
+    }
+
+    /// <summary>
+    /// 回到最初版本的做法：整句话套一层描边 + 柔和外发光，保证一定看得见。
+    /// 圆角比例调小了一些（不再是 coreH/2 的全胶囊两端半圆），看起来没那么"生硬"，
+    /// 但本质还是一个整体的圆角矩形背板，不是贴着每个字轮廓的形状（那个方案试了几轮效果都不稳定，先放弃）。
+    /// </summary>
+    void BuildWholeBoxGlow(Transform parent, Color color, int coreW, int coreH)
+    {
+        var glowGo = MakeChild(parent, "Glow");
+        glowGo.transform.SetAsFirstSibling();
+        var glowRt = glowGo.GetComponent<RectTransform>();
+        glowRt.anchorMin = glowRt.anchorMax = glowRt.pivot = new Vector2(0.5f, 0.5f);
+        glowRt.sizeDelta = new Vector2(coreW + glowSize * 2, coreH + glowSize * 2);
+
+        var img = glowGo.AddComponent<Image>();
+        Color edgeColor = new Color(color.r, color.g, color.b, glowIntensity);
+        Color outerGlowColor = new Color(color.r, color.g, color.b, glowIntensity * 0.55f);
+        int cornerRadius = Mathf.RoundToInt(Mathf.Min(coreW, coreH) * 0.22f);
+        Sprite sprite = SocializationPanelShapeUtil.CreatePanel(
+            coreW, coreH, cornerRadius, glowSize, 1f,
+            Color.clear, edgeColor, edgeColor, outerGlowColor);
+        SocializationPanelShapeUtil.Apply(img, sprite);
     }
 
     static GameObject MakeChild(Transform parent, string name)

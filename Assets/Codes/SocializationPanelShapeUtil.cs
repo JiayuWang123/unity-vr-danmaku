@@ -136,6 +136,57 @@ static class SocializationPanelShapeUtil
         img.preserveAspect = false;
     }
 
+    /// <summary>
+    /// 生成"警戒线/警戒带"样式的长条：四边是斜向条纹（像施工警示带），中间是纯色（半透明）填充。
+    /// 边角是直角，不带圆角/发光，专门给"提醒向"的横幅用，跟聊天气泡的赛博朋克圆角面板是两种风格。
+    /// </summary>
+    public static Sprite CreateHazardBar(
+        int width,
+        int height,
+        int borderThickness,
+        float stripeWidthPx,
+        Color stripeColorA,
+        Color stripeColorB,
+        Color fillColor)
+    {
+        width = Mathf.Max(4, width);
+        height = Mathf.Max(4, height);
+        borderThickness = Mathf.Clamp(borderThickness, 0, Mathf.Min(width, height) / 2);
+        stripeWidthPx = Mathf.Max(2f, stripeWidthPx);
+
+        var tex = new Texture2D(width, height, TextureFormat.RGBA32, false)
+        {
+            wrapMode = TextureWrapMode.Clamp,
+            filterMode = FilterMode.Bilinear
+        };
+
+        var pixels = new Color32[width * height];
+        for (int y = 0; y < height; y++)
+        {
+            bool rowInBorder = y < borderThickness || y >= height - borderThickness;
+            for (int x = 0; x < width; x++)
+            {
+                bool inBorder = rowInBorder || x < borderThickness || x >= width - borderThickness;
+                Color c;
+                if (inBorder)
+                {
+                    int stripeIdx = Mathf.FloorToInt((x + y) / stripeWidthPx);
+                    c = (stripeIdx & 1) == 0 ? stripeColorA : stripeColorB;
+                }
+                else
+                {
+                    c = fillColor;
+                }
+                pixels[y * width + x] = c;
+            }
+        }
+
+        tex.SetPixels32(pixels);
+        tex.Apply(false, true);
+
+        return Sprite.Create(tex, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect);
+    }
+
     static float RoundedRectSDF(float px, float py, float w, float h, float r)
     {
         r = Mathf.Min(r, Mathf.Min(w, h) * 0.5f);
