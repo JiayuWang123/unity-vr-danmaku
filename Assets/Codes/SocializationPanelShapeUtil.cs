@@ -29,7 +29,8 @@ static class SocializationPanelShapeUtil
         var tex = new Texture2D(texW, texH, TextureFormat.RGBA32, false)
         {
             filterMode = FilterMode.Bilinear,
-            wrapMode = TextureWrapMode.Clamp
+            wrapMode = TextureWrapMode.Clamp,
+            hideFlags = HideFlags.DontSave
         };
 
         var pixels = new Color32[texW * texH];
@@ -99,7 +100,8 @@ static class SocializationPanelShapeUtil
         var tex = new Texture2D(width, height, TextureFormat.RGBA32, false)
         {
             filterMode = FilterMode.Bilinear,
-            wrapMode = TextureWrapMode.Clamp
+            wrapMode = TextureWrapMode.Clamp,
+            hideFlags = HideFlags.DontSave
         };
 
         var pixels = new Color32[width * height];

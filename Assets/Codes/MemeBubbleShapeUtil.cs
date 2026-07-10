@@ -33,8 +33,11 @@ static class MemeBubbleShapeUtil
                 inside[x, y] = IsInside(x, y, width, bodyHeight, tailHeight, tailBaseWidth, tailSideInset, isLeft);
         }
 
-        var tex = new Texture2D(width, totalH, TextureFormat.RGBA32, false);
-        tex.filterMode = FilterMode.Bilinear;
+        var tex = new Texture2D(width, totalH, TextureFormat.RGBA32, false)
+        {
+            filterMode = FilterMode.Bilinear,
+            hideFlags = HideFlags.DontSave
+        };
 
         for (int y = 0; y < totalH; y++)
         {

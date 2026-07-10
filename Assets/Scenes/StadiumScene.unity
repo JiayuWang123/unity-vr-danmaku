@@ -5695,8 +5695,9 @@ MonoBehaviour:
   worldScale: 0.003
   maxTextWidth: 480
   maxAlpha: 0.95
-  glowSize: 26
-  glowIntensity: 0.6
+  enableShadow: 1
+  shadowOffset: {x: 2, y: -2}
+  shadowAlpha: 0.295
   canvasSortOrder: 215
   positivePalette:
   - {r: 1, g: 0.35, b: 0.3, a: 1}

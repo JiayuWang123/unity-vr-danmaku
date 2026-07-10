@@ -20,6 +20,7 @@ public class EmotionBubbleInstance : MonoBehaviour
     float riseSpeed;
     float baseWorldScale;
     Action<EmotionBubbleInstance> onFinished;
+    EmotionBubbleOrbitRing orbitRing;
 
     const float PopInScaleMul = 0.7f;
 
@@ -35,9 +36,11 @@ public class EmotionBubbleInstance : MonoBehaviour
         float riseSpeedValue,
         float halfWidth,
         float halfHeight,
+        EmotionBubbleOrbitRing ring,
         Action<EmotionBubbleInstance> onDone)
     {
         canvasGroup = GetComponent<CanvasGroup>();
+        orbitRing = ring;
         fadeInDuration = Mathf.Max(0.01f, fadeIn);
         dwellDuration = Mathf.Max(0f, dwell);
         fadeOutDuration = Mathf.Max(0.01f, fadeOut);
@@ -53,6 +56,16 @@ public class EmotionBubbleInstance : MonoBehaviour
 
         elapsed = 0f;
         phase = Phase.FadeIn;
+        ApplyAlphaToRing();
+    }
+
+    void ApplyAlphaToRing()
+    {
+        if (orbitRing == null || canvasGroup == null)
+            return;
+
+        float normalized = maxAlpha > 0.0001f ? canvasGroup.alpha / maxAlpha : 0f;
+        orbitRing.SetAlpha(normalized);
     }
 
     void Update()
@@ -72,18 +85,21 @@ public class EmotionBubbleInstance : MonoBehaviour
                 float t = Mathf.Clamp01(elapsed / fadeInDuration);
                 float eased = 1f - (1f - t) * (1f - t);
                 if (canvasGroup) canvasGroup.alpha = eased * maxAlpha;
+                ApplyAlphaToRing();
                 transform.localScale = Vector3.one * Mathf.Lerp(baseWorldScale * PopInScaleMul, baseWorldScale, eased);
 
                 if (t >= 1f)
                 {
                     transform.localScale = Vector3.one * baseWorldScale;
                     if (canvasGroup) canvasGroup.alpha = maxAlpha;
+                    ApplyAlphaToRing();
                     phase = Phase.Dwell;
                     elapsed = 0f;
                 }
                 break;
             }
             case Phase.Dwell:
+                ApplyAlphaToRing();
                 if (elapsed >= dwellDuration)
                 {
                     phase = Phase.FadeOut;
@@ -93,6 +109,7 @@ public class EmotionBubbleInstance : MonoBehaviour
             case Phase.FadeOut:
                 if (canvasGroup)
                     canvasGroup.alpha = (1f - Mathf.Clamp01(elapsed / fadeOutDuration)) * maxAlpha;
+                ApplyAlphaToRing();
                 if (elapsed >= fadeOutDuration)
                 {
                     phase = Phase.Done;

@@ -57,11 +57,13 @@ public class EmotionBubbleController : MonoBehaviour
     [Tooltip("暂留阶段的最大不透明度")]
     [Range(0f, 1f)] public float maxAlpha = 0.95f;
 
-    [Header("辉光效果")]
-    [Tooltip("文字周围辉光扩散半径（像素）")]
-    [Range(0, 60)] public int glowSize = 26;
-    [Tooltip("辉光强度，越大辉光越明显")]
-    [Range(0f, 1f)] public float glowIntensity = 0.6f;
+    [Header("文字黑色阴影（单层立体感）")]
+    [Tooltip("是否显示黑色底层阴影")]
+    public bool enableShadow = true;
+    [Tooltip("阴影偏移量（Canvas 像素；X正=向右，Y负=向下）")]
+    public Vector2 shadowOffset = new Vector2(2.5f, -2.5f);
+    [Tooltip("阴影透明度")]
+    [Range(0f, 1f)] public float shadowAlpha = 0.85f;
     [Range(0, 300)] public int canvasSortOrder = 215;
 
     [Header("颜色倾向")]
@@ -346,7 +348,8 @@ public class EmotionBubbleController : MonoBehaviour
         float riseSpeedInstance = riseSpeed * UnityEngine.Random.Range(1f - riseSpeedJitter, 1f + riseSpeedJitter);
 
         var inst = go.AddComponent<EmotionBubbleInstance>();
-        inst.Initialize(fadeInDuration, dwell, fadeOutDuration, worldScale, maxAlpha, riseSpeedInstance, halfWidthLocal, halfHeightLocal, OnBubbleFinished);
+        var orbitRing = go.GetComponentInChildren<EmotionBubbleOrbitRing>();
+        inst.Initialize(fadeInDuration, dwell, fadeOutDuration, worldScale, maxAlpha, riseSpeedInstance, halfWidthLocal, halfHeightLocal, orbitRing, OnBubbleFinished);
         activeInstances.Add(inst);
         lastSpawnTime = Time.time;
         return true;
@@ -473,23 +476,32 @@ public class EmotionBubbleController : MonoBehaviour
         rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(0.5f, 0.5f);
         root.AddComponent<CanvasGroup>();
 
-        if (glowSize > 0 && glowIntensity > 0f)
-        {
-            var glowGo = MakeChild(root.transform, "Glow");
-            var glowRt = glowGo.GetComponent<RectTransform>();
-            glowRt.anchorMin = glowRt.anchorMax = glowRt.pivot = new Vector2(0.5f, 0.5f);
-            glowRt.sizeDelta = new Vector2(coreW + glowSize * 2, coreH + glowSize * 2);
+        // ── 预先加载字体字符，避免首次渲染缺字 ──────────────────────
+        if (fontAsset != null)
+            fontAsset.TryAddCharacters(text, out _);
 
-            var glowImg = glowGo.AddComponent<Image>();
-            Color edgeColor = new Color(color.r, color.g, color.b, glowIntensity);
-            Color outerGlowColor = new Color(color.r, color.g, color.b, glowIntensity * 0.55f);
-            int cornerRadius = Mathf.RoundToInt(coreH * 0.5f);
-            Sprite glowSprite = SocializationPanelShapeUtil.CreatePanel(
-                coreW, coreH, cornerRadius, glowSize, 1f,
-                Color.clear, edgeColor, edgeColor, outerGlowColor);
-            SocializationPanelShapeUtil.Apply(glowImg, glowSprite);
+        // ── 单层黑色阴影（在主文字层之前渲染，产生立体感） ─────────
+        if (enableShadow && shadowAlpha > 0f)
+        {
+            var shadowGo = MakeChild(root.transform, "TextShadow");
+            var shadowRt = shadowGo.GetComponent<RectTransform>();
+            shadowRt.anchorMin = Vector2.zero;
+            shadowRt.anchorMax = Vector2.one;
+            shadowRt.offsetMin = shadowOffset;
+            shadowRt.offsetMax = shadowOffset;
+
+            var shadowLabel = shadowGo.AddComponent<TextMeshProUGUI>();
+            if (fontAsset != null)
+                shadowLabel.font = fontAsset;
+            shadowLabel.text               = text;
+            shadowLabel.fontSize           = fontSize;
+            shadowLabel.color              = new Color(0f, 0f, 0f, shadowAlpha);
+            shadowLabel.alignment          = TextAlignmentOptions.Center;
+            shadowLabel.enableWordWrapping = true;
+            shadowLabel.overflowMode       = TextOverflowModes.Overflow;
         }
 
+        // ── 主文字层（最前面，正常颜色） ────────────────────────────
         var textGo = MakeChild(root.transform, "Text");
         var textRt = textGo.GetComponent<RectTransform>();
         textRt.anchorMin = Vector2.zero;
@@ -499,16 +511,13 @@ public class EmotionBubbleController : MonoBehaviour
 
         var label = textGo.AddComponent<TextMeshProUGUI>();
         if (fontAsset != null)
-        {
             label.font = fontAsset;
-            fontAsset.TryAddCharacters(text, out _);
-        }
-        label.text = text;
-        label.fontSize = fontSize;
-        label.color = color;
-        label.alignment = TextAlignmentOptions.Center;
-        label.enableWordWrapping = true;
-        label.overflowMode = TextOverflowModes.Overflow;
+        label.text              = text;
+        label.fontSize          = fontSize;
+        label.color             = color;
+        label.alignment         = TextAlignmentOptions.Center;
+        label.enableWordWrapping= true;
+        label.overflowMode      = TextOverflowModes.Overflow;
         label.ForceMeshUpdate();
 
         return root;

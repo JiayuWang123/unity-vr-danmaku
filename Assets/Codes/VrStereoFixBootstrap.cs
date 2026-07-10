@@ -128,13 +128,6 @@ public class VrStereoFixBootstrap : MonoBehaviour
             return;
 
         renderer.motionVectorGenerationMode = MotionVectorGenerationMode.ForceNoMotion;
-
-        var rt = Resources.Load<RenderTexture>("Textrue/VideoScreen_RT");
-        if (rt != null && rt.antiAliasing > 0)
-        {
-            rt.antiAliasing = 0;
-            Debug.Log("[VrStereoFix] VideoScreen_RT 已关闭 MSAA。");
-        }
     }
 
     static void DisableLegacyDanmakuCanvas()
