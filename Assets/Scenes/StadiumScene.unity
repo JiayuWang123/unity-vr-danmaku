@@ -6067,6 +6067,9 @@ MonoBehaviour:
   enableHaptics: 1
   hapticAmplitude: 0.7
   hapticDuration: 0.15
+  enableHeartbeatSound: 1
+  heartbeatClip: {fileID: 8300000, guid: 67501b08913f8cb49a41111bb39ecc49, type: 3}
+  heartbeatVolume: 0.104
 --- !u!4 &2144200003
 Transform:
   m_ObjectHideFlags: 0
@@ -6158,7 +6161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c6d7e8f901234567890abcdef01234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ttsPlaybackGain: 609
+  ttsPlaybackGain: 689
   videoCommentaryVolume: 0.035
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
