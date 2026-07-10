@@ -21,9 +21,13 @@ public class CameraViewController : MonoBehaviour
     public float maxPitch = 85f;
     public bool requireRightMouseButton = true;
 
+    [Tooltip("等待头显就绪的最长时间（秒）；Editor + Quest Link 需要几秒")]
+    public float vrDetectTimeoutSec = 10f;
+
     float pitch;
     float yaw;
     bool desktopLookActive = true;
+    bool modeResolved;
 
     public bool IsDesktopMode => desktopLookActive;
 
@@ -31,7 +35,6 @@ public class CameraViewController : MonoBehaviour
     {
         ResolveReferences();
         SyncRotationFromTransform();
-        EnterDesktopMode();
         StartCoroutine(InitializeModeWhenReady());
     }
 
@@ -70,17 +73,26 @@ public class CameraViewController : MonoBehaviour
 
     IEnumerator InitializeModeWhenReady()
     {
-#if !UNITY_EDITOR
         yield return TryInitializeXr();
-#else
-        yield return null;
-#endif
 
-        if (XRSettings.enabled && XRSettings.isDeviceActive)
-            EnterVrMode();
+        float remaining = Mathf.Max(0.5f, vrDetectTimeoutSec);
+        while (remaining > 0f)
+        {
+            if (IsVrActive())
+            {
+                EnterVrMode();
+                modeResolved = true;
+                yield break;
+            }
+
+            remaining -= Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        EnterDesktopMode();
+        modeResolved = true;
     }
 
-#if !UNITY_EDITOR
     static IEnumerator TryInitializeXr()
     {
         var settings = XRGeneralSettings.Instance;
@@ -94,7 +106,19 @@ public class CameraViewController : MonoBehaviour
         if (settings.Manager.activeLoader != null)
             settings.Manager.StartSubsystems();
     }
-#endif
+
+    static bool IsVrActive()
+    {
+        if (XRSettings.enabled && XRSettings.isDeviceActive)
+            return true;
+
+        var general = XRGeneralSettings.Instance;
+        if (general == null || general.Manager == null)
+            return false;
+
+        return general.Manager.activeLoader != null
+               && (general.Manager.isInitializationComplete || XRSettings.enabled);
+    }
 
     public void SyncRotationFromTransform()
     {
@@ -148,11 +172,13 @@ public class CameraViewController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        Debug.Log("[CameraViewController] 已进入 VR 模式。");
     }
 
     void Update()
     {
-        if (!desktopLookActive)
+        if (!modeResolved || !desktopLookActive)
             return;
 
         if (requireRightMouseButton && !Input.GetMouseButton(1))

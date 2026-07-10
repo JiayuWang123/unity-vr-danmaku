@@ -1938,7 +1938,7 @@ MonoBehaviour:
   tickerLaneWidth: 1100
   tickerViewportHeight: 448
   tickerRowHeight: 88
-  tickerScrollSpeed: 105
+  tickerScrollSpeed: 130
   tickerVerticalOffsetMeters: 0
   tickerSpeakerSize: 34
   tickerTextGap: 8
@@ -3031,7 +3031,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1475186703}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e988983f96fe1dd48800bcdfc82f23e9, type: 3}
   m_Name: 
@@ -4191,7 +4191,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1751893001}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e988983f96fe1dd48800bcdfc82f23e9, type: 3}
   m_Name: 
@@ -5407,6 +5407,7 @@ MonoBehaviour:
   localOffset: {x: 0, y: -0.9, z: 0.85}
   collapsedLocalOffset: {x: 0, y: -0.42, z: 0.85}
   localEulerAngles: {x: 50, y: 0, z: 0}
+  collapsedLocalEulerAngles: {x: 20, y: 0, z: 0}
   canvasScale: 0.0011
   limitPanelOnHeadPitch: 1
   headPitchLockStart: 12.4
@@ -5661,7 +5662,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2044100002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6113,6 +6114,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2144200003}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2150000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2150000002}
+  - component: {fileID: 2150000003}
+  m_Layer: 0
+  m_Name: StadiumAudioSettings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2150000002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2150000001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2150000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2150000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c6d7e8f901234567890abcdef01234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ttsPlaybackGain: 609
+  videoCommentaryVolume: 0.035
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -6135,3 +6182,4 @@ SceneRoots:
   - {fileID: 1965177012}
   - {fileID: 2044100003}
   - {fileID: 2144200003}
+  - {fileID: 2150000002}

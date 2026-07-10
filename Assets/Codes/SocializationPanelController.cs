@@ -31,10 +31,10 @@ public class SocializationPanelController : MonoBehaviour
     public Vector3 localOffset = new Vector3(0f, -0.42f, 0.85f);
     [Tooltip("收起时「点击展开聊天室」按钮的位置（底边对齐点）")]
     public Vector3 collapsedLocalOffset = new Vector3(0f, -0.42f, 0.85f);
-    [Tooltip("面板倾斜角度：X 为俯仰（正值让顶部往里倾，像平板立起来一点看向你），Y 为左右偏转，Z 为翻滚。\n" +
-        "Play 模式下可在 Hierarchy 里选中 Main Camera 下的 SocializationPanelRoot，用旋转工具(E)实时试角度，\n" +
-        "满意后把 Inspector 里 Rotation 的数值抄回这里的 Local Euler Angles（退出 Play 模式后手动改）。")]
+    [Tooltip("展开后面板的倾斜角度：X 俯仰，Y 左右偏转，Z 翻滚")]
     public Vector3 localEulerAngles = new Vector3(12f, 0f, 0f);
+    [Tooltip("收起时「点击展开聊天室」按钮的倾斜角度（与展开面板独立）")]
+    public Vector3 collapsedLocalEulerAngles = new Vector3(12f, 0f, 0f);
     [Range(0.0006f, 0.004f)] public float canvasScale = 0.0016f;
 
     [Header("抬头限制（防遮挡视频）")]
@@ -235,15 +235,15 @@ public class SocializationPanelController : MonoBehaviour
         if (headTransform == null)
             EnsureHeadTransform();
 
-        ApplyHeadFollow(expandedRoot, localOffset, isExpanded, ref expandedLockedWorldY);
-        ApplyHeadFollow(collapsedRoot, collapsedLocalOffset, !isExpanded, ref collapsedLockedWorldY);
+        ApplyHeadFollow(expandedRoot, localOffset, localEulerAngles, isExpanded, ref expandedLockedWorldY);
+        ApplyHeadFollow(collapsedRoot, collapsedLocalOffset, collapsedLocalEulerAngles, !isExpanded, ref collapsedLockedWorldY);
     }
 
-    void ApplyHeadFollow(RectTransform root, Vector3 baseLocalOffset, bool active, ref float lockedWorldY)
+    void ApplyHeadFollow(RectTransform root, Vector3 baseLocalOffset, Vector3 eulerAngles, bool active, ref float lockedWorldY)
     {
         if (root == null || !active || headTransform == null) return;
 
-        Quaternion panelTilt = Quaternion.Euler(localEulerAngles);
+        Quaternion panelTilt = Quaternion.Euler(eulerAngles);
         Quaternion fullWorldRot = headTransform.rotation * panelTilt;
         Vector3 fullWorldPos = headTransform.TransformPoint(baseLocalOffset);
         Quaternion yawRot = GetYawOnlyRotation(headTransform);

@@ -1,12 +1,11 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 /// <summary>
-/// StadiumScene 运行时自动挂载 longAudio 分支的 TTS / 氛围 / 观众声浪系统。
+/// StadiumScene 运行时自动挂载 longAudio 分支的 TTS / 观众声浪系统。
 /// pop_upScene 若已手动配置 AudioTimelineManager 则跳过。
 /// </summary>
 [DefaultExecutionOrder(-250)]
@@ -14,6 +13,14 @@ public class StadiumAudioBootstrap : MonoBehaviour
 {
     const string ManagerName = "AudioTimelineManager";
     const string AmbientGroupName = "AmbientAudioGroup";
+
+    [Header("声音弹幕（TTS）")]
+    [Tooltip("全局音量倍率；实际音量 = audio_schedule.json 里每条 volume × 此值")]
+    [Range(0.5f, 1000f)] public float ttsPlaybackGain = 1.35f;
+
+    [Header("视频解说")]
+    [Tooltip("全程视频解说音量；TTS 播放时也不会被压低")]
+    [Range(0f, 1f)] public float videoCommentaryVolume = 1f;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void AutoInstall()
@@ -29,9 +36,17 @@ public class StadiumAudioBootstrap : MonoBehaviour
         if (vp == null)
             return;
 
+        var bootstrap = FindObjectOfType<StadiumAudioBootstrap>();
+        if (bootstrap != null)
+        {
+            bootstrap.Build(screen.transform, vp);
+            return;
+        }
+
         var go = new GameObject(nameof(StadiumAudioBootstrap));
         go.hideFlags = HideFlags.HideAndDontSave;
-        go.AddComponent<StadiumAudioBootstrap>().Build(screen.transform, vp);
+        var ephemeral = go.AddComponent<StadiumAudioBootstrap>();
+        ephemeral.Build(screen.transform, vp);
         Destroy(go);
     }
 
@@ -43,25 +58,13 @@ public class StadiumAudioBootstrap : MonoBehaviour
         var tts = manager.AddComponent<AudioDanmakuController>();
         tts.videoPlayer = videoPlayer;
         tts.videoCommentarySource = screen.GetComponent<AudioSource>();
+        tts.ttsPlaybackGain = ttsPlaybackGain;
+        tts.videoCommentaryVolume = videoCommentaryVolume;
+        tts.enableVideoDucking = false;
         tts.anchorFront = ambient.front;
         tts.anchorBack = ambient.back;
         tts.anchorLeft = ambient.left;
         tts.anchorRight = ambient.right;
-
-        var atmosphereCtrl = FindObjectOfType<AtmosphereLightController>();
-        if (atmosphereCtrl == null)
-        {
-            var light = FindObjectOfType<Light>();
-            if (light != null)
-                atmosphereCtrl = light.gameObject.AddComponent<AtmosphereLightController>();
-        }
-
-        if (atmosphereCtrl != null)
-        {
-            var schedule = manager.AddComponent<TimedAtmosphereScheduleController>();
-            schedule.videoPlayer = videoPlayer;
-            schedule.atmosphereController = atmosphereCtrl;
-        }
 
         var crowd = manager.AddComponent<CrowdAudioScheduleController>();
         crowd.videoPlayer = videoPlayer;
@@ -72,7 +75,7 @@ public class StadiumAudioBootstrap : MonoBehaviour
         crowd.clipBindings = BuildCrowdClipBindings();
         crowd.enabled = crowd.clipBindings != null && crowd.clipBindings.Length > 0;
 
-        Debug.Log("[StadiumAudio] 已挂载 TTS / 氛围 / 观众声浪控制器。");
+        Debug.Log("[StadiumAudio] 已挂载 TTS / 观众声浪控制器。");
     }
 
     struct AmbientRefs

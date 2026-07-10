@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.XR;
@@ -46,7 +47,41 @@ public class VrStereoFixBootstrap : MonoBehaviour
             return;
 
         applied = true;
+        StartCoroutine(StartupXrThenApplyFixes());
+    }
+
+    IEnumerator StartupXrThenApplyFixes()
+    {
+        yield return EnsureXrRunning();
         ApplyFixes();
+    }
+
+    static IEnumerator EnsureXrRunning()
+    {
+        var settings = XRGeneralSettings.Instance;
+        if (settings == null || settings.Manager == null)
+            yield break;
+
+        var manager = settings.Manager;
+        if (manager.activeLoader == null)
+        {
+            yield return manager.InitializeLoader();
+            if (manager.activeLoader != null)
+                manager.StartSubsystems();
+        }
+
+        float remaining = 8f;
+        while (remaining > 0f)
+        {
+            if (XRSettings.enabled && XRSettings.isDeviceActive)
+                yield break;
+
+            if (manager.isInitializationComplete && manager.activeLoader != null)
+                yield break;
+
+            remaining -= Time.unscaledDeltaTime;
+            yield return null;
+        }
     }
 
     void ApplyFixes()
@@ -130,10 +165,10 @@ public class VrStereoFixBootstrap : MonoBehaviour
         renderer.motionVectorGenerationMode = MotionVectorGenerationMode.ForceNoMotion;
 
         var rt = Resources.Load<RenderTexture>("Textrue/VideoScreen_RT");
-        if (rt != null && rt.antiAliasing > 0)
+        if (rt != null && rt.antiAliasing > 1)
         {
-            rt.antiAliasing = 0;
-            Debug.Log("[VrStereoFix] VideoScreen_RT 已关闭 MSAA。");
+            rt.antiAliasing = 1;
+            Debug.Log("[VrStereoFix] VideoScreen_RT MSAA 已设为 1。");
         }
     }
 

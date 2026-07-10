@@ -39,6 +39,34 @@ public class ScheduleStats
     public int dropped;
 }
 
+/// <summary>
+/// 对应 tts_candidates_no_overlap.json 里的单条弹幕（时间轴的第一手来源）。
+/// </summary>
+[Serializable]
+public class TtsCandidateEvent
+{
+    public float time_sec;
+    public string speaker_role;
+    public string text;
+    public float volume = 0.8f;
+    public float priority;
+    public string spatial_anchor;
+    public float duration_sec;
+    public bool can_overlap_crowd = true;
+    public string tts_mix_type;
+    public float preferred_crowd_duck_volume;
+}
+
+/// <summary>
+/// tts_candidates_no_overlap.json 顶层是 JSON 数组，JsonUtility 不支持直接解析，
+/// 需要用 "{\"items\":...}" 包一层再反序列化。
+/// </summary>
+[Serializable]
+public class TtsCandidateArrayWrapper
+{
+    public TtsCandidateEvent[] items;
+}
+
 [Serializable]
 public class CrowdAudioScheduleFile
 {
