@@ -6,13 +6,12 @@ using UnityEngine.Video;
 
 /// <summary>
 /// 根据情绪弹幕密度驱动 skybox 切换：
-/// 默认 sky11 → 最近窗口内 positive 情绪弹幕密集时渐变 light → 回到 sky11。
-/// （与 ★ 星星粒子共用同一套 positive 触发条件）
+/// 默认 sky11 → 窗口内 positive 占优且达标时渐变 light；
+/// negative 占优且达标时渐变 dark；双方都存在时取条数更多的一方；平局回 sky11。
+/// （与 ✦/☁ 粒子共用同一窗口、阈值与强度曲线）
 /// </summary>
 public class EmotionSkyboxBlendController : MonoBehaviour
 {
-    enum PulsePhase { Idle, FadeIn, Hold, FadeOut }
-
     [Header("场景引用")]
     public VideoPlayer videoPlayer;
     public Material skyboxBlendMaterial;
@@ -20,25 +19,27 @@ public class EmotionSkyboxBlendController : MonoBehaviour
     [Header("Skybox 贴图")]
     [Tooltip("默认基础 skybox（sky11）")]
     public Texture baseTexture;
-    [Tooltip("情绪弹幕密集时混合目标")]
+    [Tooltip("positive 占优时混合目标")]
     public Texture lightTexture;
+    [Tooltip("negative 占优时混合目标")]
+    public Texture darkTexture;
 
     [Header("情绪 JSON")]
     public string emotionJsonFileName = "classify/emotional_interactions_emotion_from_excel.json";
 
-    [Header("触发条件（滑动时间窗，仅 positive）")]
+    [Header("触发条件（滑动时间窗，与 ✦/☁ 粒子相同）")]
     [Tooltip("统计最近多少秒内的情绪弹幕")]
     public float windowSeconds = 14f;
-    [Tooltip("窗口内至少多少条 positive 才切 light（与 ★ 粒子相同）")]
+    [Tooltip("窗口内至少多少条 positive 才参与 light 竞争")]
     public int minPositiveToTrigger = 2;
-    [Tooltip("positive 需比 negative 至少多多少条（0 = 只要 positive ≥ negative 即可）")]
-    public int dominanceMargin = 0;
+    [Tooltip("窗口内至少多少条 negative 才参与 dark 竞争")]
+    public int minNegativeToTrigger = 2;
+    [Tooltip("达到此条数时 blend 接近满强度")]
+    public int countForFullBlend = 5;
 
     [Header("渐变时序（秒）")]
     public float fadeInDuration = 2.5f;
-    public float holdDuration = 4f;
     public float fadeOutDuration = 2.5f;
-    public float cooldownAfterPulse = 6f;
 
     static readonly int TexAId = Shader.PropertyToID("_TexA");
     static readonly int TexBId = Shader.PropertyToID("_TexB");
@@ -52,9 +53,8 @@ public class EmotionSkyboxBlendController : MonoBehaviour
     int recordIdx;
     double lastVideoTime = -1d;
 
-    PulsePhase phase = PulsePhase.Idle;
-    float phaseElapsed;
-    float cooldownTimer;
+    EmotionDensityUtil.SkyboxDominance appliedDominance = EmotionDensityUtil.SkyboxDominance.None;
+    float currentBlend;
 
     [Serializable]
     class EmotionRecord
@@ -128,12 +128,10 @@ public class EmotionSkyboxBlendController : MonoBehaviour
         }
 
         _runtimeMat.SetTexture(TexAId, baseTexture);
-        if (lightTexture != null)
-            _runtimeMat.SetTexture(TexBId, lightTexture);
         ApplyBlend(0f);
         RenderSettings.skybox = _runtimeMat;
         DynamicGI.UpdateEnvironment();
-        Debug.Log("[EmotionSkybox] 天空盒已初始化：base=sky11, positive 密集时切换 light。");
+        Debug.Log("[EmotionSkybox] 天空盒已初始化：base=sky11, positive→light / negative→dark。");
     }
 
     void ApplyFallbackStadiumSkybox()
@@ -156,7 +154,7 @@ public class EmotionSkyboxBlendController : MonoBehaviour
         {
             SeekRecords(videoTime);
             recentEvents.Clear();
-            ResetPulse();
+            ResetBlendState();
         }
         lastVideoTime = videoTime;
 
@@ -165,10 +163,7 @@ public class EmotionSkyboxBlendController : MonoBehaviour
 
         IngestRecordsUpTo(videoTime);
         PruneRecentEvents((float)videoTime);
-        UpdatePulseState(Time.deltaTime);
-
-        if (phase == PulsePhase.Idle && cooldownTimer <= 0f)
-            TryStartPulse();
+        UpdateSkyboxBlend(Time.deltaTime);
     }
 
     void EnsureTextures()
@@ -177,6 +172,8 @@ public class EmotionSkyboxBlendController : MonoBehaviour
             baseTexture = LoadPanoramaTexture("Textrue/sky11");
         if (lightTexture == null)
             lightTexture = LoadPanoramaTexture("Textrue/light");
+        if (darkTexture == null)
+            darkTexture = LoadPanoramaTexture("Textrue/dark");
     }
 
     static Texture LoadPanoramaTexture(string resourcesPath)
@@ -249,13 +246,6 @@ public class EmotionSkyboxBlendController : MonoBehaviour
         }
     }
 
-    void TryStartPulse()
-    {
-        CountSentiment(out int positive, out int negative);
-        if (EmotionDensityUtil.ShouldTriggerPositive(positive, negative, minPositiveToTrigger, dominanceMargin))
-            BeginLightPulse();
-    }
-
     void CountSentiment(out int positive, out int negative)
     {
         positive = 0;
@@ -267,76 +257,63 @@ public class EmotionSkyboxBlendController : MonoBehaviour
         }
     }
 
-    void BeginLightPulse()
+    void UpdateSkyboxBlend(float deltaTime)
     {
-        if (lightTexture != null)
-            _runtimeMat.SetTexture(TexBId, lightTexture);
+        CountSentiment(out int positive, out int negative);
+        EmotionDensityUtil.SkyboxDominance dominance = EmotionDensityUtil.ResolveSkyboxDominance(
+            positive, negative, minPositiveToTrigger, minNegativeToTrigger);
 
-        phase = PulsePhase.FadeIn;
-        phaseElapsed = 0f;
+        if (dominance != appliedDominance)
+        {
+            if (appliedDominance != EmotionDensityUtil.SkyboxDominance.None
+                && dominance != EmotionDensityUtil.SkyboxDominance.None
+                && dominance != appliedDominance)
+            {
+                currentBlend = 0f;
+            }
+
+            appliedDominance = dominance;
+            ApplyOverlayTexture(dominance);
+        }
+
+        float targetBlend = 0f;
+        switch (dominance)
+        {
+            case EmotionDensityUtil.SkyboxDominance.Positive:
+                targetBlend = EmotionDensityUtil.MapCountToIntensity(
+                    positive, minPositiveToTrigger, countForFullBlend);
+                break;
+            case EmotionDensityUtil.SkyboxDominance.Negative:
+                targetBlend = EmotionDensityUtil.MapCountToIntensity(
+                    negative, minNegativeToTrigger, countForFullBlend);
+                break;
+        }
+
+        float fadeSpeed = targetBlend > currentBlend
+            ? 1f / Mathf.Max(0.01f, fadeInDuration)
+            : 1f / Mathf.Max(0.01f, fadeOutDuration);
+        currentBlend = Mathf.MoveTowards(currentBlend, targetBlend, fadeSpeed * deltaTime);
+        ApplyBlend(currentBlend);
     }
 
-    void ResetPulse()
+    void ApplyOverlayTexture(EmotionDensityUtil.SkyboxDominance dominance)
     {
-        phase = PulsePhase.Idle;
-        phaseElapsed = 0f;
+        Texture overlay = dominance switch
+        {
+            EmotionDensityUtil.SkyboxDominance.Positive => lightTexture,
+            EmotionDensityUtil.SkyboxDominance.Negative => darkTexture,
+            _ => null
+        };
+
+        if (overlay != null)
+            _runtimeMat.SetTexture(TexBId, overlay);
+    }
+
+    void ResetBlendState()
+    {
+        appliedDominance = EmotionDensityUtil.SkyboxDominance.None;
+        currentBlend = 0f;
         ApplyBlend(0f);
-    }
-
-    void UpdatePulseState(float deltaTime)
-    {
-        if (phase == PulsePhase.Idle)
-        {
-            if (cooldownTimer > 0f)
-                cooldownTimer -= deltaTime;
-            return;
-        }
-
-        phaseElapsed += deltaTime;
-        float blend = 0f;
-
-        switch (phase)
-        {
-            case PulsePhase.FadeIn:
-            {
-                float dur = Mathf.Max(0.01f, fadeInDuration);
-                blend = Smooth01(phaseElapsed / dur);
-
-                if (phaseElapsed >= dur)
-                {
-                    phase = PulsePhase.Hold;
-                    phaseElapsed = 0f;
-                }
-                break;
-            }
-            case PulsePhase.Hold:
-            {
-                blend = 1f;
-
-                if (phaseElapsed >= holdDuration)
-                {
-                    phase = PulsePhase.FadeOut;
-                    phaseElapsed = 0f;
-                }
-                break;
-            }
-            case PulsePhase.FadeOut:
-            {
-                float dur = Mathf.Max(0.01f, fadeOutDuration);
-                blend = 1f - Smooth01(phaseElapsed / dur);
-
-                if (phaseElapsed >= dur)
-                {
-                    phase = PulsePhase.Idle;
-                    phaseElapsed = 0f;
-                    cooldownTimer = cooldownAfterPulse;
-                    blend = 0f;
-                }
-                break;
-            }
-        }
-
-        ApplyBlend(blend);
     }
 
     void ApplyBlend(float blend)
@@ -347,12 +324,6 @@ public class EmotionSkyboxBlendController : MonoBehaviour
 
         _lastBlend = blend;
         _runtimeMat.SetFloat(BlendId, blend);
-    }
-
-    static float Smooth01(float t)
-    {
-        t = Mathf.Clamp01(t);
-        return t * t * (3f - 2f * t);
     }
 
     void OnDestroy()

@@ -2,20 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Video;
 
 /// <summary>
 /// 情绪符号粒子系统。
 /// 读取情绪 JSON，通过滑动时间窗统计密度：
-///   positive 达标 → ★ 星星散落（与 light.png 同一条件）
-///   negative 达标 → ？ 单独散落（互不影响，可同时存在）
-///
-/// 场景使用方式：
-///   1. 在任意 GameObject 上挂载此脚本。
-///   2. 将 screen 下的 CurvedDanmakuCloudRig 拖进 cloudRig（或留空自动查找）。
-///   3. 在 Inspector 里调好 fontAsset，其余参数保持默认即可。
+///   positive 达标 → star 散落（数量随 positive 条数增加）
+///   negative 达标 → rain 散落（数量随 negative 条数增加，可与 star 共存）
+///   天空盒在同一窗口内取条数更多的一方切 light / dark。
 /// </summary>
 public class EmotionIconParticleController : MonoBehaviour
 {
@@ -23,25 +18,27 @@ public class EmotionIconParticleController : MonoBehaviour
     public VideoPlayer videoPlayer;
     [Tooltip("留空则自动在场景中查找")]
     public CurvedDanmakuCloudRig cloudRig;
-    public TMP_FontAsset fontAsset;
 
     [Header("情绪 JSON（与 EmotionSkyboxBlendController 共用同一文件）")]
     public string emotionJsonFileName = "classify/emotional_interactions_emotion_from_excel.json";
 
     [Header("触发条件（与 EmotionSkybox 对齐）")]
-    [Tooltip("统计最近多少秒内的情绪弹幕（建议与 Skybox 相同，默认 14）")]
+    [Tooltip("统计最近多少秒内的情绪弹幕")]
     public float windowSeconds = 14f;
-    [Tooltip("★ 星星：窗口内至少多少条 positive（与 light.png 相同）")]
+    [Tooltip("star：窗口内至少多少条 positive")]
     public int minPositiveToTrigger = 2;
-    [Tooltip("positive 需比 negative 至少多多少条（0 = positive ≥ negative 即可）")]
-    public int dominanceMargin = 0;
-    [Tooltip("？ 问号：窗口内至少多少条 negative（单独判断，不与 positive 比较）")]
+    [Tooltip("rain：窗口内至少多少条 negative")]
     public int minNegativeToTrigger = 2;
+    [Tooltip("达到此条数时粒子爆发接近满强度")]
+    public int countForFullBlend = 5;
 
     [Header("粒子外观")]
-    public string positiveIcon = "★";
-    public string negativeIcon = "？";
-    [Range(0.002f, 0.06f)]
+    public Sprite positiveSprite;
+    public Sprite negativeSprite;
+    [Tooltip("留空 positiveSprite 时从 Resources 加载")]
+    public string positiveSpriteResource = "Textrue/star";
+    [Tooltip("留空 negativeSprite 时从 Resources 加载")]
+    public string negativeSpriteResource = "Textrue/rain";    [Range(0.002f, 0.06f)]
     [Tooltip("粒子基础世界尺寸（米）；默认很小，像远处飘落的符号")]
     public float baseWorldScale = 0.012f;
     [Range(0f, 0.6f)]
@@ -64,16 +61,16 @@ public class EmotionIconParticleController : MonoBehaviour
     [Range(0f, 0.5f)] public float fadeInFraction = 0.15f;
     [Range(0f, 0.5f)] public float fadeOutFraction = 0.35f;
 
-    [Header("爆发节奏")]
+    [Header("爆发节奏（与天空盒 fadeInDuration 建议相同）")]
     [Range(1, 16)] public int burstCount = 8;
-    [Tooltip("同一方向两次爆发的最短间隔（秒）；越小越频繁")]
-    public float burstCooldown = 1f;
+    [Tooltip("同一极性两次爆发的间隔（秒）；与天空盒渐变时序对齐")]
+    public float burstCooldown = 2.5f;
     [Tooltip("同次爆发内相邻粒子的生成间隔（秒）")]
     public float inBurstGap = 0.06f;
-    [Tooltip("窗口内 positive 已达标时，每来一条新 positive 弹幕额外撒 1 颗★")]
-    public bool spawnStarOnEachPositiveEvent = true;
-    [Tooltip("窗口内 negative 已达标时，每来一条新 negative 弹幕额外撒 1 个？")]
-    public bool spawnQuestionOnEachNegativeEvent = true;
+    [Tooltip("窗口内 positive 已达标时，每来一条新 positive 弹幕额外撒 1 颗 star")]
+    public bool spawnOnEachPositiveEvent = true;
+    [Tooltip("窗口内 negative 已达标时，每来一条新 negative 弹幕额外撒 1 滴 rain")]
+    public bool spawnOnEachNegativeEvent = true;
 
     // ── 内部数据 ──────────────────────────────────
     readonly List<EmotionRecord> records = new();
@@ -117,6 +114,7 @@ public class EmotionIconParticleController : MonoBehaviour
         particleRoot = new GameObject("EmotionIconParticles").transform;
         particleRoot.SetParent(transform, false);
 
+        EnsureSprites();
         LoadRecords();
         SeekRecords(videoPlayer != null ? videoPlayer.time : 0d);
     }
@@ -127,7 +125,6 @@ public class EmotionIconParticleController : MonoBehaviour
 
         double vt = videoPlayer.time;
 
-        // Seek 检测
         if (lastVT >= 0d && vt + 0.5 < lastVT)
         {
             SeekRecords(vt);
@@ -138,7 +135,6 @@ public class EmotionIconParticleController : MonoBehaviour
 
         if (!videoPlayer.isPrepared) return;
 
-        // 刷新相机引用（VR 启动可能延迟）
         if (viewCamera == null || !viewCamera.enabled)
             viewCamera = DanmakuCameraUtility.ResolveViewCamera();
 
@@ -146,8 +142,6 @@ public class EmotionIconParticleController : MonoBehaviour
         PruneWindow((float)vt);
         TryBurst((float)vt);
     }
-
-    // ── 数据管理 ──────────────────────────────────
 
     void LoadRecords()
     {
@@ -207,13 +201,13 @@ public class EmotionIconParticleController : MonoBehaviour
     {
         CountSentiment(out int pos, out int neg);
 
-        if (isPositive && spawnStarOnEachPositiveEvent
-            && EmotionDensityUtil.ShouldTriggerPositive(pos, neg, minPositiveToTrigger, dominanceMargin))
+        if (isPositive && spawnOnEachPositiveEvent
+            && EmotionDensityUtil.IsPositiveActive(pos, minPositiveToTrigger))
         {
             SpawnParticle(true, length);
         }
-        else if (!isPositive && spawnQuestionOnEachNegativeEvent
-            && EmotionDensityUtil.ShouldTriggerNegative(neg, minNegativeToTrigger))
+        else if (!isPositive && spawnOnEachNegativeEvent
+            && EmotionDensityUtil.IsNegativeActive(neg, minNegativeToTrigger))
         {
             SpawnParticle(false, length);
         }
@@ -240,25 +234,27 @@ public class EmotionIconParticleController : MonoBehaviour
         }
     }
 
-    // ── 爆发逻辑 ──────────────────────────────────
-
     void TryBurst(float now)
     {
         CountSentiment(out int posCount, out int negCount);
 
-        if (EmotionDensityUtil.ShouldTriggerPositive(posCount, negCount, minPositiveToTrigger, dominanceMargin)
+        if (EmotionDensityUtil.IsPositiveActive(posCount, minPositiveToTrigger)
             && now >= nextPosBurstTime)
         {
+            int spawnCount = EmotionDensityUtil.MapCountToSpawnBurst(
+                posCount, minPositiveToTrigger, burstCount, countForFullBlend);
             float avgLen = AverageLength(true);
-            StartCoroutine(SpawnBurst(true, avgLen));
+            StartCoroutine(SpawnBurst(true, spawnCount, avgLen));
             nextPosBurstTime = now + burstCooldown;
         }
 
-        if (EmotionDensityUtil.ShouldTriggerNegative(negCount, minNegativeToTrigger)
+        if (EmotionDensityUtil.IsNegativeActive(negCount, minNegativeToTrigger)
             && now >= nextNegBurstTime)
         {
+            int spawnCount = EmotionDensityUtil.MapCountToSpawnBurst(
+                negCount, minNegativeToTrigger, burstCount, countForFullBlend);
             float avgLen = AverageLength(false);
-            StartCoroutine(SpawnBurst(false, avgLen));
+            StartCoroutine(SpawnBurst(false, spawnCount, avgLen));
             nextNegBurstTime = now + burstCooldown;
         }
     }
@@ -278,9 +274,9 @@ public class EmotionIconParticleController : MonoBehaviour
         return count > 0 ? sum / (float)count : 5f;
     }
 
-    IEnumerator SpawnBurst(bool isPositive, float avgLength)
+    IEnumerator SpawnBurst(bool isPositive, int spawnCount, float avgLength)
     {
-        for (int i = 0; i < burstCount; i++)
+        for (int i = 0; i < spawnCount; i++)
         {
             SpawnParticle(isPositive, avgLength);
             if (inBurstGap > 0f)
@@ -288,36 +284,59 @@ public class EmotionIconParticleController : MonoBehaviour
         }
     }
 
-    // ── 粒子生成 ──────────────────────────────────
-
     void SpawnParticle(bool isPositive, float avgLength)
     {
         Vector3 worldPos = GetRandomSpawnPosition();
 
-        // 尺寸：基础 + 长度影响（归一化到 0~20 字范围内）
         float lenRatio = Mathf.Clamp01((avgLength - 1f) / 19f);
         float scale = baseWorldScale * (1f + sizeVariation * lenRatio);
 
-        // 垂直下落（世界坐标 Y 轴），带轻微水平漂移
         float driftX = UnityEngine.Random.Range(-horizontalDrift, horizontalDrift);
         float driftZ = UnityEngine.Random.Range(-horizontalDrift, horizontalDrift);
         Vector3 vel = Vector3.down * fallSpeed + new Vector3(driftX, 0f, driftZ);
 
-        string icon   = isPositive ? positiveIcon : negativeIcon;
+        Sprite sprite = isPositive ? positiveSprite : negativeSprite;
         Color  color  = isPositive ? positiveColor : negativeColor;
 
         EmotionIconParticle p = GetOrCreateParticle();
-        p.Activate(icon, color, scale, worldPos, vel,
+        p.Activate(sprite, color, scale, worldPos, vel,
                    lifetime, fadeInFraction, fadeOutFraction,
-                   fontAsset, canvasSortOrder,
+                   canvasSortOrder,
                    viewCamera != null ? viewCamera.transform : null);
+    }
+
+    void EnsureSprites()
+    {
+        if (positiveSprite == null && !string.IsNullOrWhiteSpace(positiveSpriteResource))
+            positiveSprite = LoadSpriteFromResources(positiveSpriteResource);
+
+        if (negativeSprite == null && !string.IsNullOrWhiteSpace(negativeSpriteResource))
+            negativeSprite = LoadSpriteFromResources(negativeSpriteResource);
+
+        if (positiveSprite == null || negativeSprite == null)
+            Debug.LogWarning("[EmotionIconParticle] star/rain 贴图未加载，请检查 Resources/Textrue/star.png 与 rain.png。");
+    }
+
+    static Sprite LoadSpriteFromResources(string resourcesPath)
+    {
+        Texture2D tex = Resources.Load<Texture2D>(resourcesPath);
+        if (tex == null)
+        {
+            Debug.LogWarning($"[EmotionIconParticle] Resources 贴图未找到: {resourcesPath}");
+            return null;
+        }
+
+        return Sprite.Create(
+            tex,
+            new Rect(0f, 0f, tex.width, tex.height),
+            new Vector2(0.5f, 0.5f),
+            100f);
     }
 
     Vector3 GetRandomSpawnPosition()
     {
         if (nearLayer != null)
         {
-            // 在 NearEmotion 弧面宽度内随机取水平位置，从该区域顶边之上的「天空」生成
             float u = UnityEngine.Random.value;
             Vector3 localAnchor = nearLayer.GetLocalPosition(u, UnityEngine.Random.Range(0.2f, 1f), 0f);
             Vector3 worldAnchor = nearLayer.transform.TransformPoint(localAnchor);
@@ -329,7 +348,6 @@ public class EmotionIconParticleController : MonoBehaviour
             return new Vector3(worldAnchor.x, worldTop.y + heightAbove, worldAnchor.z);
         }
 
-        // 无曲面层：在相机前方上空随机生成
         Camera cam = viewCamera;
         if (cam == null) return Vector3.up * 3f;
 
@@ -341,8 +359,6 @@ public class EmotionIconParticleController : MonoBehaviour
             + right * UnityEngine.Random.Range(-1f, 1f)
             + Vector3.up * h;
     }
-
-    // ── 对象池 ────────────────────────────────────
 
     EmotionIconParticle GetOrCreateParticle()
     {

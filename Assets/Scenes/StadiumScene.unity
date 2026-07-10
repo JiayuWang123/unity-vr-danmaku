@@ -5496,14 +5496,14 @@ MonoBehaviour:
   skyboxBlendMaterial: {fileID: 2100000, guid: 4d5e6f708192a3b4c5d6e7f8091a2b3c, type: 2}
   baseTexture: {fileID: 2800000, guid: 08c3ad7a0e62ef546b37255f8419d729, type: 3}
   lightTexture: {fileID: 2800000, guid: 1493c6b6106263d4ea91d540bf44188e, type: 3}
+  darkTexture: {fileID: 2800000, guid: c3f564ef6d2f03d4a919e2bcfc5de249, type: 3}
   emotionJsonFileName: classify/emotional_interactions_emotion_from_excel.json
-  windowSeconds: 20
+  windowSeconds: 14
   minPositiveToTrigger: 2
-  dominanceMargin: 1
+  minNegativeToTrigger: 2
+  countForFullBlend: 5
   fadeInDuration: 2.5
-  holdDuration: 4
   fadeOutDuration: 2.5
-  cooldownAfterPulse: 6
 --- !u!1 &1965177010
 GameObject:
   m_ObjectHideFlags: 0
@@ -5535,15 +5535,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 0}
   cloudRig: {fileID: 0}
-  fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
   emotionJsonFileName: classify/emotional_interactions_emotion_from_excel.json
-  windowSeconds: 12
+  windowSeconds: 14
   minPositiveToTrigger: 2
-  dominanceMargin: 0
   minNegativeToTrigger: 2
-  positiveIcon: "\u2605"
-  negativeIcon: "\uFF1F"
-  baseWorldScale: 0.0051
+  countForFullBlend: 5
+  positiveSprite: {fileID: 0}
+  negativeSprite: {fileID: 0}
+  positiveSpriteResource: Textrue/star
+  negativeSpriteResource: Textrue/rain
+  baseWorldScale: 0.0021
   sizeVariation: 0.35
   positiveColor: {r: 1, g: 0.92, b: 0.3, a: 0.95}
   negativeColor: {r: 0.55, g: 0.78, b: 1, a: 0.95}
@@ -5556,10 +5557,10 @@ MonoBehaviour:
   fadeInFraction: 0.15
   fadeOutFraction: 0.35
   burstCount: 5
-  burstCooldown: 2.2
+  burstCooldown: 2.5
   inBurstGap: 0.1
-  spawnStarOnEachPositiveEvent: 1
-  spawnQuestionOnEachNegativeEvent: 1
+  spawnOnEachPositiveEvent: 1
+  spawnOnEachNegativeEvent: 1
 --- !u!4 &1965177012
 Transform:
   m_ObjectHideFlags: 0
@@ -5575,6 +5576,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2020217193
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2020217194}
+  - component: {fileID: 2020217195}
+  m_Layer: 0
+  m_Name: CurvedDanmakuCloudRig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2020217194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020217193}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.0037160816, y: 0.99932593, z: -0.018295417, w: -0.031608406}
+  m_LocalPosition: {x: -0.065, y: -0.08, z: -1.011}
+  m_LocalScale: {x: 0.12088743, y: 0.20858403, z: 0.12515041}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 638553557}
+  - {fileID: 1510513494}
+  - {fileID: 2114560535}
+  - {fileID: 1737568960}
+  m_Father: {fileID: 1899937958}
+  m_LocalEulerAnglesHint: {x: 2.082, y: 183.632, z: 0.492}
+--- !u!114 &2020217195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020217193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d405162738495a6b7c8d9e0f11223344, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nearEmotionLayer: {fileID: 638553558}
+  midInfoLayer: {fileID: 1510513495}
+  farInfoLayer: {fileID: 2114560536}
+  nearLayerObjectName: NearEmotionLayer
+  midLayerObjectName: MidInfoLayer
+  farLayerObjectName: FarInfoLayer
+  autoNormalizeParentScale: 1
 --- !u!1 &2044100001
 GameObject:
   m_ObjectHideFlags: 0
@@ -5655,61 +5711,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2020217193
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2020217194}
-  - component: {fileID: 2020217195}
-  m_Layer: 0
-  m_Name: CurvedDanmakuCloudRig
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2020217194
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2020217193}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.0037160816, y: 0.99932593, z: -0.018295417, w: -0.031608406}
-  m_LocalPosition: {x: -0.065, y: -0.08, z: -1.011}
-  m_LocalScale: {x: 0.12088743, y: 0.20858403, z: 0.12515041}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 638553557}
-  - {fileID: 1510513494}
-  - {fileID: 2114560535}
-  - {fileID: 1737568960}
-  m_Father: {fileID: 1899937958}
-  m_LocalEulerAnglesHint: {x: 2.082, y: 183.632, z: 0.492}
---- !u!114 &2020217195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2020217193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d405162738495a6b7c8d9e0f11223344, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nearEmotionLayer: {fileID: 638553558}
-  midInfoLayer: {fileID: 1510513495}
-  farInfoLayer: {fileID: 2114560536}
-  nearLayerObjectName: NearEmotionLayer
-  midLayerObjectName: MidInfoLayer
-  farLayerObjectName: FarInfoLayer
-  autoNormalizeParentScale: 1
 --- !u!1 &2095025182
 GameObject:
   m_ObjectHideFlags: 0
