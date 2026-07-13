@@ -148,7 +148,11 @@ public class SemanticDanmakuInstance : MonoBehaviour
         label.fontSize = settings.GetFontSize(layerKind);
         label.color = settings.BuildTextColor(record, layerKind);
         label.ForceMeshUpdate(true, true);
-        label.fontStyle = FontStyles.Bold;
+
+        if (layerKind == CurvedCloudLayerKind.FarInfo)
+            TmpDanmakuTextUtility.ApplyReadableStyle(label, settings.farInfoOutlineWidth, settings.farInfoOutlineColor);
+        else
+            label.fontStyle = FontStyles.Bold;
     }
 
     void UpdateWorldPose()

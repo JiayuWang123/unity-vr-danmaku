@@ -17,9 +17,9 @@ public class SemanticDanmakuControllerEditor : Editor
             "3. 暂时 Disable 旧的 PopUpDanmakuController\n" +
             "4. 分类 JSON 放在 StreamingAssets/SemanticDanmaku/\n\n" +
             "当前默认模式（Use Far Layer Category Files 勾选）：\n" +
-            "只读取 Far Layer File A / B 两个文件，且只在 FarInfoLayer 上以「两簇」形式展示，\n" +
-            "左右两簇分别对应 Left/Right Cluster Category。\n" +
-            "两簇的开合角度、内扣倾斜、行距、每行列数都在 Settings 的“顶层双簇聚类布局”里手动调整。",
+            "只读取 Far Layer File A / B 两个文件，在 FarInfoLayer 左右各一条滚动区展示。\n" +
+            "开启 Far Info Use Scroll Ticker 后，每条弹幕带喇叭图标从左向右滚过，左右互不越界。\n" +
+            "关闭滚动条时，退回原来的两簇垂直堆叠布局。",
             MessageType.Info);
 
         if (GUILayout.Button("自动查找 Cloud Rig / Social Panel"))

@@ -69,6 +69,11 @@ public class MatchPointAlertController : MonoBehaviour
     [Tooltip("震动持续时间（秒）")]
     public float hapticDuration = 0.15f;
 
+    [Header("心跳音效")]
+    public bool enableHeartbeatSound = true;
+    public AudioClip heartbeatClip;
+    [Range(0f, 1f)] public float heartbeatVolume = 0.85f;
+
     readonly List<MatchPointRecord> records = new();
     readonly Queue<MatchPointRecord> pending = new();
 
@@ -79,6 +84,7 @@ public class MatchPointAlertController : MonoBehaviour
     MatchPointAlertInstance current;
     bool initialized;
     bool rootAligned;
+    AudioSource heartbeatSource;
 
     [Serializable]
     class MatchPointRecord
@@ -127,6 +133,7 @@ public class MatchPointAlertController : MonoBehaviour
 
         EnsureFontAsset();
         EnsureRoot();
+        EnsureHeartbeatAudio();
         LoadJson();
         PreloadFontCharacters();
         SeekIndex(videoPlayer != null ? videoPlayer.time : 0d);
@@ -297,6 +304,39 @@ public class MatchPointAlertController : MonoBehaviour
 
         if (enableHaptics)
             XRHapticsUtility.PulseAllControllers(hapticAmplitude, hapticDuration);
+
+        PlayHeartbeatOnce();
+    }
+
+    void EnsureHeartbeatAudio()
+    {
+        if (heartbeatClip == null)
+        {
+#if UNITY_EDITOR
+            heartbeatClip = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/心跳声/heart.mp3");
+#endif
+            if (heartbeatClip == null)
+                heartbeatClip = Resources.Load<AudioClip>("Audio/heart");
+        }
+
+        if (heartbeatSource == null)
+        {
+            heartbeatSource = GetComponent<AudioSource>();
+            if (heartbeatSource == null)
+                heartbeatSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        heartbeatSource.playOnAwake = false;
+        heartbeatSource.loop = false;
+        heartbeatSource.spatialBlend = 0f;
+    }
+
+    void PlayHeartbeatOnce()
+    {
+        if (!enableHeartbeatSound || heartbeatClip == null || heartbeatSource == null)
+            return;
+
+        heartbeatSource.PlayOneShot(heartbeatClip, heartbeatVolume);
     }
 
     void OnAlertFinished(MatchPointAlertInstance inst)

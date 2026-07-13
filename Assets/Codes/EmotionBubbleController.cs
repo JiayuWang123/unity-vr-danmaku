@@ -276,7 +276,12 @@ public class EmotionBubbleController : MonoBehaviour
     void LoadJson()
     {
         records.Clear();
-        string[] candidates = { jsonFileName, "classify/emotion.json" };
+        string[] candidates =
+        {
+            jsonFileName,
+            "classify/emotion.json",
+            "classify/emotional_interactions_emotion_from_excel.json"
+        };
 
         foreach (string candidate in candidates)
         {

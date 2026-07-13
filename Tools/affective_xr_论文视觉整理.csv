@@ -1,0 +1,26 @@
+﻿表格类型,人员,负责范围,ID,论文AppendixG类别,子类,论文编号,本项目是否采用,备注
+分工,人员1,Symbols + 5.2.1 Literal 全部,,,,,,
+分工,人员2,Dynamic Motion 全部 + Environments/Spatiotemporal objects,,,,,,
+分工,人员3,Environments 其余5子类（Whole/Preternatural/Lighting/AR overlay/Preset）,,,,,,
+分工,人员4,Adaptive Settings 全部 + Creature 全部 + Interactivity/Agency 视觉,,,,,,
+分工,人员5,Avatar 全部 + 听觉触觉多模态筛查 + 5.2九维汇总,,,,,,
+,,,,,,,,
+清单,人员1,Symbols + Literal,V1,Symbols,Icons,[17][24][27][28][55][60][80][93][125][154],,
+清单,人员1,Symbols + Literal,V2,Symbols,Progress bar,[65][73][110][152][166],,
+清单,人员2,Dynamic Motion + Spatiotemporal,V3,Environments,Spatiotemporal objects,[15][35][47][89][90][130][151],,
+清单,人员3,Environments,V4,Environments,Whole environment changing,[7][30][59][97][118][135],,
+清单,人员3,Environments,V5,Environments,Preternatural transmission,[22][32][79][91][113],,
+清单,人员3,Environments,V6,Environments,Lighting effects,[21][23][49][161],,
+清单,人员3,Environments,V7,Environments,Virtual on real objects (AR),[37][120][150],,
+清单,人员3,Environments,V8,Environments,Pre-set environments,[25][26],,
+清单,人员5,Avatar,V9,Avatar,Changing velocity shape and color,[10][11][16][18][83][123][124][126][137][159],,团队不做虚拟人也逐条记录后标否
+清单,人员5,Avatar,V10,Avatar,Changing facial expression,[51][52][85],,团队不做虚拟人也逐条记录后标否
+清单,人员4,Adaptive Settings,V11,Adaptive Settings,Task or game difficulties,[1][9][29][45][61][69][70][109][149][168],,
+清单,人员4,Adaptive Settings,V12,Adaptive Settings,Changing agent behavior,[99][146],,
+清单,人员2,Dynamic Motion + Spatiotemporal,V13,Dynamic Motion,Moving dot in quadrant,[81][107][133][164],,
+清单,人员2,Dynamic Motion + Spatiotemporal,V14,Dynamic Motion,Line going up and down,[86][111][148][155],,
+清单,人员2,Dynamic Motion + Spatiotemporal,V15,Dynamic Motion,Color changing,[48][87][153],,
+清单,人员4,Creature,V16,Creature,Growing up,[104][144][157],,
+清单,人员4,Creature,V17,Creature,Moving position,[112],,
+清单,人员4,Creature,V18,Creature,Replacing with other creature,[82],,
+清单,人员4,5.2补充,V19,5.2 补充视觉,呼吸圈/Proactive/Interactive/Deceptive/Hybrid/Literal扩展,[154][150][151][16][55][89][90][107][131]等,,含BPM文字/emoji/坐标图/3D心/AI可变视觉等

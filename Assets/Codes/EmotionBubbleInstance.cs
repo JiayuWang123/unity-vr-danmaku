@@ -104,7 +104,7 @@ public class EmotionBubbleInstance : MonoBehaviour
 
     void LateUpdate()
     {
-        Camera cam = Camera.main;
+        Camera cam = DanmakuCameraUtility.ResolveViewCamera();
         if (cam != null)
             transform.rotation = Quaternion.LookRotation(transform.position - cam.transform.position);
     }

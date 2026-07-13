@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
@@ -30,10 +31,10 @@ public class SocializationPanelController : MonoBehaviour
     public Vector3 localOffset = new Vector3(0f, -0.42f, 0.85f);
     [Tooltip("收起时「点击展开聊天室」按钮的位置（底边对齐点）")]
     public Vector3 collapsedLocalOffset = new Vector3(0f, -0.42f, 0.85f);
-    [Tooltip("面板倾斜角度：X 为俯仰（正值让顶部往里倾，像平板立起来一点看向你），Y 为左右偏转，Z 为翻滚。\n" +
-        "Play 模式下可在 Hierarchy 里选中 Main Camera 下的 SocializationPanelRoot，用旋转工具(E)实时试角度，\n" +
-        "满意后把 Inspector 里 Rotation 的数值抄回这里的 Local Euler Angles（退出 Play 模式后手动改）。")]
+    [Tooltip("展开后面板的倾斜角度：X 俯仰，Y 左右偏转，Z 翻滚")]
     public Vector3 localEulerAngles = new Vector3(12f, 0f, 0f);
+    [Tooltip("收起时「点击展开聊天室」按钮的倾斜角度（与展开面板独立）")]
+    public Vector3 collapsedLocalEulerAngles = new Vector3(12f, 0f, 0f);
     [Range(0.0006f, 0.004f)] public float canvasScale = 0.0016f;
 
     [Header("抬头限制（防遮挡视频）")]
@@ -115,6 +116,7 @@ public class SocializationPanelController : MonoBehaviour
     bool isExpanded;
     bool hasUnread;
     bool initialized;
+    bool initializing;
     int messageSeq;
     float expandedLockedWorldY;
     float collapsedLockedWorldY;
@@ -138,12 +140,19 @@ public class SocializationPanelController : MonoBehaviour
         public SocializationRecord[] items;
     }
 
+    void OnEnable()
+    {
+        if (Application.isPlaying && !initialized && !initializing)
+            StartCoroutine(InitializeWhenReady());
+    }
+
     void OnDisable()
     {
         if (Application.isPlaying)
             ReleaseRuntimeResources();
 
         initialized = false;
+        initializing = false;
     }
 
     void OnDestroy()
@@ -153,16 +162,35 @@ public class SocializationPanelController : MonoBehaviour
 
     void Start()
     {
-        if (initialized) return;
+        if (!initialized && !initializing)
+            StartCoroutine(InitializeWhenReady());
+    }
+
+    IEnumerator InitializeWhenReady()
+    {
+        if (initialized || initializing)
+            yield break;
+
+        initializing = true;
+
+        for (int i = 0; i < 90 && !EnsureHeadTransform(); i++)
+            yield return null;
+
+        if (initialized)
+        {
+            initializing = false;
+            yield break;
+        }
+
         initialized = true;
+        initializing = false;
 
         if (videoPlayer == null)
             videoPlayer = FindObjectOfType<VideoPlayer>();
-        if (headTransform == null && Camera.main != null)
-            headTransform = Camera.main.transform;
 
         EnsureFontAsset();
         EnsureEventSystem();
+        CleanupStaleUiRoots();
         BuildUi();
         LoadJson();
         PreloadFontCharacters();
@@ -170,6 +198,15 @@ public class SocializationPanelController : MonoBehaviour
 
         if (records.Count == 0)
             Debug.LogError("[SocializationPanel] 未加载到弹幕数据，请检查 classify/socialization.json");
+    }
+
+    bool EnsureHeadTransform()
+    {
+        if (headTransform != null && headTransform.gameObject.activeInHierarchy)
+            return true;
+
+        headTransform = DanmakuCameraUtility.ResolveHeadTransform();
+        return headTransform != null;
     }
 
     void Update()
@@ -195,15 +232,18 @@ public class SocializationPanelController : MonoBehaviour
 
     void LateUpdate()
     {
-        ApplyHeadFollow(expandedRoot, localOffset, isExpanded, ref expandedLockedWorldY);
-        ApplyHeadFollow(collapsedRoot, collapsedLocalOffset, !isExpanded, ref collapsedLockedWorldY);
+        if (headTransform == null)
+            EnsureHeadTransform();
+
+        ApplyHeadFollow(expandedRoot, localOffset, localEulerAngles, isExpanded, ref expandedLockedWorldY);
+        ApplyHeadFollow(collapsedRoot, collapsedLocalOffset, collapsedLocalEulerAngles, !isExpanded, ref collapsedLockedWorldY);
     }
 
-    void ApplyHeadFollow(RectTransform root, Vector3 baseLocalOffset, bool active, ref float lockedWorldY)
+    void ApplyHeadFollow(RectTransform root, Vector3 baseLocalOffset, Vector3 eulerAngles, bool active, ref float lockedWorldY)
     {
         if (root == null || !active || headTransform == null) return;
 
-        Quaternion panelTilt = Quaternion.Euler(localEulerAngles);
+        Quaternion panelTilt = Quaternion.Euler(eulerAngles);
         Quaternion fullWorldRot = headTransform.rotation * panelTilt;
         Vector3 fullWorldPos = headTransform.TransformPoint(baseLocalOffset);
         Quaternion yawRot = GetYawOnlyRotation(headTransform);
@@ -313,6 +353,9 @@ public class SocializationPanelController : MonoBehaviour
 
     void BuildUi()
     {
+        if (expandedRoot != null || collapsedRoot != null)
+            ReleaseRuntimeResources();
+
         BuildExpandedRoot();
         BuildCollapsedRoot();
         SetExpanded(false);
@@ -324,12 +367,8 @@ public class SocializationPanelController : MonoBehaviour
         expandedRoot = rootGo.GetComponent<RectTransform>();
         SetupWorldCanvas(rootGo, expandedSize);
 
-        if (headTransform != null)
-        {
-            rootGo.transform.SetParent(headTransform, false);
-            rootGo.transform.localPosition = localOffset;
-            rootGo.transform.localRotation = Quaternion.Euler(localEulerAngles);
-        }
+        // VR 中不要挂在相机下，避免重复初始化时旧面板留在世界坐标里形成「一串页面」
+        rootGo.transform.SetParent(transform, false);
         rootGo.transform.localScale = Vector3.one * canvasScale;
 
         BuildExpandedPanel();
@@ -341,15 +380,32 @@ public class SocializationPanelController : MonoBehaviour
         collapsedRoot = rootGo.GetComponent<RectTransform>();
         SetupWorldCanvas(rootGo, collapsedSize);
 
-        if (headTransform != null)
-        {
-            rootGo.transform.SetParent(headTransform, false);
-            rootGo.transform.localPosition = collapsedLocalOffset;
-            rootGo.transform.localRotation = Quaternion.Euler(localEulerAngles);
-        }
+        rootGo.transform.SetParent(transform, false);
         rootGo.transform.localScale = Vector3.one * canvasScale;
 
         BuildCollapsedBar();
+    }
+
+    void CleanupStaleUiRoots()
+    {
+        var allRoots = FindObjectsOfType<Transform>(true);
+        for (int i = 0; i < allRoots.Length; i++)
+        {
+            Transform t = allRoots[i];
+            if (t == null)
+                continue;
+
+            bool isExpandedRoot = t.name == "SocializationExpandedRoot";
+            bool isCollapsedRoot = t.name == "SocializationCollapsedRoot";
+            if (!isExpandedRoot && !isCollapsedRoot)
+                continue;
+
+            if (t == expandedRoot || t == collapsedRoot)
+                continue;
+
+            UiSpriteCleanupUtil.DestroyGeneratedSprites(t.gameObject);
+            Destroy(t.gameObject);
+        }
     }
 
     void SetupWorldCanvas(GameObject rootGo, Vector2 size)
@@ -358,6 +414,11 @@ public class SocializationPanelController : MonoBehaviour
         canvas.renderMode = RenderMode.WorldSpace;
         canvas.overrideSorting = true;
         canvas.sortingOrder = canvasSortOrder;
+
+        Camera viewCamera = DanmakuCameraUtility.ResolveViewCamera();
+        if (viewCamera != null)
+            canvas.worldCamera = viewCamera;
+
         rootGo.AddComponent<CanvasScaler>();
         rootGo.AddComponent<GraphicRaycaster>();
         rootGo.AddComponent<TrackedDeviceGraphicRaycaster>();

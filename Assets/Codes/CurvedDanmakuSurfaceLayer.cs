@@ -29,6 +29,12 @@ public class CurvedDanmakuSurfaceLayer : MonoBehaviour
 
     public Color EditorColor => GetLayerColor();
 
+    void Awake()
+    {
+        if (Application.isPlaying)
+            HideEditorVisualImmediate();
+    }
+
     void OnEnable()
     {
         EnsureEditorVisual();
@@ -287,6 +293,14 @@ public class CurvedDanmakuSurfaceLayer : MonoBehaviour
     {
         if (editorVisualRoot != null)
             editorVisualRoot.gameObject.SetActive(active);
+    }
+
+    void HideEditorVisualImmediate()
+    {
+        if (editorOutline != null)
+            editorOutline.enabled = false;
+
+        SetEditorVisualActive(false);
     }
 
     Color GetLayerColor()

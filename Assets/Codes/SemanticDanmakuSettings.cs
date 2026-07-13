@@ -15,7 +15,7 @@ public class SemanticDanmakuSettings : MonoBehaviour
     public string legacyMidJsonFileName = "pop_up_mid.json";
     public string legacyFarJsonFileName = "pop_up_far.json";
 
-    [Header("顶层双簇聚类布局（仅 useFarLayerCategoryFiles 生效）")]
+    [Header("顶层双簇静态堆叠（farInfoUseScrollTicker 关闭时生效）")]
     [Tooltip("两簇中心相对正前方的水平间距（度）。会换算成同一平面上的左右偏移，不会把两簇放到不同深度。")]
     public float clusterHalfGapDegrees = 16f;
     [Tooltip("两簇绕竖直轴朝中间「内扣」的角度（度）。0 = 左右两簇完全同平面、平行；增大 = 左簇向右倾、右簇向左倾。")]
@@ -32,6 +32,33 @@ public class SemanticDanmakuSettings : MonoBehaviour
     public DanmakuSemanticCategory leftClusterCategory = DanmakuSemanticCategory.MatchHistory;
     [Tooltip("放在右边的分类")]
     public DanmakuSemanticCategory rightClusterCategory = DanmakuSemanticCategory.EntityRelated;
+
+    [Header("Far Info 滚动条（左右分区，互不过界）")]
+    [Tooltip("开启后，Far 层两簇信息弹幕改为裁剪区内从右向左滚动")]
+    public bool farInfoUseScrollTicker = true;
+    [Tooltip("单侧滚动区宽度（Canvas 像素）")]
+    public float tickerLaneWidth = 420f;
+    [Tooltip("单侧滚动区可见高度（Canvas 像素）")]
+    public float tickerViewportHeight = 360f;
+    [Tooltip("每条滚动弹幕占用行高（Canvas 像素）")]
+    public float tickerRowHeight = 88f;
+    [Tooltip("滚动速度（Canvas 像素/秒）")]
+    public float tickerScrollSpeed = 72f;
+    [Tooltip("滚动区相对 Far 层中心的竖直偏移（米）")]
+    public float tickerVerticalOffsetMeters = 0f;
+    [Tooltip("喇叭图标尺寸（Canvas 像素）")]
+    public float tickerSpeakerSize = 34f;
+    [Tooltip("喇叭与文字间距（Canvas 像素）")]
+    public float tickerTextGap = 8f;
+    public Color tickerSpeakerColor = new Color(1f, 0.82f, 0.25f, 1f);
+    public Sprite tickerSpeakerSprite;
+    public string tickerSpeakerSpriteResource = string.Empty;
+    [Tooltip("滚动条相对相机左右内扣角度（度）；0 = 正面朝向头显")]
+    public float tickerInwardYawDegrees = 0f;
+    [Tooltip("滚动条额外欧拉角微调（度）。若文字反了可试 Y=180")]
+    public Vector3 tickerExtraEulerOffset = Vector3.zero;
+    [Tooltip("滚动区左右缘渐变宽度（像素）：文字滚到该范围内按位置变淡")]
+    public float tickerEdgeFadeWidth = 80f;
 
     [Header("布局")]
     public float layoutWindowSeconds = 8f;
@@ -56,8 +83,12 @@ public class SemanticDanmakuSettings : MonoBehaviour
     public float worldLabelScale = 0.0045f;
     public Vector2 labelSize = new Vector2(900f, 160f);
     public int canvasSortingOrder = 220;
-    [Range(0f, 1f)] public float outlineWidth = 0f;
-    public Color outlineColor = new Color(0f, 0f, 0f, 0.85f);
+
+    [Header("最远层（Far Info 双簇）描边")]
+    [Range(0f, 1f)]
+    [Tooltip("仅 FarInfoLayer 两簇信息弹幕生效；0 = 不加描边")]
+    public float farInfoOutlineWidth = 0.22f;
+    public Color farInfoOutlineColor = new Color(0f, 0f, 0f, 0.9f);
 
     [Header("并发与 Seek")]
     public int maxConcurrentEmotion = 0;

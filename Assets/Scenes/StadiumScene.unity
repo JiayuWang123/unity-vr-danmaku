@@ -1934,6 +1934,20 @@ MonoBehaviour:
   clusterBaseRowOffset: 0
   leftClusterCategory: 1
   rightClusterCategory: 2
+  farInfoUseScrollTicker: 1
+  tickerLaneWidth: 1100
+  tickerViewportHeight: 448
+  tickerRowHeight: 88
+  tickerScrollSpeed: 130
+  tickerVerticalOffsetMeters: 0
+  tickerSpeakerSize: 34
+  tickerTextGap: 8
+  tickerSpeakerColor: {r: 1, g: 0.82, b: 0.25, a: 1}
+  tickerSpeakerSprite: {fileID: 21300000, guid: 4f0a79f06c26a4d469c60da2958e3807, type: 3}
+  tickerSpeakerSpriteResource: 
+  tickerInwardYawDegrees: 0
+  tickerExtraEulerOffset: {x: 0, y: 180, z: 0}
+  tickerEdgeFadeWidth: 500
   layoutWindowSeconds: 8
   layoutRefreshInterval: 0.5
   emotionDwellDuration: 1.8
@@ -1952,8 +1966,8 @@ MonoBehaviour:
   worldLabelScale: 0.005
   labelSize: {x: 1500, y: 160}
   canvasSortingOrder: 220
-  outlineWidth: 0
-  outlineColor: {r: 0, g: 0, b: 0, a: 0.85}
+  farInfoOutlineWidth: 0.28
+  farInfoOutlineColor: {r: 0, g: 0, b: 0, a: 0.972549}
   maxConcurrentEmotion: 0
   maxConcurrentMidInfo: 3
   maxConcurrentFarInfo: 4
@@ -5393,6 +5407,7 @@ MonoBehaviour:
   localOffset: {x: 0, y: -0.9, z: 0.85}
   collapsedLocalOffset: {x: 0, y: -0.42, z: 0.85}
   localEulerAngles: {x: 50, y: 0, z: 0}
+  collapsedLocalEulerAngles: {x: 20, y: 0, z: 0}
   canvasScale: 0.0011
   limitPanelOnHeadPitch: 1
   headPitchLockStart: 12.4
@@ -5443,6 +5458,134 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1955000101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1955000102}
+  - component: {fileID: 1955000103}
+  m_Layer: 0
+  m_Name: EmotionSkyboxController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1955000102
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955000101}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1955000103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955000101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3e2d1c0b9a8476584938271a0b1c2d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1899937954}
+  skyboxBlendMaterial: {fileID: 2100000, guid: 4d5e6f708192a3b4c5d6e7f8091a2b3c, type: 2}
+  baseTexture: {fileID: 2800000, guid: 08c3ad7a0e62ef546b37255f8419d729, type: 3}
+  lightTexture: {fileID: 2800000, guid: 1493c6b6106263d4ea91d540bf44188e, type: 3}
+  darkTexture: {fileID: 2800000, guid: c3f564ef6d2f03d4a919e2bcfc5de249, type: 3}
+  emotionJsonFileName: classify/emotional_interactions_emotion_from_excel.json
+  windowSeconds: 14
+  minPositiveToTrigger: 2
+  minNegativeToTrigger: 2
+  countForFullBlend: 5
+  fadeInDuration: 2.5
+  fadeOutDuration: 2.5
+--- !u!1 &1965177010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1965177012}
+  - component: {fileID: 1965177011}
+  m_Layer: 0
+  m_Name: EmotionIconManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1965177011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965177010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2c3d4e5f6071829a3b4c5d6e7f8091a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 0}
+  cloudRig: {fileID: 0}
+  emotionJsonFileName: classify/emotional_interactions_emotion_from_excel.json
+  windowSeconds: 14
+  minPositiveToTrigger: 2
+  minNegativeToTrigger: 2
+  countForFullBlend: 5
+  positiveSprite: {fileID: 0}
+  negativeSprite: {fileID: 0}
+  positiveSpriteResource: Textrue/star
+  negativeSpriteResource: Textrue/rain
+  baseWorldScale: 0.0021
+  sizeVariation: 0.35
+  positiveColor: {r: 1, g: 0.92, b: 0.3, a: 0.95}
+  negativeColor: {r: 0.55, g: 0.78, b: 1, a: 0.95}
+  canvasSortOrder: 230
+  spawnHeightMin: 2
+  spawnHeightMax: 3.2
+  lifetime: 2
+  fallSpeed: 0.22
+  horizontalDrift: 0.06
+  fadeInFraction: 0.15
+  fadeOutFraction: 0.35
+  burstCount: 5
+  burstCooldown: 2.5
+  inBurstGap: 0.1
+  spawnOnEachPositiveEvent: 1
+  spawnOnEachNegativeEvent: 1
+--- !u!4 &1965177012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965177010}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.0213335, y: -0.5013701, z: 0.2764785}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5519,7 +5662,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2044100002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5924,6 +6067,9 @@ MonoBehaviour:
   enableHaptics: 1
   hapticAmplitude: 0.7
   hapticDuration: 0.15
+  enableHeartbeatSound: 1
+  heartbeatClip: {fileID: 8300000, guid: 67501b08913f8cb49a41111bb39ecc49, type: 3}
+  heartbeatVolume: 0.104
 --- !u!4 &2144200003
 Transform:
   m_ObjectHideFlags: 0
@@ -5971,6 +6117,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2144200003}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2150000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2150000002}
+  - component: {fileID: 2150000003}
+  m_Layer: 0
+  m_Name: StadiumAudioSettings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2150000002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2150000001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2150000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2150000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c6d7e8f901234567890abcdef01234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ttsPlaybackGain: 689
+  videoCommentaryVolume: 0.035
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5989,5 +6181,8 @@ SceneRoots:
   - {fileID: 2095025185}
   - {fileID: 1822006704}
   - {fileID: 1955000003}
+  - {fileID: 1955000102}
+  - {fileID: 1965177012}
   - {fileID: 2044100003}
   - {fileID: 2144200003}
+  - {fileID: 2150000002}
