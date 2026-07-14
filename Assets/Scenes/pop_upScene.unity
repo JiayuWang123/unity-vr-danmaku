@@ -688,7 +688,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 603132191}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e45c0e32261cf740a0b1a369fa104dd, type: 3}
   m_Name: 
@@ -828,7 +828,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772327019}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a66a707f787d9cf4d8e64c8e4cfb92d6, type: 3}
   m_Name: 
@@ -868,57 +868,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 83.048, z: 0}
---- !u!1 &882327019
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 882327021}
-  - component: {fileID: 882327020}
-  m_Layer: 0
-  m_Name: TimedSkyboxBlendController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &882327020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 882327019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b2c3d4e5f60718293a4b5c6d7e8f901, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 1899937954}
-  onlyWhenVideoPlaying: 1
-  skyboxBlendMaterial: {fileID: 2100000, guid: 4d5e6f708192a3b4c5d6e7f8091a2b3c, type: 2}
-  fadeToDarkStartTime: 9
-  fadeToDarkDuration: 3
-  fadeToBrightStartTime: 12
-  fadeToBrightDuration: 3
---- !u!4 &882327021
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 882327019}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &804110646
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,7 +1020,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 833638988}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a47cd3f3e2df5546826b82a38e463b5, type: 3}
   m_Name: 
@@ -1143,6 +1092,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3101c296f0644d25989714dbcf5990d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 0}
+  danmakuCanvas: {fileID: 0}
+  danmakuPrefab: {fileID: 0}
+  jsonFileName: filtered_danmaku.json
+  autoImportXmlOnStart: 1
+  xmlInputFolderName: DanmuXml
+  explicitXmlFileName: 
+  preferNewestXml: 1
+  densityWindowSeconds: 10
+  maxEntriesPerWindow: 45
+  duplicateWindowSeconds: 3
+  rightPadding: 120
+  verticalPadding: 48
+  trackCount: 12
+  hideTemplateOnStart: 1
+  clearSpawnedOnSeek: 1
+  seekResetThresholdSeconds: 0.5
 --- !u!4 &877462518
 Transform:
   m_ObjectHideFlags: 0
@@ -1158,6 +1124,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 83.048, z: 0}
+--- !u!1 &882327019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 882327021}
+  - component: {fileID: 882327020}
+  m_Layer: 0
+  m_Name: TimedSkyboxBlendController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &882327020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882327019}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b2c3d4e5f60718293a4b5c6d7e8f901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1899937954}
+  onlyWhenVideoPlaying: 1
+  skyboxBlendMaterial: {fileID: 2100000, guid: 4d5e6f708192a3b4c5d6e7f8091a2b3c, type: 2}
+  fadeToDarkStartTime: 9
+  fadeToDarkDuration: 3
+  fadeToBrightStartTime: 12
+  fadeToBrightDuration: 3
+--- !u!4 &882327021
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882327019}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &898143277
 GameObject:
   m_ObjectHideFlags: 0
@@ -8070,7 +8087,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809103440}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cca085356409626458c826922a4386d0, type: 3}
   m_Name: 
@@ -8138,7 +8155,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.012
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -8230,7 +8247,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899937952}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 96b6174ebbfed5c4799e4dbf0c3b9713, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: df5f8b912302f8348ab49696481235f9, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -8467,6 +8484,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 83.048, z: 0}
+--- !u!1 &2147403100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2147403101}
+  - component: {fileID: 2147403102}
+  - component: {fileID: 2147403103}
+  m_Layer: 0
+  m_Name: EmotionTTSController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2147403101
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2147403100}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.662931, z: -0, w: 0.7486805}
+  m_LocalPosition: {x: 0.1690923, y: 1.1228645, z: 0.65336084}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 83.048, z: 0}
+--- !u!114 &2147403102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2147403100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1a2b3c4d5e6f708192a3b4c5d6e7f81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1899937954}
+  scheduleFileName: audio_schedule.json
+  onlyWhenVideoPlaying: 1
+  seekResetThresholdSeconds: 0.35
+  anchorLeft: {fileID: 0}
+  anchorRight: {fileID: 0}
+  anchorFront: {fileID: 0}
+  anchorBack: {fileID: 0}
+  videoCommentarySource: {fileID: 1899937953}
+  duckVideoVolume: 0.18
+  affectVideoVolume: 0
+  restoreVideoVolumeOnStop: 1
+  ttsPlaybackGain: 2.2
+  maxEventVolumeScale: 4
+  allowOverlap: 1
+  maxVoicesPerAnchor: 4
+  amusedFanVolume: 1
+  tenseFanVolume: 1
+  chantFanVolume: 1
+  excitedFanVolume: 1
+  neutralFanVolume: 1
+  ttsSpatialBlend: 0.85
+  ttsMinDistance: 6
+  ttsMaxDistance: 40
+  preloadOnStart: 0
+  maxConcurrentPreloads: 2
+--- !u!114 &2147403103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2147403100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2a3b4c5d6e7f8091a2b3c4d5e6f7a82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1899937954}
+  audioDanmakuController: {fileID: 2147403102}
+  danmakuPlaybackController: {fileID: 877462517}
+  createRuntimeUi: 1
+  progressSlider: {fileID: 0}
+  timeLabel: {fileID: 0}
+  canvasName: VideoProgressCanvas
+  sliderObjectName: VideoProgressSlider
+  bottomOffset: 34
+  width: 920
+  height: 44
+  showTimeLabel: 1
+  enableKeyboardShortcuts: 1
+  keyboardSeekStepSeconds: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -8490,3 +8604,4 @@ SceneRoots:
   - {fileID: 882327021}
   - {fileID: 1224727128}
   - {fileID: 603132192}
+  - {fileID: 2147403101}

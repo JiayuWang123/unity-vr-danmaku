@@ -32,6 +32,9 @@ public class DanmakuPlaybackController : MonoBehaviour
 
     private void Start()
     {
+        if (videoPlayer == null)
+            videoPlayer = FindObjectOfType<VideoPlayer>();
+
         if (hideTemplateOnStart && danmakuPrefab != null)
             danmakuPrefab.SetActive(false);
 
@@ -218,7 +221,15 @@ public class DanmakuPlaybackController : MonoBehaviour
         if (lastVideoTime < 0d)
             return false;
 
-        return videoTime + seekResetThresholdSeconds < lastVideoTime;
+        return Mathf.Abs((float)(videoTime - lastVideoTime)) > seekResetThresholdSeconds;
+    }
+
+    public void NotifyVideoSeek(float timeSeconds)
+    {
+        currentIndex = FindFirstIndexAtOrAfter(timeSeconds);
+        if (clearSpawnedOnSeek)
+            ClearSpawnedDanmaku();
+        lastVideoTime = timeSeconds;
     }
 
     private int FindFirstIndexAtOrAfter(float timeSeconds)

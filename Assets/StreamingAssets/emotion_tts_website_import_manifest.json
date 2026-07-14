@@ -1,0 +1,284 @@
+﻿{
+    "schema_version":  "emotion_tts_website_import_manifest_v1",
+    "plan":  "Assets/StreamingAssets/emotion_tts_website_voice_plan.json",
+    "download_dir":  "WebsiteTTSDownloads",
+    "expected_extension":  ".wav",
+    "use_sorted_files":  false,
+    "overwrite":  true,
+    "imported":  45,
+    "skipped":  0,
+    "missing":  0,
+    "extension_mismatch":  0,
+    "results":  [
+                    {
+                        "id":  "emotion_tts_001",
+                        "status":  "imported",
+                        "source":  "emotion_tts_001.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_001.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_002",
+                        "status":  "imported",
+                        "source":  "emotion_tts_002.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_002.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_003",
+                        "status":  "imported",
+                        "source":  "emotion_tts_003.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_003.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_004",
+                        "status":  "imported",
+                        "source":  "emotion_tts_004.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_004.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_005",
+                        "status":  "imported",
+                        "source":  "emotion_tts_005.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_005.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_006",
+                        "status":  "imported",
+                        "source":  "emotion_tts_006.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_006.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_007",
+                        "status":  "imported",
+                        "source":  "emotion_tts_007.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_007.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_008",
+                        "status":  "imported",
+                        "source":  "emotion_tts_008.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_008.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_009",
+                        "status":  "imported",
+                        "source":  "emotion_tts_009.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_009.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_010",
+                        "status":  "imported",
+                        "source":  "emotion_tts_010.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_010.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_011",
+                        "status":  "imported",
+                        "source":  "emotion_tts_011.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_011.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_012",
+                        "status":  "imported",
+                        "source":  "emotion_tts_012.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_012.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_013",
+                        "status":  "imported",
+                        "source":  "emotion_tts_013.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_013.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_014",
+                        "status":  "imported",
+                        "source":  "emotion_tts_014.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_014.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_015",
+                        "status":  "imported",
+                        "source":  "emotion_tts_015.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_015.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_016",
+                        "status":  "imported",
+                        "source":  "emotion_tts_016.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_016.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_017",
+                        "status":  "imported",
+                        "source":  "emotion_tts_017.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_017.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_018",
+                        "status":  "imported",
+                        "source":  "emotion_tts_018.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_018.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_019",
+                        "status":  "imported",
+                        "source":  "emotion_tts_019.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_019.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_020",
+                        "status":  "imported",
+                        "source":  "emotion_tts_020.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_020.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_021",
+                        "status":  "imported",
+                        "source":  "emotion_tts_021.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_021.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_022",
+                        "status":  "imported",
+                        "source":  "emotion_tts_022.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_022.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_023",
+                        "status":  "imported",
+                        "source":  "emotion_tts_023.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_023.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_024",
+                        "status":  "imported",
+                        "source":  "emotion_tts_024.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_024.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_025",
+                        "status":  "imported",
+                        "source":  "emotion_tts_025.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_025.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_026",
+                        "status":  "imported",
+                        "source":  "emotion_tts_026.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_026.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_027",
+                        "status":  "imported",
+                        "source":  "emotion_tts_027.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_027.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_028",
+                        "status":  "imported",
+                        "source":  "emotion_tts_028.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_028.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_029",
+                        "status":  "imported",
+                        "source":  "emotion_tts_029.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_029.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_030",
+                        "status":  "imported",
+                        "source":  "emotion_tts_030.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_030.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_031",
+                        "status":  "imported",
+                        "source":  "emotion_tts_031.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_031.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_032",
+                        "status":  "imported",
+                        "source":  "emotion_tts_032.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_032.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_033",
+                        "status":  "imported",
+                        "source":  "emotion_tts_033.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_033.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_034",
+                        "status":  "imported",
+                        "source":  "emotion_tts_034.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_034.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_035",
+                        "status":  "imported",
+                        "source":  "emotion_tts_035.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_035.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_036",
+                        "status":  "imported",
+                        "source":  "emotion_tts_036.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_036.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_037",
+                        "status":  "imported",
+                        "source":  "emotion_tts_037.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_037.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_038",
+                        "status":  "imported",
+                        "source":  "emotion_tts_038.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_038.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_039",
+                        "status":  "imported",
+                        "source":  "emotion_tts_039.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_039.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_040",
+                        "status":  "imported",
+                        "source":  "emotion_tts_040.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_040.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_041",
+                        "status":  "imported",
+                        "source":  "emotion_tts_041.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_041.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_042",
+                        "status":  "imported",
+                        "source":  "emotion_tts_042.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_042.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_043",
+                        "status":  "imported",
+                        "source":  "emotion_tts_043.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_043.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_044",
+                        "status":  "imported",
+                        "source":  "emotion_tts_044.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_044.wav"
+                    },
+                    {
+                        "id":  "emotion_tts_045",
+                        "status":  "imported",
+                        "source":  "emotion_tts_045.wav",
+                        "target":  "Audio\\TTS\\emotion_tts_045.wav"
+                    }
+                ]
+}

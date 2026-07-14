@@ -1,0 +1,15 @@
+{
+  "schema_version": "emotion_tts_manifest_v1",
+  "source_file": "Danmu/json/W2/supportive_interactions_emotion_from_excel.json",
+  "target_count": 45,
+  "scheduled": 45,
+  "audio_extension": "wav",
+  "selection_policy": "short emotion danmaku, original-time playback, overlap allowed, punctuation-only comments excluded",
+  "outputs": [
+    "Assets/StreamingAssets/emotion_tts_candidates.json",
+    "Assets/StreamingAssets/audio_schedule.json",
+    "Assets/StreamingAssets/emotion_tts_mount_table.csv",
+    "Assets/StreamingAssets/emotion_tts_mount_table.md",
+    "Assets/StreamingAssets/emotion_tts_mount_table_source_format.json"
+  ]
+}
