@@ -38,12 +38,18 @@ public class EmotionIconParticleController : MonoBehaviour
     [Tooltip("留空 positiveSprite 时从 Resources 加载")]
     public string positiveSpriteResource = "Textrue/star";
     [Tooltip("留空 negativeSprite 时从 Resources 加载")]
-    public string negativeSpriteResource = "Textrue/rain";    [Range(0.002f, 0.06f)]
+    public string negativeSpriteResource = "Textrue/rain";
+
+    [Range(0.002f, 0.06f)]
     [Tooltip("粒子基础世界尺寸（米）；默认很小，像远处飘落的符号")]
     public float baseWorldScale = 0.012f;
     [Range(0f, 0.6f)]
     [Tooltip("根据弹幕长度对尺寸的影响幅度（0 = 全部同尺寸）")]
     public float sizeVariation = 0.25f;
+    [Tooltip("图标 Canvas 宽度（像素）。只加宽不改高时增大此值，例如 64 → 96")]
+    public float iconCanvasWidth = 64f;
+    [Tooltip("图标 Canvas 高度（像素）")]
+    public float iconCanvasHeight = 64f;
     public Color positiveColor = new Color(1f, 0.92f, 0.3f, 0.95f);
     public Color negativeColor = new Color(0.55f, 0.78f, 1f, 0.95f);
     public int canvasSortOrder = 230;
@@ -53,6 +59,12 @@ public class EmotionIconParticleController : MonoBehaviour
     public float spawnHeightMin = 1.2f;
     [Tooltip("在 NearEmotion 区域顶边之上，最高生成高度（米）")]
     public float spawnHeightMax = 2.8f;
+    [Tooltip("星星/雨滴散落的横向范围宽度，占 NearEmotion 曲面层宽度的比例（1=整层，2=两倍宽，最大 3）")]
+    [Range(0.05f, 3f)]
+    public float spawnRangeWidthFraction = 1f;
+    [Tooltip("散落区域左右偏移（-1=靠左，0=居中，1=靠右）")]
+    [Range(-1f, 1f)]
+    public float spawnRangeCenterOffset = 0f;
 
     [Header("粒子运动")]
     [Range(1.5f, 8f)] public float lifetime = 3.5f;
@@ -299,7 +311,9 @@ public class EmotionIconParticleController : MonoBehaviour
         Color  color  = isPositive ? positiveColor : negativeColor;
 
         EmotionIconParticle p = GetOrCreateParticle();
-        p.Activate(sprite, color, scale, worldPos, vel,
+        p.Activate(sprite, color, scale,
+                   new Vector2(iconCanvasWidth, iconCanvasHeight),
+                   worldPos, vel,
                    lifetime, fadeInFraction, fadeOutFraction,
                    canvasSortOrder,
                    viewCamera != null ? viewCamera.transform : null);
@@ -337,11 +351,11 @@ public class EmotionIconParticleController : MonoBehaviour
     {
         if (nearLayer != null)
         {
-            float u = UnityEngine.Random.value;
-            Vector3 localAnchor = nearLayer.GetLocalPosition(u, UnityEngine.Random.Range(0.2f, 1f), 0f);
+            float u = SampleSpawnU();
+            Vector3 localAnchor = nearLayer.GetLocalPositionExtended(u, UnityEngine.Random.Range(0.2f, 1f), 0f);
             Vector3 worldAnchor = nearLayer.transform.TransformPoint(localAnchor);
 
-            Vector3 localTop = nearLayer.GetLocalPosition(u, 1f, 0f);
+            Vector3 localTop = nearLayer.GetLocalPositionExtended(u, 1f, 0f);
             Vector3 worldTop = nearLayer.transform.TransformPoint(localTop);
 
             float heightAbove = UnityEngine.Random.Range(spawnHeightMin, spawnHeightMax);
@@ -355,9 +369,22 @@ public class EmotionIconParticleController : MonoBehaviour
         Vector3 right = cam.transform.right;
         Vector3 basePos = cam.transform.position + forward * 2f;
         float h = UnityEngine.Random.Range(spawnHeightMin, spawnHeightMax);
+        float halfWidth = spawnRangeWidthFraction;
+        float center = spawnRangeCenterOffset * Mathf.Max(0f, 1f - halfWidth);
         return basePos
-            + right * UnityEngine.Random.Range(-1f, 1f)
+            + right * UnityEngine.Random.Range(center - halfWidth, center + halfWidth)
             + Vector3.up * h;
+    }
+
+    float SampleSpawnU()
+    {
+        float half = spawnRangeWidthFraction * 0.5f;
+        float center = (spawnRangeCenterOffset + 1f) * 0.5f;
+        float uMin = center - half;
+        float uMax = center + half;
+        if (uMax - uMin < 0.001f)
+            return center;
+        return UnityEngine.Random.Range(uMin, uMax);
     }
 
     EmotionIconParticle GetOrCreateParticle()

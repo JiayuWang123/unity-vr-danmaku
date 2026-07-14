@@ -195,12 +195,16 @@ public class SemanticDanmakuController : MonoBehaviour
             records.AddRange(SemanticDanmakuLoader.LoadClassifiedFile(settings.classifiedJsonFileName));
         }
 
-        Debug.Log($"SemanticDanmakuController loaded {records.Count} records.");
+        int removed = TtsDisplayedTextFilter.RemoveTtsTexts(records, r => r.text);
+        Debug.Log($"SemanticDanmakuController loaded {records.Count} records (filtered {removed} TTS duplicates).");
     }
 
     bool TrySpawnRecord(SemanticDanmakuRecord record)
     {
         if (record == null || string.IsNullOrWhiteSpace(record.text))
+            return true;
+
+        if (TtsDisplayedTextFilter.IsTtsText(record.text))
             return true;
 
         if (record.semanticLayer == DanmakuSemanticLayer.Inert)

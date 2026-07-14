@@ -55,6 +55,9 @@ public class HeadLockedSocialPanel : MonoBehaviour
         if (record == null || string.IsNullOrWhiteSpace(record.text))
             return;
 
+        if (TtsDisplayedTextFilter.IsTtsText(record.text))
+            return;
+
         queue.Enqueue(new SocialItem
         {
             text = record.text,

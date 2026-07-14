@@ -45,6 +45,14 @@ public class SocializationPanelController : MonoBehaviour
     [Tooltip("从锁定开始到完全锁定的俯仰过渡区间（度），越大切换越平滑")]
     [Range(2f, 30f)] public float headPitchLockRange = 14f;
 
+    [Header("低头限制（防止面板随头继续下沉）")]
+    [Tooltip("开启后：平视/微低头时面板完全跟随头显；低头超过阈值时锁定世界高度，不再随头下移")]
+    public bool limitPanelOnHeadPitchDown = true;
+    [Tooltip("低头超过此角度（相对水平面，取绝对值）后锁定面板世界 Y，不再随头下移")]
+    [Range(0f, 45f)] public float headPitchDownLockStart = 10f;
+    [Tooltip("从锁定开始到完全锁定的俯仰过渡区间（度），越大切换越平滑")]
+    [Range(2f, 30f)] public float headPitchDownLockRange = 14f;
+
     [Header("折叠条 / 展开面板大小")]
     public Vector2 collapsedSize = new Vector2(300f, 64f);
     [Tooltip("横向拉宽一些，做成横屏平板的比例")]
@@ -92,7 +100,7 @@ public class SocializationPanelController : MonoBehaviour
     [Range(0, 300)] public int canvasSortOrder = 220;
 
     [Header("滚动条")]
-    [Range(4f, 14f)] public float scrollbarWidth = 8f;
+    [Range(4f, 32f)] public float scrollbarWidth = 8f;
     public Color scrollbarTrackColor = new Color(0.12f, 0.14f, 0.18f, 0.45f);
     public Color scrollbarHandleColor = new Color(0.52f, 0.54f, 0.58f, 0.88f);
 
@@ -225,7 +233,9 @@ public class SocializationPanelController : MonoBehaviour
 
         while (recordIdx < records.Count && records[recordIdx].新视频中的时间 <= (float)vt)
         {
-            SpawnMessage(records[recordIdx].弹幕内容);
+            string text = records[recordIdx].弹幕内容;
+            if (!TtsDisplayedTextFilter.IsTtsText(text))
+                SpawnMessage(text);
             recordIdx++;
         }
     }
@@ -253,19 +263,35 @@ public class SocializationPanelController : MonoBehaviour
         float pitchUp = GetHeadPitchUpDegrees(headTransform);
         float lockBlend = 0f;
 
-        if (pitchUp <= headPitchLockStart)
+        bool inFreePitchZone = pitchUp <= headPitchLockStart;
+        if (limitPanelOnHeadPitchDown)
+            inFreePitchZone &= pitchUp >= -headPitchDownLockStart;
+
+        if (inFreePitchZone)
             lockedWorldY = fullWorldPos.y;
-        else if (limitPanelOnHeadPitch)
+
+        if (limitPanelOnHeadPitch && pitchUp > headPitchLockStart)
         {
             float range = Mathf.Max(1f, headPitchLockRange);
-            lockBlend = Mathf.Clamp01((pitchUp - headPitchLockStart) / range);
-            lockBlend = lockBlend * lockBlend * (3f - 2f * lockBlend);
+            lockBlend = Mathf.Max(lockBlend, SmoothStep01((pitchUp - headPitchLockStart) / range));
+        }
+
+        if (limitPanelOnHeadPitchDown && pitchUp < -headPitchDownLockStart)
+        {
+            float range = Mathf.Max(1f, headPitchDownLockRange);
+            lockBlend = Mathf.Max(lockBlend, SmoothStep01((-headPitchDownLockStart - pitchUp) / range));
         }
 
         yawLockedPos.y = lockedWorldY;
         Vector3 targetPos = Vector3.Lerp(fullWorldPos, yawLockedPos, lockBlend);
         Quaternion targetRot = Quaternion.Slerp(fullWorldRot, yawLockedRot, lockBlend);
         root.SetPositionAndRotation(targetPos, targetRot);
+    }
+
+    static float SmoothStep01(float t)
+    {
+        t = Mathf.Clamp01(t);
+        return t * t * (3f - 2f * t);
     }
 
     /// <summary>相对水平面的抬头角度：0=平视，正值=往上看。</summary>
@@ -326,8 +352,9 @@ public class SocializationPanelController : MonoBehaviour
 
             records.AddRange(col.items);
             records.Sort((a, b) => a.新视频中的时间.CompareTo(b.新视频中的时间));
+            int removed = TtsDisplayedTextFilter.RemoveTtsTexts(records, r => r.弹幕内容);
             jsonFileName = candidate.Replace('\\', '/');
-            Debug.Log($"[SocializationPanel] 加载 {records.Count} 条：{path}");
+            Debug.Log($"[SocializationPanel] 加载 {records.Count} 条（已过滤 {removed} 条 TTS 重复）：{path}");
             return;
         }
 

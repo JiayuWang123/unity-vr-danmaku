@@ -18,7 +18,7 @@ public class FarInfoScrollTickerLane : MonoBehaviour
     float horizontalOffsetMeters;
     RectTransform viewport;
     RectMask2D viewportMask;
-    Sprite speakerSprite;
+    TextMeshProUGUI categoryTitleLabel;
 
     public int ActiveCount => activeItems.Count;
 
@@ -35,7 +35,6 @@ public class FarInfoScrollTickerLane : MonoBehaviour
         isLeftCluster = leftCluster;
         horizontalOffsetMeters = horizontalOffset;
         EnsureViewport();
-        EnsureSpeakerSprite();
         UpdateLanePose();
     }
 
@@ -57,12 +56,10 @@ public class FarInfoScrollTickerLane : MonoBehaviour
             record,
             settings,
             fontAsset,
-            speakerSprite,
-            settings.tickerSpeakerColor,
             viewport,
             row,
             settings.tickerRowHeight,
-            settings.tickerLaneWidth,
+            GetLaneWidth(),
             settings.tickerScrollSpeed,
             OnItemFinished);
 
@@ -93,8 +90,20 @@ public class FarInfoScrollTickerLane : MonoBehaviour
         if (surfaceLayer == null || settings == null)
             return;
 
+        float scale = settings.worldLabelScale;
+        float halfBase = settings.tickerLaneWidth * scale * 0.5f;
+        float extraFull = settings.tickerOutwardWidthExtra * scale;
+        float outwardShift = extraFull * 0.5f + settings.tickerOutwardHorizontalExtraMeters;
+
+        // 保持靠屏幕中心一侧的内边不变，只把外侧加宽/外推（左栏往 -X，右栏往 +X）
+        float x = horizontalOffsetMeters;
+        if (isLeftCluster)
+            x -= outwardShift;
+        else
+            x += outwardShift;
+
         transform.localPosition = surfaceLayer.GetClusterFlatLocalPosition(
-            horizontalOffsetMeters,
+            x,
             settings.tickerVerticalOffsetMeters,
             0f,
             0f);
@@ -103,7 +112,6 @@ public class FarInfoScrollTickerLane : MonoBehaviour
         if (cam == null)
             return;
 
-        // 用世界空间 billboard，避免 FarInfoLayer 自身旋转导致面板侧对相机。
         Vector3 toCamera = cam.transform.position - transform.position;
         if (toCamera.sqrMagnitude < 0.0001f)
             return;
@@ -133,71 +141,76 @@ public class FarInfoScrollTickerLane : MonoBehaviour
         if (laneRt == null)
             laneRt = gameObject.AddComponent<RectTransform>();
 
-        laneRt.sizeDelta = new Vector2(settings.tickerLaneWidth, settings.tickerViewportHeight);
+        laneRt.sizeDelta = new Vector2(GetLaneWidth(), GetTotalLaneHeight());
+        laneRt.pivot = new Vector2(0.5f, 1f);
+        laneRt.anchorMin = laneRt.anchorMax = laneRt.pivot;
         laneRt.localScale = Vector3.one * settings.worldLabelScale;
 
         Camera viewCamera = DanmakuCameraUtility.ResolveViewCamera();
         if (viewCamera != null)
             canvas.worldCamera = viewCamera;
 
+        EnsureCategoryTitle();
+
         var viewportGo = new GameObject("Viewport", typeof(RectTransform));
         viewportGo.transform.SetParent(transform, false);
         viewport = viewportGo.GetComponent<RectTransform>();
         viewport.anchorMin = Vector2.zero;
         viewport.anchorMax = Vector2.one;
+        float titleInset = settings.showTickerCategoryTitles ? settings.tickerCategoryTitleHeight : 0f;
         viewport.offsetMin = Vector2.zero;
-        viewport.offsetMax = Vector2.zero;
+        viewport.offsetMax = new Vector2(0f, -titleInset);
 
         viewportMask = viewportGo.AddComponent<RectMask2D>();
         viewportMask.enabled = true;
     }
 
-    void EnsureSpeakerSprite()
+    void EnsureCategoryTitle()
     {
-        if (settings.tickerSpeakerSprite != null)
-        {
-            speakerSprite = settings.tickerSpeakerSprite;
+        if (settings == null || !settings.showTickerCategoryTitles)
             return;
-        }
 
-        if (!string.IsNullOrWhiteSpace(settings.tickerSpeakerSpriteResource))
+        if (categoryTitleLabel == null)
         {
-            Texture2D tex = Resources.Load<Texture2D>(settings.tickerSpeakerSpriteResource);
-            if (tex != null)
-            {
-                speakerSprite = Sprite.Create(
-                    tex,
-                    new Rect(0f, 0f, tex.width, tex.height),
-                    new Vector2(0.5f, 0.5f),
-                    100f);
-                return;
-            }
+            var titleGo = new GameObject("CategoryTitle", typeof(RectTransform));
+            titleGo.transform.SetParent(transform, false);
+            var titleRt = titleGo.GetComponent<RectTransform>();
+            titleRt.anchorMin = new Vector2(0.5f, 1f);
+            titleRt.anchorMax = new Vector2(0.5f, 1f);
+            titleRt.pivot = new Vector2(0.5f, 1f);
+            titleRt.anchoredPosition = Vector2.zero;
+            titleRt.sizeDelta = new Vector2(GetLaneWidth(), settings.tickerCategoryTitleHeight);
+
+            categoryTitleLabel = titleGo.AddComponent<TextMeshProUGUI>();
+            categoryTitleLabel.raycastTarget = false;
+            categoryTitleLabel.enableWordWrapping = false;
+            categoryTitleLabel.overflowMode = TextOverflowModes.Overflow;
+            categoryTitleLabel.alignment = TextAlignmentOptions.Center;
+            categoryTitleLabel.fontStyle = FontStyles.Bold;
         }
 
-        speakerSprite = CreateFallbackSpeakerSprite();
+        categoryTitleLabel.text = settings.GetTickerCategoryTitle(isLeftCluster);
+        categoryTitleLabel.fontSize = settings.GetTickerCategoryTitleFontSize();
+        categoryTitleLabel.color = settings.tickerCategoryTitleColor;
+        if (fontAsset != null)
+            categoryTitleLabel.font = fontAsset;
     }
 
-    static Sprite CreateFallbackSpeakerSprite()
+    float GetTotalLaneHeight()
     {
-        const int size = 32;
-        var tex = new Texture2D(size, size, TextureFormat.RGBA32, false);
-        tex.filterMode = FilterMode.Bilinear;
+        if (settings == null)
+            return 360f;
 
-        Color clear = new Color(0f, 0f, 0f, 0f);
-        Color fill = Color.white;
-        for (int y = 0; y < size; y++)
-        {
-            for (int x = 0; x < size; x++)
-            {
-                bool hornBody = x >= 8 && x <= 18 && y >= 12 && y <= 20;
-                bool hornBell = x >= 18 && x <= 28 && y >= 9 && y <= 23 && (x - 18) >= Mathf.Abs(y - 16) * 0.35f;
-                bool handle = x >= 10 && x <= 14 && y >= 8 && y <= 12;
-                tex.SetPixel(x, y, hornBody || hornBell || handle ? fill : clear);
-            }
-        }
+        float titleHeight = settings.showTickerCategoryTitles ? settings.tickerCategoryTitleHeight : 0f;
+        return settings.tickerViewportHeight + titleHeight;
+    }
 
-        tex.Apply();
-        return Sprite.Create(tex, new Rect(0f, 0f, size, size), new Vector2(0.5f, 0.5f), 100f);
+    float GetLaneWidth()
+    {
+        if (settings == null)
+            return 420f;
+
+        return settings.tickerLaneWidth + settings.tickerOutwardWidthExtra;
     }
 
     int AcquireRow()
@@ -229,18 +242,6 @@ public class FarInfoScrollTickerLane : MonoBehaviour
         {
             if (activeItems[i] == null)
                 activeItems.RemoveAt(i);
-        }
-    }
-
-    void OnDestroy()
-    {
-        if (speakerSprite != null
-            && settings != null
-            && settings.tickerSpeakerSprite == null
-            && string.IsNullOrWhiteSpace(settings.tickerSpeakerSpriteResource))
-        {
-            Destroy(speakerSprite.texture);
-            Destroy(speakerSprite);
         }
     }
 }

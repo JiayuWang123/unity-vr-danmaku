@@ -257,8 +257,9 @@ public class MatchPointAlertController : MonoBehaviour
 
             records.AddRange(col.items);
             records.Sort((a, b) => a.新视频中的时间.CompareTo(b.新视频中的时间));
+            int removed = TtsDisplayedTextFilter.RemoveTtsTexts(records, r => r.弹幕内容);
             jsonFileName = candidate.Replace('\\', '/');
-            Debug.Log($"[MatchPointAlert] 加载 {records.Count} 条：{path}");
+            Debug.Log($"[MatchPointAlert] 加载 {records.Count} 条（已过滤 {removed} 条 TTS 重复）：{path}");
             return;
         }
 
@@ -292,6 +293,12 @@ public class MatchPointAlertController : MonoBehaviour
 
     void SpawnAlert(MatchPointRecord rec)
     {
+        if (rec != null && TtsDisplayedTextFilter.IsTtsText(rec.弹幕内容))
+        {
+            lastFinishedAt = Time.time;
+            return;
+        }
+
         var go = BuildBannerGo(rec.弹幕内容);
         go.transform.SetParent(root, false);
         go.transform.localPosition = Vector3.zero;

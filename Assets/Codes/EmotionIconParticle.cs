@@ -31,6 +31,7 @@ public class EmotionIconParticle : MonoBehaviour
         Sprite sprite,
         Color color,
         float worldScale,
+        Vector2 iconCanvasSize,
         Vector3 worldPosition,
         Vector3 fallVelocity,
         float particleLifetime,
@@ -55,17 +56,14 @@ public class EmotionIconParticle : MonoBehaviour
         if (cg == null) cg = GetComponent<CanvasGroup>();
         cg.alpha = 0f;
 
-        EnsureIconImage(sortOrder);
+        EnsureIconImage(sortOrder, iconCanvasSize);
         iconImage.sprite = sprite;
         iconImage.color = color;
         iconImage.enabled = sprite != null;
     }
 
-    void EnsureIconImage(int sortOrder)
+    void EnsureIconImage(int sortOrder, Vector2 canvasSize)
     {
-        if (iconImage != null)
-            return;
-
         var canvas = GetComponent<Canvas>();
         if (canvas == null)
         {
@@ -77,15 +75,16 @@ public class EmotionIconParticle : MonoBehaviour
 
         var rt = GetComponent<RectTransform>();
         if (rt == null) rt = gameObject.AddComponent<RectTransform>();
-        rt.sizeDelta = new Vector2(64f, 64f);
+        rt.sizeDelta = new Vector2(Mathf.Max(1f, canvasSize.x), Mathf.Max(1f, canvasSize.y));
         rt.pivot = new Vector2(0.5f, 0.5f);
 
-        iconImage = GetComponent<Image>();
+        if (iconImage == null)
+            iconImage = GetComponent<Image>();
         if (iconImage == null)
             iconImage = gameObject.AddComponent<Image>();
 
         iconImage.raycastTarget = false;
-        iconImage.preserveAspect = true;
+        iconImage.preserveAspect = Mathf.Approximately(canvasSize.x, canvasSize.y);
     }
 
     void Update()

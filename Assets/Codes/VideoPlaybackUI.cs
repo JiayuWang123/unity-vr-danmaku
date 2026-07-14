@@ -45,7 +45,20 @@ public class VideoPlaybackUI : MonoBehaviour
         {
             GameObject screen = GameObject.Find("screen");
             if (screen != null)
-                attachTarget = screen.transform;
+            {
+                var layout = screen.GetComponent<ScreenLayoutController>();
+                if (layout != null)
+                {
+                    layout.EnsureVideoSurface();
+                    attachTarget = layout.VideoSurfaceTransform != null
+                        ? layout.VideoSurfaceTransform
+                        : screen.transform;
+                }
+                else
+                {
+                    attachTarget = screen.transform;
+                }
+            }
         }
 
         if (!built)

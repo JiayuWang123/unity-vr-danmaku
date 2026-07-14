@@ -295,8 +295,9 @@ public class EmotionBubbleController : MonoBehaviour
 
             records.AddRange(col.items);
             records.Sort((a, b) => a.新视频中的时间.CompareTo(b.新视频中的时间));
+            int removed = TtsDisplayedTextFilter.RemoveTtsTexts(records, r => r.弹幕内容);
             jsonFileName = candidate.Replace('\\', '/');
-            Debug.Log($"[EmotionBubble] 加载 {records.Count} 条：{path}");
+            Debug.Log($"[EmotionBubble] 加载 {records.Count} 条（已过滤 {removed} 条 TTS 重复）：{path}");
             return;
         }
 
@@ -320,6 +321,9 @@ public class EmotionBubbleController : MonoBehaviour
 
     bool TrySpawnRecord(EmotionBubbleRecord rec)
     {
+        if (rec != null && TtsDisplayedTextFilter.IsTtsText(rec.弹幕内容))
+            return true;
+
         CleanupActiveList();
         if (activeInstances.Count >= maxConcurrent) return false;
         if (Time.time - lastSpawnTime < minSpawnGap) return false;
