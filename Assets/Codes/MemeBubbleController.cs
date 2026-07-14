@@ -29,7 +29,7 @@ public class MemeBubbleController : MonoBehaviour
     [Tooltip("Y 方向随机范围（相对 Mid 区域高度）")]
     [Range(0.2f, 1f)] public float verticalRangeRatio = 0.75f;
     [Tooltip("整体垂直偏移（screen 本地单位，正数=往上，负数=往下）")]
-    public float spawnVerticalOffset = 0f;
+    public float spawnVerticalOffset = 0.1f;
     [Tooltip("相对视频平面向相机偏移（screen 本地 Z）；可略压住视频边缘，但不会被挡住")]
     public float spawnForwardOffset = 0.22f;
     [Tooltip("同侧相邻气泡之间的最小垂直间距（screen 本地单位）")]
