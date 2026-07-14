@@ -44,10 +44,13 @@ public class BaselineDanmakuController : MonoBehaviour
     public float scrollSpeed = 260f;
     [Tooltip("弹幕轨道（行）数量，越多越不容易重叠，但每行会更矮")]
     [Range(1, 20)] public int trackCount = 8;
-    [Tooltip("同一时刻屏幕上最多允许的弹幕条数")]
-    [Range(1, 80)] public int maxConcurrent = 30;
-    [Tooltip("同一轨道复用之间的安全间隔（秒），避免紧贴追尾")]
-    public float laneSafetyGapSeconds = 0.12f;
+    [Tooltip("同一时刻屏幕上最多允许的弹幕条数（超出会先排队，稍后自动补发，不会永久丢失）")]
+    [Range(1, 200)] public int maxConcurrent = 60;
+    [Tooltip("同一轨道相邻两条弹幕之间的最小像素间隔。轨道会按“上一条弹幕的长度 + 这个间隔”自动计算何时可以复用，" +
+             "而不是等上一条完全飘出屏幕，因此同一行可以连续排布多条弹幕")]
+    public float laneGapPixels = 50f;
+    [Tooltip("遇到并发上限或轨道被占满时是否排队等待、稍后补发（关闭则直接跳过该条弹幕）")]
+    public bool queueOverflow = true;
     public float rightSpawnPadding = 40f;
     public float leftDestroyPadding = 80f;
 
@@ -55,11 +58,22 @@ public class BaselineDanmakuController : MonoBehaviour
     public bool clearSpawnedOnSeek = true;
     public float seekResetThresholdSeconds = 0.5f;
 
+    [Header("调试（Console 里查看排队情况）")]
+    [Tooltip("勾选后，一旦有弹幕进入排队队列，会在 Console 里每隔一段时间打印当前排队条数和本次播放的峰值，" +
+             "队列清空时也会打印一条提示。方便测试时确认当前密度/宽度设置是否真的会导致排队")]
+    public bool logQueueStatus = true;
+    [Tooltip("排队日志的打印间隔（秒），避免刷屏")]
+    public float queueLogIntervalSeconds = 2f;
+
     readonly List<BaselineDanmakuRecord> entries = new List<BaselineDanmakuRecord>();
     readonly List<RectTransform> activeLabels = new List<RectTransform>();
+    readonly Queue<BaselineDanmakuRecord> pendingQueue = new Queue<BaselineDanmakuRecord>();
     float[] laneFreeAtVideoTime;
     int currentIndex;
     double lastVideoTime = -1d;
+    int peakQueueCount;
+    bool queueWasNonEmpty;
+    float nextQueueLogTime;
 
     Transform normalizedRoot;
     RectTransform canvasRect;
@@ -220,11 +234,62 @@ public class BaselineDanmakuController : MonoBehaviour
             return;
 
         CleanupDestroyedLabels();
+        DrainPendingQueue((float)videoTime);
 
         while (currentIndex < entries.Count && entries[currentIndex].new_video_time_sec <= videoTime)
         {
-            TrySpawn(entries[currentIndex], (float)videoTime);
+            BaselineDanmakuRecord entry = entries[currentIndex];
             currentIndex++;
+
+            if (!TrySpawn(entry, (float)videoTime) && queueOverflow)
+                pendingQueue.Enqueue(entry);
+        }
+
+        if (logQueueStatus)
+            UpdateQueueDebugLog();
+    }
+
+    void UpdateQueueDebugLog()
+    {
+        int count = pendingQueue.Count;
+        if (count > peakQueueCount)
+            peakQueueCount = count;
+
+        if (count > 0)
+        {
+            queueWasNonEmpty = true;
+            if (Time.unscaledTime >= nextQueueLogTime)
+            {
+                Debug.Log($"BaselineDanmakuController: 排队等待中 {count} 条（本次播放峰值 {peakQueueCount} 条）");
+                nextQueueLogTime = Time.unscaledTime + Mathf.Max(0.1f, queueLogIntervalSeconds);
+            }
+        }
+        else if (queueWasNonEmpty)
+        {
+            Debug.Log($"BaselineDanmakuController: 排队已清空，补发完成（本次峰值 {peakQueueCount} 条）");
+            queueWasNonEmpty = false;
+        }
+    }
+
+    void DrainPendingQueue(float videoTime)
+    {
+        if (!queueOverflow)
+        {
+            pendingQueue.Clear();
+            return;
+        }
+
+        int guard = pendingQueue.Count;
+        for (int i = 0; i < guard; i++)
+        {
+            if (pendingQueue.Count == 0)
+                break;
+
+            BaselineDanmakuRecord entry = pendingQueue.Peek();
+            if (!TrySpawn(entry, videoTime))
+                break; // 排在最前面的补发不了，后面的顺序也不用再试了，保持先后顺序
+
+            pendingQueue.Dequeue();
         }
     }
 
@@ -237,19 +302,24 @@ public class BaselineDanmakuController : MonoBehaviour
         }
     }
 
-    void TrySpawn(BaselineDanmakuRecord entry, float videoTime)
+    /// <summary>
+    /// 尝试立刻生成一条弹幕。返回 false 表示暂时没有空位（并发已满或轨道被占用），
+    /// 调用方可以选择把这条弹幕放进排队队列，稍后再补发。
+    /// </summary>
+    bool TrySpawn(BaselineDanmakuRecord entry, float videoTime)
     {
         if (entry == null || string.IsNullOrWhiteSpace(entry.text) || viewportRect == null)
-            return;
+            return true;
 
         if (activeLabels.Count >= maxConcurrent)
-            return;
+            return false;
 
         int lane = PickFreeLane(videoTime);
         if (lane < 0)
-            return;
+            return false;
 
         SpawnLabel(entry, lane, videoTime);
+        return true;
     }
 
     int PickFreeLane(float videoTime)
@@ -307,10 +377,12 @@ public class BaselineDanmakuController : MonoBehaviour
 
         activeLabels.Add(rect);
 
-        float totalDistance = startX - (-halfViewportWidth - mover.destroyPadding);
-        float travelSeconds = totalDistance / mover.speed;
+        // 轨道只需要等"这一条的长度 + 间隔"对应的时间就能复用，
+        // 不用等它完全飘出屏幕——这样同一行可以连续排布多条弹幕，只要彼此不重叠。
+        float gapDistance = textWidth + Mathf.Max(0f, laneGapPixels);
+        float gapSeconds = gapDistance / mover.speed;
         if (lane >= 0 && lane < laneFreeAtVideoTime.Length)
-            laneFreeAtVideoTime[lane] = videoTime + travelSeconds + Mathf.Max(0f, laneSafetyGapSeconds);
+            laneFreeAtVideoTime[lane] = videoTime + gapSeconds;
     }
 
     float TrackToLocalY(int lane)
@@ -356,6 +428,9 @@ public class BaselineDanmakuController : MonoBehaviour
         }
 
         activeLabels.Clear();
+        pendingQueue.Clear();
+        peakQueueCount = 0;
+        queueWasNonEmpty = false;
         ResetLanes();
     }
 }

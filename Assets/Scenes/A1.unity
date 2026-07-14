@@ -6364,12 +6364,15 @@ MonoBehaviour:
   outlineColor: {r: 0, g: 0, b: 0, a: 0.85}
   scrollSpeed: 260
   trackCount: 8
-  maxConcurrent: 30
-  laneSafetyGapSeconds: 0.12
+  maxConcurrent: 60
+  laneGapPixels: 50
+  queueOverflow: 1
   rightSpawnPadding: 40
   leftDestroyPadding: 80
   clearSpawnedOnSeek: 1
   seekResetThresholdSeconds: 0.5
+  logQueueStatus: 1
+  queueLogIntervalSeconds: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
