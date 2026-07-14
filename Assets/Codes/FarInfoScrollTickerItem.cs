@@ -1,20 +1,15 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
-/// 单条 Far Info 滚动弹幕：左侧喇叭 + 文字，从右向左滚动。
-/// 透明度按「在视口内的 X 位置」逐字/逐块计算——滚到边缘的文字变淡，不是整条淡入淡出。
+/// 单条 Far Info 滚动弹幕：从右向左滚动。
+/// 透明度按「在视口内的 X 位置」逐字计算——滚到边缘的文字变淡。
 /// </summary>
 public class FarInfoScrollTickerItem : MonoBehaviour
 {
     RectTransform root;
     RectTransform viewportRect;
-    RectTransform speakerRect;
     TextMeshProUGUI label;
-    Image speakerImage;
-    Color speakerBaseColor;
-
     float scrollX;
     float contentWidth;
     float rowHeight;
@@ -32,8 +27,6 @@ public class FarInfoScrollTickerItem : MonoBehaviour
         SemanticDanmakuRecord record,
         SemanticDanmakuSettings config,
         TMP_FontAsset font,
-        Sprite speakerSprite,
-        Color speakerColor,
         Transform viewport,
         int rowIndex,
         float rowHeightPx,
@@ -51,21 +44,16 @@ public class FarInfoScrollTickerItem : MonoBehaviour
         maxAlpha = config != null ? config.GetLayerAlpha(CurvedCloudLayerKind.FarInfo) : 0.88f;
         IsFinished = false;
 
-        BuildVisual(config, font, speakerSprite, speakerColor, viewport);
+        BuildVisual(config, font, viewport);
         ApplyRecord(record, config);
-        MeasureContentWidth(config);
+        MeasureContentWidth();
 
         scrollX = viewportHalfWidth;
         UpdateLocalPosition();
         UpdateSpatialFade();
     }
 
-    void BuildVisual(
-        SemanticDanmakuSettings config,
-        TMP_FontAsset font,
-        Sprite speakerSprite,
-        Color speakerColor,
-        Transform viewport)
+    void BuildVisual(SemanticDanmakuSettings config, TMP_FontAsset font, Transform viewport)
     {
         root = GetComponent<RectTransform>();
         if (root == null)
@@ -76,29 +64,13 @@ public class FarInfoScrollTickerItem : MonoBehaviour
         root.pivot = new Vector2(0f, 1f);
         root.sizeDelta = new Vector2(config.tickerLaneWidth, rowHeight);
 
-        var speakerGo = new GameObject("Speaker", typeof(RectTransform));
-        speakerGo.transform.SetParent(transform, false);
-        speakerRect = speakerGo.GetComponent<RectTransform>();
-        speakerRect.anchorMin = new Vector2(0f, 0.5f);
-        speakerRect.anchorMax = new Vector2(0f, 0.5f);
-        speakerRect.pivot = new Vector2(0f, 0.5f);
-        speakerRect.anchoredPosition = Vector2.zero;
-        speakerRect.sizeDelta = new Vector2(config.tickerSpeakerSize, config.tickerSpeakerSize);
-
-        speakerImage = speakerGo.AddComponent<Image>();
-        speakerImage.sprite = speakerSprite;
-        speakerBaseColor = speakerColor;
-        speakerImage.color = speakerColor;
-        speakerImage.raycastTarget = false;
-        speakerImage.preserveAspect = true;
-
         var textGo = new GameObject("Text", typeof(RectTransform));
         textGo.transform.SetParent(transform, false);
         var textRt = textGo.GetComponent<RectTransform>();
         textRt.anchorMin = new Vector2(0f, 0.5f);
         textRt.anchorMax = new Vector2(0f, 0.5f);
         textRt.pivot = new Vector2(0f, 0.5f);
-        textRt.anchoredPosition = new Vector2(config.tickerSpeakerSize + config.tickerTextGap, 0f);
+        textRt.anchoredPosition = Vector2.zero;
         textRt.sizeDelta = new Vector2(config.tickerLaneWidth, rowHeight);
 
         label = textGo.AddComponent<TextMeshProUGUI>();
@@ -123,13 +95,13 @@ public class FarInfoScrollTickerItem : MonoBehaviour
         textBaseColor = label.color;
     }
 
-    void MeasureContentWidth(SemanticDanmakuSettings config)
+    void MeasureContentWidth()
     {
         float textWidth = label != null
             ? label.GetPreferredValues(label.text, 0f, rowHeight).x
             : 0f;
 
-        contentWidth = config.tickerSpeakerSize + config.tickerTextGap + Mathf.Max(8f, textWidth);
+        contentWidth = Mathf.Max(8f, textWidth);
         if (root != null)
             root.sizeDelta = new Vector2(contentWidth, rowHeight);
     }
@@ -164,36 +136,11 @@ public class FarInfoScrollTickerItem : MonoBehaviour
 
     void UpdateSpatialFade()
     {
-        if (viewportRect == null)
+        if (viewportRect == null || label == null)
             return;
 
         float viewLeft = -viewportHalfWidth;
         float viewRight = viewportHalfWidth;
-
-        UpdateSpeakerSpatialFade(viewLeft, viewRight);
-        UpdateTextSpatialFade(viewLeft, viewRight);
-    }
-
-    void UpdateSpeakerSpatialFade(float viewLeft, float viewRight)
-    {
-        if (speakerImage == null || speakerRect == null)
-            return;
-
-        // 喇叭按左、中、右三点采样，避免图标横跨边缘时整块同透明度
-        float alphaLeft = SpatialEdgeAlpha(GetViewportX(speakerRect, new Vector2(0f, 0.5f)), viewLeft, viewRight);
-        float alphaMid = SpatialEdgeAlpha(GetViewportX(speakerRect, new Vector2(0.5f, 0.5f)), viewLeft, viewRight);
-        float alphaRight = SpatialEdgeAlpha(GetViewportX(speakerRect, new Vector2(1f, 0.5f)), viewLeft, viewRight);
-        float alpha = (alphaLeft + alphaMid + alphaRight) / 3f;
-
-        Color c = speakerBaseColor;
-        c.a *= alpha;
-        speakerImage.color = c;
-    }
-
-    void UpdateTextSpatialFade(float viewLeft, float viewRight)
-    {
-        if (label == null)
-            return;
 
         label.ForceMeshUpdate(false, false);
         TMP_TextInfo textInfo = label.textInfo;
@@ -221,13 +168,6 @@ public class FarInfoScrollTickerItem : MonoBehaviour
         }
 
         label.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
-    }
-
-    float GetViewportX(RectTransform rt, Vector2 normalizedPoint)
-    {
-        Vector3 local = rt.rect.min + Vector2.Scale(rt.rect.size, normalizedPoint);
-        Vector3 world = rt.TransformPoint(local);
-        return viewportRect.InverseTransformPoint(world).x;
     }
 
     float GetViewportX(RectTransform rt, Vector3 bottomLeft, Vector3 topRight)

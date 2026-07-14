@@ -15,8 +15,8 @@ public class StadiumAudioBootstrap : MonoBehaviour
     const string AmbientGroupName = "AmbientAudioGroup";
 
     [Header("声音弹幕（TTS）")]
-    [Tooltip("全局音量倍率；实际音量 = audio_schedule.json 里每条 volume × 此值")]
-    [Range(0.5f, 1000f)] public float ttsPlaybackGain = 1.35f;
+    [Tooltip("对数音量倍率（0.5–5000），映射到 AudioSource 0.05–1.0。Play 模式下改此值会实时生效。")]
+    [Range(0.5f, 5000f)] public float ttsPlaybackGain = 1.35f;
 
     [Header("视频解说")]
     [Tooltip("全程视频解说音量；TTS 播放时也不会被压低")]
@@ -48,6 +48,24 @@ public class StadiumAudioBootstrap : MonoBehaviour
         var ephemeral = go.AddComponent<StadiumAudioBootstrap>();
         ephemeral.Build(screen.transform, vp);
         Destroy(go);
+    }
+
+    void OnValidate()
+    {
+        if (!Application.isPlaying)
+            return;
+
+        ApplyLiveSettings();
+    }
+
+    void ApplyLiveSettings()
+    {
+        var tts = FindObjectOfType<AudioDanmakuController>();
+        if (tts == null)
+            return;
+
+        tts.ttsPlaybackGain = ttsPlaybackGain;
+        tts.videoCommentaryVolume = videoCommentaryVolume;
     }
 
     void Build(Transform screen, VideoPlayer videoPlayer)

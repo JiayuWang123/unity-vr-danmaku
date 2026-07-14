@@ -38,7 +38,8 @@ public class AudioDanmakuController : MonoBehaviour
     [Range(0.05f, 1f)] public float duckVideoVolume = 0.35f;
 
     [Header("TTS")]
-    [Range(0.5f, 1000f)] public float ttsPlaybackGain = 1.35f;
+    [Tooltip("对数音量倍率（0.5–5000）。实际音量映射到 AudioSource 的 0.05–1.0；超过约 100 后不再「顶满」，1000 与 3000 会有明显差别。")]
+    [Range(0.5f, 5000f)] public float ttsPlaybackGain = 1.35f;
 
     [Header("加载")]
     public bool preloadOnStart;
@@ -54,6 +55,8 @@ public class AudioDanmakuController : MonoBehaviour
     float lastVideoTime = -1f;
     int activeDuckCount;
     bool initialized;
+    float lastAppliedGain = -1f;
+    readonly Dictionary<AudioSource, float> playingEventVolumes = new();
 
     void Start()
     {
@@ -102,6 +105,47 @@ public class AudioDanmakuController : MonoBehaviour
             return;
 
         DispatchEventsUpTo(t);
+    }
+
+    void LateUpdate()
+    {
+        TrySyncGainFromBootstrap();
+        if (Mathf.Abs(ttsPlaybackGain - lastAppliedGain) > 0.01f)
+        {
+            lastAppliedGain = ttsPlaybackGain;
+            RefreshPlayingVolumes();
+        }
+    }
+
+    void TrySyncGainFromBootstrap()
+    {
+        var bootstrap = FindObjectOfType<StadiumAudioBootstrap>();
+        if (bootstrap == null)
+            return;
+
+        ttsPlaybackGain = bootstrap.ttsPlaybackGain;
+        videoCommentaryVolume = bootstrap.videoCommentaryVolume;
+    }
+
+    public static float ComputeTtsSourceVolume(float eventVolume, float ttsPlaybackGain)
+    {
+        const float maxGain = 5000f;
+        float gain = Mathf.Clamp(ttsPlaybackGain, 0.5f, maxGain);
+        float gain01 = Mathf.Log10(Mathf.Max(1f, gain)) / Mathf.Log10(maxGain);
+        float mapped = Mathf.Lerp(0.05f, 1f, gain01);
+        return Mathf.Clamp01(mapped * Mathf.Clamp01(eventVolume));
+    }
+
+    void RefreshPlayingVolumes()
+    {
+        foreach (var kvp in playingEventVolumes)
+        {
+            if (kvp.Key == null)
+                continue;
+
+            if (kvp.Key.isPlaying)
+                kvp.Key.volume = ComputeTtsSourceVolume(kvp.Value, ttsPlaybackGain);
+        }
     }
 
     /// <summary>
@@ -215,6 +259,8 @@ public class AudioDanmakuController : MonoBehaviour
             if (src != null && src.isPlaying)
                 src.Stop();
         }
+
+        playingEventVolumes.Clear();
     }
 
     void EnsureAnchors()
@@ -285,8 +331,9 @@ public class AudioDanmakuController : MonoBehaviour
         src.playOnAwake = false;
         src.loop = false;
         src.priority = 0;
-        src.minDistance = 1f;
-        src.maxDistance = 25f;
+        src.minDistance = 4f;
+        src.maxDistance = 80f;
+        src.rolloffMode = AudioRolloffMode.Linear;
         anchorSources[key] = src;
     }
 
@@ -459,7 +506,9 @@ public class AudioDanmakuController : MonoBehaviour
             BeginDuck();
 
         src.clip = clip;
-        src.volume = Mathf.Max(0f, ev.volume * ttsPlaybackGain);
+        float appliedVolume = ComputeTtsSourceVolume(ev.volume, ttsPlaybackGain);
+        src.volume = appliedVolume;
+        playingEventVolumes[src] = ev.volume;
         src.time = Mathf.Clamp(clipStartOffset, 0f, Mathf.Max(0f, clip.length - 0.01f));
         src.Play();
 
@@ -467,11 +516,16 @@ public class AudioDanmakuController : MonoBehaviour
         while (wait > 0f)
         {
             if (generation != playbackGeneration)
+            {
+                playingEventVolumes.Remove(src);
                 yield break;
+            }
 
             wait -= Time.deltaTime;
             yield return null;
         }
+
+        playingEventVolumes.Remove(src);
 
         if (generation != playbackGeneration)
             yield break;

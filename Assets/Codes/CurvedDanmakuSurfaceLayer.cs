@@ -80,6 +80,15 @@ public class CurvedDanmakuSurfaceLayer : MonoBehaviour
         return new Vector3(Mathf.Sin(angle) * effectiveRadius, y, -Mathf.Cos(angle) * effectiveRadius);
     }
 
+    /// <summary>允许 u 超出 0~1，用于比曲面层更宽的散落范围（仅 Emotion Icon 等场景使用）。</summary>
+    public Vector3 GetLocalPositionExtended(float u, float v, float radiusOffset = 0f)
+    {
+        float angle = (Mathf.Lerp(-horizontalAngleSpan * 0.5f, horizontalAngleSpan * 0.5f, u) + horizontalAngleOffset) * Mathf.Deg2Rad;
+        float y = Mathf.Lerp(-verticalHeight * 0.5f, verticalHeight * 0.5f, Mathf.Clamp01(v)) + verticalOffset;
+        float effectiveRadius = Mathf.Max(0.05f, radius + radiusOffset);
+        return new Vector3(Mathf.Sin(angle) * effectiveRadius, y, -Mathf.Cos(angle) * effectiveRadius);
+    }
+
     // 聚类堆叠专用定位（弧形，旧）：左右深度不同，容易造成两簇不在同一平面。
     public Vector3 GetClusterLocalPosition(float horizontalAngleDeg, float rowOffsetMeters, float colOffsetMeters, float radiusOffset)
     {

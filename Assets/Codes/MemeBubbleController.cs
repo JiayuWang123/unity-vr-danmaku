@@ -24,8 +24,12 @@ public class MemeBubbleController : MonoBehaviour
     [Header("随机位置（Mid 中层区域，靠视频一侧对齐）")]
     [Tooltip("气泡靠视频一侧对齐锚点后，再往外侧留出的间距（screen 本地单位）")]
     public float sideOutwardOffset = 0.06f;
+    [Tooltip("左右气泡各自向屏幕中间平移（screen 本地单位）；只影响梗类气泡水平位置")]
+    public float sideInwardOffset = 0f;
     [Tooltip("Y 方向随机范围（相对 Mid 区域高度）")]
     [Range(0.2f, 1f)] public float verticalRangeRatio = 0.75f;
+    [Tooltip("整体垂直偏移（screen 本地单位，正数=往上，负数=往下）")]
+    public float spawnVerticalOffset = 0f;
     [Tooltip("相对视频平面向相机偏移（screen 本地 Z）；可略压住视频边缘，但不会被挡住")]
     public float spawnForwardOffset = 0.22f;
     [Tooltip("同侧相邻气泡之间的最小垂直间距（screen 本地单位）")]
@@ -38,8 +42,14 @@ public class MemeBubbleController : MonoBehaviour
     [Range(0.001f, 0.008f)] public float worldScale = 0.002f;
     public float maxBubbleWidth = 380f;
     public float minBubbleWidth = 140f;
+    [Tooltip("图案/文字距气泡左右边缘的内边距（像素）")]
     public float textPaddingH = 22f;
+    [Tooltip("图案与文字之间的间距（像素）")]
+    public float iconTextGap = 8f;
+    [Tooltip("文字距气泡上下边缘的内边距（像素）")]
     public float textPaddingV = 14f;
+    [Tooltip("气泡内左侧/右侧图案（笑脸）的边长（像素）；只改图案大小，不影响文字字号和气泡框")]
+    [Range(16f, 96f)]
     public float iconSize = 44f;
     [Tooltip("对话框底部小尖角宽度/高度（像素）")]
     public float tailWidth = 16f;
@@ -53,7 +63,7 @@ public class MemeBubbleController : MonoBehaviour
     public Color bubbleBorderColor = new Color(0.35f, 0.85f, 1f, 0.92f);
     public Color textColor = new Color(0.87f, 0.95f, 1f, 1f);
     [Range(1f, 8f)] public float bubbleBorderWidth = 2.5f;
-    [Tooltip("启动时若存在 SocializationPanelController，则同步其气泡配色与尺寸")]
+    [Tooltip("启动时若存在 SocializationPanelController，则同步其气泡配色与尖角样式（不含内边距）")]
     public bool syncStyleFromChatPanel = true;
     [Range(0, 300)] public int canvasSortOrder = 210;
 
@@ -175,8 +185,6 @@ public class MemeBubbleController : MonoBehaviour
         bubbleBgColor = chat.chatBubbleFillColor;
         bubbleBorderColor = chat.chatBubbleBorderColor;
         textColor = chat.messageTextColor;
-        textPaddingH = chat.bubbleTextPaddingH;
-        textPaddingV = chat.bubbleTextPaddingV;
         tailWidth = chat.bubbleTailWidth;
         tailHeight = chat.bubbleTailHeight;
         tailSideInset = chat.bubbleTailSideInset;
@@ -282,8 +290,9 @@ public class MemeBubbleController : MonoBehaviour
 
             records.AddRange(col.items);
             records.Sort((a, b) => a.新视频中的时间.CompareTo(b.新视频中的时间));
+            int removed = TtsDisplayedTextFilter.RemoveTtsTexts(records, r => r.弹幕内容);
             jsonFileName = candidate.Replace('\\', '/');
-            Debug.Log($"[MemeBubble] 加载 {records.Count} 条：{path}");
+            Debug.Log($"[MemeBubble] 加载 {records.Count} 条（已过滤 {removed} 条 TTS 重复）：{path}");
             return;
         }
 
@@ -307,6 +316,9 @@ public class MemeBubbleController : MonoBehaviour
 
     bool TrySpawnRecord(MemeBubbleRecord rec)
     {
+        if (rec != null && TtsDisplayedTextFilter.IsTtsText(rec.弹幕内容))
+            return true;
+
         CleanupActiveList();
         if (activeInstances.Count >= maxConcurrent) return false;
         if (Time.time - lastSpawnTime < minSpawnGap) return false;
@@ -376,7 +388,7 @@ public class MemeBubbleController : MonoBehaviour
     float EstimateBubbleLocalHalfHeight(string text)
     {
         float iconW = laughingIcon != null ? iconSize : 0f;
-        float contentMaxW = Mathf.Max(40f, maxBubbleWidth - iconW - textPaddingH * 2.5f);
+        float contentMaxW = Mathf.Max(40f, maxBubbleWidth - GetHorizontalChromeWidth(iconW));
         Vector2 bodySize = CalcBubbleSize(text, contentMaxW, iconW);
         return (bodySize.y + tailHeight) * worldScale * 0.5f;
     }
@@ -493,9 +505,10 @@ public class MemeBubbleController : MonoBehaviour
     {
         Transform anchor = leftSide ? midAnchorLeft : midAnchorRight;
         if (anchor != null && bubbleRoot != null)
-            return bubbleRoot.InverseTransformPoint(anchor.position).y;
+            return bubbleRoot.InverseTransformPoint(anchor.position).y + spawnVerticalOffset;
 
-        return midZoneFrame != null ? midZoneFrame.transform.localPosition.y : 0f;
+        float fallbackY = midZoneFrame != null ? midZoneFrame.transform.localPosition.y : 0f;
+        return fallbackY + spawnVerticalOffset;
     }
 
     Vector3 ComposeAnchorLocalPos(bool leftSide, float centerY)
@@ -505,7 +518,7 @@ public class MemeBubbleController : MonoBehaviour
         if (anchor != null && bubbleRoot != null)
         {
             Vector3 local = bubbleRoot.InverseTransformPoint(anchor.position);
-            local.x += leftSide ? -sideOutwardOffset : sideOutwardOffset;
+            local.x += leftSide ? (-sideOutwardOffset + sideInwardOffset) : (sideOutwardOffset - sideInwardOffset);
             local.y = centerY;
             local.z = ResolveSpawnLocalZ(local.z);
             return local;
@@ -514,8 +527,8 @@ public class MemeBubbleController : MonoBehaviour
         float halfW = midZoneFrame != null ? midZoneFrame.frameSize.x * 0.5f : 0.64f;
         Vector3 frameLocal = midZoneFrame != null ? midZoneFrame.transform.localPosition : Vector3.zero;
         float x = leftSide
-            ? frameLocal.x - halfW - sideOutwardOffset
-            : frameLocal.x + halfW + sideOutwardOffset;
+            ? frameLocal.x - halfW - sideOutwardOffset + sideInwardOffset
+            : frameLocal.x + halfW + sideOutwardOffset - sideInwardOffset;
         float z = ResolveSpawnLocalZ(frameLocal.z);
         return new Vector3(x, centerY, z);
     }
@@ -530,7 +543,7 @@ public class MemeBubbleController : MonoBehaviour
     GameObject BuildBubbleGo(string text, bool isLeft)
     {
         float iconW = laughingIcon != null ? iconSize : 0f;
-        float contentMaxW = Mathf.Max(40f, maxBubbleWidth - iconW - textPaddingH * 2.5f);
+        float contentMaxW = Mathf.Max(40f, maxBubbleWidth - GetHorizontalChromeWidth(iconW));
         Vector2 bodySize = CalcBubbleSize(text, contentMaxW, iconW);
         int bodyH = Mathf.RoundToInt(bodySize.y);
         int totalW = Mathf.RoundToInt(bodySize.x);
@@ -587,8 +600,8 @@ public class MemeBubbleController : MonoBehaviour
         var textRt = textGo.GetComponent<RectTransform>();
         textRt.anchorMin = Vector2.zero;
         textRt.anchorMax = Vector2.one;
-        float left = isLeft ? textPaddingH * 1.5f + iconW : textPaddingH;
-        float right = isLeft ? textPaddingH : textPaddingH * 1.5f + iconW;
+        float left = isLeft ? textPaddingH + iconW + iconTextGap : textPaddingH;
+        float right = isLeft ? textPaddingH : textPaddingH + iconW + iconTextGap;
         textRt.offsetMin = new Vector2(left, textPaddingV);
         textRt.offsetMax = new Vector2(-right, -textPaddingV);
 
@@ -629,9 +642,14 @@ public class MemeBubbleController : MonoBehaviour
             pref.y = estLines * fontSize * 1.25f;
         }
 
-        float w = Mathf.Clamp(pref.x + iconW + textPaddingH * 2.5f, minBubbleWidth, maxBubbleWidth);
+        float w = Mathf.Clamp(pref.x + GetHorizontalChromeWidth(iconW), minBubbleWidth, maxBubbleWidth);
         float h = Mathf.Clamp(pref.y + textPaddingV * 2f, fontSize + textPaddingV * 2f, fontSize * 5f + textPaddingV * 2f);
         return new Vector2(w, h);
+    }
+
+    float GetHorizontalChromeWidth(float iconW)
+    {
+        return iconW + textPaddingH * 2f + iconTextGap;
     }
 
     static void StretchFill(GameObject go, float expand, float expandY)

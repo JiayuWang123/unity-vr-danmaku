@@ -38,14 +38,18 @@ public class SemanticDanmakuSettings : MonoBehaviour
     public bool farInfoUseScrollTicker = true;
     [Tooltip("单侧滚动区宽度（Canvas 像素）")]
     public float tickerLaneWidth = 420f;
+    [Tooltip("左右栏各自向外侧额外加宽（Canvas 像素）：左栏往左、右栏往右；靠中心一侧内边保持不变")]
+    public float tickerOutwardWidthExtra = 400f;
+    [Tooltip("左右栏整体再向外侧平移（米）：左栏往左、右栏往右")]
+    public float tickerOutwardHorizontalExtraMeters = 0.45f;
     [Tooltip("单侧滚动区可见高度（Canvas 像素）")]
     public float tickerViewportHeight = 360f;
     [Tooltip("每条滚动弹幕占用行高（Canvas 像素）")]
     public float tickerRowHeight = 88f;
     [Tooltip("滚动速度（Canvas 像素/秒）")]
     public float tickerScrollSpeed = 72f;
-    [Tooltip("滚动区相对 Far 层中心的竖直偏移（米）")]
-    public float tickerVerticalOffsetMeters = 0f;
+    [Tooltip("滚动区相对 Far 层中心的竖直偏移（米）；负值向下")]
+    public float tickerVerticalOffsetMeters = -0.15f;
     [Tooltip("喇叭图标尺寸（Canvas 像素）")]
     public float tickerSpeakerSize = 34f;
     [Tooltip("喇叭与文字间距（Canvas 像素）")]
@@ -59,6 +63,16 @@ public class SemanticDanmakuSettings : MonoBehaviour
     public Vector3 tickerExtraEulerOffset = Vector3.zero;
     [Tooltip("滚动区左右缘渐变宽度（像素）：文字滚到该范围内按位置变淡")]
     public float tickerEdgeFadeWidth = 80f;
+
+    [Header("Far Info 分类小标题")]
+    public bool showTickerCategoryTitles = true;
+    public string tickerLeftCategoryTitle = "比赛内容";
+    public string tickerRightCategoryTitle = "球队球员";
+    [Tooltip("小标题区高度（Canvas 像素）")]
+    public float tickerCategoryTitleHeight = 56f;
+    [Tooltip("小标题字号；留 0 则自动 = Far Info 字号 + 8")]
+    public float tickerCategoryTitleFontSize = 0f;
+    public Color tickerCategoryTitleColor = new Color(0.28f, 0.72f, 1f, 1f);
 
     [Header("布局")]
     public float layoutWindowSeconds = 8f;
@@ -121,6 +135,18 @@ public class SemanticDanmakuSettings : MonoBehaviour
             default:
                 return midInfoFontSize;
         }
+    }
+
+    public float GetTickerCategoryTitleFontSize()
+    {
+        return tickerCategoryTitleFontSize > 0f
+            ? tickerCategoryTitleFontSize
+            : farInfoFontSize + 8f;
+    }
+
+    public string GetTickerCategoryTitle(bool leftCluster)
+    {
+        return leftCluster ? tickerLeftCategoryTitle : tickerRightCategoryTitle;
     }
 
     public float GetLayerAlpha(CurvedCloudLayerKind layerKind)
