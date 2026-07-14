@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -15,6 +16,9 @@ public class StadiumAudioBootstrap : MonoBehaviour
     const string AmbientGroupName = "AmbientAudioGroup";
 
     [Header("声音弹幕（TTS）")]
+    [Tooltip("TTS 排期 JSON（相对 StreamingAssets）。留空则按场景名自动选择。")]
+    public string candidatesFileName = "";
+
     [Tooltip("对数音量倍率（0.5–5000），映射到 AudioSource 0.05–1.0。Play 模式下改此值会实时生效。")]
     [Range(0.5f, 5000f)] public float ttsPlaybackGain = 1.35f;
 
@@ -25,9 +29,6 @@ public class StadiumAudioBootstrap : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void AutoInstall()
     {
-        if (GameObject.Find(ManagerName) != null)
-            return;
-
         var screen = GameObject.Find("screen");
         if (screen == null)
             return;
@@ -37,6 +38,15 @@ public class StadiumAudioBootstrap : MonoBehaviour
             return;
 
         var bootstrap = FindObjectOfType<StadiumAudioBootstrap>();
+        TtsSceneCatalog.Profile profile = bootstrap != null
+            ? TtsSceneCatalog.Resolve(bootstrap.candidatesFileName)
+            : TtsSceneCatalog.Resolve();
+        TtsDisplayedTextFilter.Configure(profile.candidatesFile);
+
+        var existingManager = GameObject.Find(ManagerName);
+        if (existingManager != null)
+            Destroy(existingManager);
+
         if (bootstrap != null)
         {
             bootstrap.Build(screen.transform, vp);
@@ -73,9 +83,15 @@ public class StadiumAudioBootstrap : MonoBehaviour
         var ambient = EnsureAmbientGroup(screen);
         var manager = new GameObject(ManagerName);
 
+        string candidates = ResolveCandidatesFileName();
+        TtsSceneCatalog.Profile profile = TtsSceneCatalog.Resolve(candidates);
+        TtsDisplayedTextFilter.Configure(profile.candidatesFile);
+
         var tts = manager.AddComponent<AudioDanmakuController>();
         tts.videoPlayer = videoPlayer;
         tts.videoCommentarySource = screen.GetComponent<AudioSource>();
+        tts.candidatesFileName = profile.candidatesFile;
+        tts.ttsClipFolder = profile.clipFolder;
         tts.ttsPlaybackGain = ttsPlaybackGain;
         tts.videoCommentaryVolume = videoCommentaryVolume;
         tts.enableVideoDucking = false;
@@ -93,7 +109,15 @@ public class StadiumAudioBootstrap : MonoBehaviour
         crowd.clipBindings = BuildCrowdClipBindings();
         crowd.enabled = crowd.clipBindings != null && crowd.clipBindings.Length > 0;
 
-        Debug.Log("[StadiumAudio] 已挂载 TTS / 观众声浪控制器。");
+        Debug.Log($"[StadiumAudio] 已挂载 TTS / 观众声浪（{profile.candidatesFile} → {profile.clipFolder}）。");
+    }
+
+    string ResolveCandidatesFileName()
+    {
+        if (!string.IsNullOrWhiteSpace(candidatesFileName))
+            return candidatesFileName.Replace('\\', '/');
+
+        return TtsSceneCatalog.ResolveCandidatesForScene(SceneManager.GetActiveScene().name);
     }
 
     struct AmbientRefs

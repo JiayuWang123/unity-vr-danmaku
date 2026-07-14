@@ -23,6 +23,9 @@ public class AudioDanmakuController : MonoBehaviour
     [Tooltip("找不到 candidatesFileName 时的兼容回退")]
     public string scheduleFileName = "audio_schedule.json";
 
+    [Tooltip("TTS mp3 目录（相对 StreamingAssets）。留空则根据 candidatesFileName 自动推断。")]
+    public string ttsClipFolder = "";
+
     [Header("空间锚点（对应 spatial_anchor）")]
     public Transform anchorLeft;
     public Transform anchorRight;
@@ -364,6 +367,7 @@ public class AudioDanmakuController : MonoBehaviour
         }
 
         var events = new AudioScheduleEvent[wrapper.items.Length];
+        string clipFolder = ResolveClipFolder();
         for (int i = 0; i < wrapper.items.Length; i++)
         {
             var c = wrapper.items[i];
@@ -379,7 +383,7 @@ public class AudioDanmakuController : MonoBehaviour
                 end_sec = start + duration,
                 speaker_role = c.speaker_role,
                 text = c.text,
-                audio_clip = $"Audio/TTS/{id}.mp3",
+                audio_clip = TtsSceneCatalog.BuildClipRelativePath(clipFolder, i),
                 volume = c.volume,
                 spatial_anchor = c.spatial_anchor,
                 priority = c.priority,
@@ -392,8 +396,17 @@ public class AudioDanmakuController : MonoBehaviour
         schedule = new AudioScheduleFile { events = events };
         System.Array.Sort(schedule.events, (a, b) => a.start_sec.CompareTo(b.start_sec));
         initialized = true;
-        Debug.Log($"[AudioDanmaku] 已加载 {schedule.events.Length} 条 TTS 排期。");
+        TtsDisplayedTextFilter.Configure(candidatesFileName);
+        Debug.Log($"[AudioDanmaku] 已加载 {schedule.events.Length} 条 TTS 排期（mp3 目录：{clipFolder}）。");
         return true;
+    }
+
+    string ResolveClipFolder()
+    {
+        if (!string.IsNullOrWhiteSpace(ttsClipFolder))
+            return ttsClipFolder.Replace('\\', '/').TrimEnd('/');
+
+        return TtsSceneCatalog.InferClipFolder(candidatesFileName);
     }
 
     void LoadFromGeneratedSchedule()

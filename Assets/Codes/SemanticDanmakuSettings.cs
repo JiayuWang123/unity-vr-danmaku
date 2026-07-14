@@ -59,6 +59,8 @@ public class SemanticDanmakuSettings : MonoBehaviour
     public string tickerSpeakerSpriteResource = string.Empty;
     [Tooltip("滚动条相对相机左右内扣角度（度）；0 = 正面朝向头显")]
     public float tickerInwardYawDegrees = 0f;
+    [Tooltip("左右栏对称旋转（度）：左栏逆时针、右栏顺时针，角度相同；绕竖直轴相对朝向相机内扣/外展")]
+    [Range(-45f, 45f)] public float tickerPanelSpreadDegrees = 0f;
     [Tooltip("滚动条额外欧拉角微调（度）。若文字反了可试 Y=180")]
     public Vector3 tickerExtraEulerOffset = Vector3.zero;
     [Tooltip("滚动区左右缘渐变宽度（像素）：文字滚到该范围内按位置变淡")]
@@ -70,9 +72,41 @@ public class SemanticDanmakuSettings : MonoBehaviour
     public string tickerRightCategoryTitle = "球队球员";
     [Tooltip("小标题区高度（Canvas 像素）")]
     public float tickerCategoryTitleHeight = 56f;
+    [Tooltip("小标题距面板顶部的内边距（像素）")]
+    public float tickerCategoryTitleTopPadding = 12f;
+    [Tooltip("小标题与下方滚动区之间的间距（像素）")]
+    public float tickerCategoryTitleBottomPadding = 8f;
     [Tooltip("小标题字号；留 0 则自动 = Far Info 字号 + 8")]
     public float tickerCategoryTitleFontSize = 0f;
     public Color tickerCategoryTitleColor = new Color(0.28f, 0.72f, 1f, 1f);
+
+    [Header("Far Info 面板背景（与聊天室同款）")]
+    [Tooltip("为左右两栏绘制半透明底 + 青紫渐变描边 + 外发光")]
+    public bool tickerPanelBackgroundEnabled = true;
+    [Tooltip("启动时自动同步 SocializationPanelController 的面板配色与圆角")]
+    public bool syncTickerPanelStyleFromChatPanel = true;
+    public Color tickerPanelFillColor = new Color(0.04f, 0.06f, 0.15f, 0.6f);
+    public Color tickerPanelBorderColorA = new Color(0.25f, 0.9f, 1f, 0.95f);
+    public Color tickerPanelBorderColorB = new Color(0.66f, 0.36f, 1f, 0.95f);
+    public Color tickerPanelGlowColor = new Color(0.42f, 0.55f, 1f, 0.55f);
+    [Range(1f, 10f)] public float tickerPanelBorderWidth = 3f;
+    [Range(4, 60)] public int tickerPanelCornerRadius = 20;
+    [Range(0, 60)] public int tickerPanelGlowSize = 22;
+
+    [Header("Far Info 球员球队高亮")]
+    [Tooltip("仅右侧「球队球员」栏生效：将匹配到的人名/队名用蓝色标出")]
+    public bool tickerEntityHighlightEnabled = true;
+    public Color tickerEntityHighlightColor = new Color(0.28f, 0.72f, 1f, 1f);
+    public string[] tickerHighlightPlayerNames =
+    {
+        "姆巴佩", "迪马利亚", "迪玛利亚", "巴蒂斯图塔", "劳塔罗", "蒙铁尔", "内马尔",
+        "大马丁", "阿圭罗", "马拉多纳", "瓦拉内", "登贝莱", "梅西", "科曼", "洛里",
+        "恩佐", "特奥", "小蜘蛛", "巴佩", "C罗", "c罗", "罗哥", "登子", "马丁", "塔罗"
+    };
+    public string[] tickerHighlightTeamNames =
+    {
+        "阿根廷", "法国", "沙特", "西班牙"
+    };
 
     [Header("布局")]
     public float layoutWindowSeconds = 8f;
@@ -185,5 +219,39 @@ public class SemanticDanmakuSettings : MonoBehaviour
         float recordAlpha = record != null ? Mathf.Clamp01(record.alpha) : 1f;
         baseColor.a = layerAlpha * recordAlpha;
         return baseColor;
+    }
+
+    public void ResolveTickerPanelStyle(
+        out Color fillColor,
+        out Color borderColorA,
+        out Color borderColorB,
+        out Color glowColor,
+        out float borderWidth,
+        out int cornerRadius,
+        out int glowSize)
+    {
+        if (syncTickerPanelStyleFromChatPanel)
+        {
+            var chat = FindObjectOfType<SocializationPanelController>();
+            if (chat != null)
+            {
+                fillColor = chat.panelFillColor;
+                borderColorA = chat.borderColorA;
+                borderColorB = chat.borderColorB;
+                glowColor = chat.glowColor;
+                borderWidth = chat.borderWidth;
+                cornerRadius = chat.cornerRadius;
+                glowSize = chat.glowSize;
+                return;
+            }
+        }
+
+        fillColor = tickerPanelFillColor;
+        borderColorA = tickerPanelBorderColorA;
+        borderColorB = tickerPanelBorderColorB;
+        glowColor = tickerPanelGlowColor;
+        borderWidth = tickerPanelBorderWidth;
+        cornerRadius = tickerPanelCornerRadius;
+        glowSize = tickerPanelGlowSize;
     }
 }

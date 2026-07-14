@@ -10,24 +10,51 @@ using UnityEngine;
 /// </summary>
 public static class TtsDisplayedTextFilter
 {
-    const string CandidatesFile = "Audio/tts_candidates_no_overlap.json";
-    const string ScheduleFile = "audio_schedule.json";
+    const string DefaultCandidatesFile = "Audio/tts_candidates_no_overlap.json";
+    const string DefaultScheduleFile = "audio_schedule.json";
+
+    static string candidatesFile = DefaultCandidatesFile;
+    static string scheduleFile = DefaultScheduleFile;
 
     static HashSet<string> normalizedExact;
     static List<string> normalizedTtsTexts;
     static bool loaded;
 
+    public static void Configure(string candidatesRelativePath, string scheduleRelativePath = null)
+    {
+        string nextCandidates = string.IsNullOrWhiteSpace(candidatesRelativePath)
+            ? DefaultCandidatesFile
+            : candidatesRelativePath.Replace('\\', '/');
+        string nextSchedule = string.IsNullOrWhiteSpace(scheduleRelativePath)
+            ? scheduleFile
+            : scheduleRelativePath.Replace('\\', '/');
+
+        if (loaded && string.Equals(candidatesFile, nextCandidates, StringComparison.Ordinal)
+            && string.Equals(scheduleFile, nextSchedule, StringComparison.Ordinal))
+            return;
+
+        candidatesFile = nextCandidates;
+        scheduleFile = nextSchedule;
+        loaded = false;
+        normalizedExact = null;
+        normalizedTtsTexts = null;
+    }
+
     public static void EnsureLoaded()
     {
+        TtsSceneCatalog.Profile expected = TtsSceneCatalog.Resolve();
+        if (loaded && !string.Equals(candidatesFile, expected.candidatesFile, StringComparison.Ordinal))
+            Configure(expected.candidatesFile);
+
         if (loaded)
             return;
 
         normalizedExact = new HashSet<string>(StringComparer.Ordinal);
         normalizedTtsTexts = new List<string>();
-        LoadCandidates(Path.Combine(Application.streamingAssetsPath, CandidatesFile));
-        LoadSchedule(Path.Combine(Application.streamingAssetsPath, ScheduleFile));
+        LoadCandidates(Path.Combine(Application.streamingAssetsPath, candidatesFile));
+        LoadSchedule(Path.Combine(Application.streamingAssetsPath, scheduleFile));
         loaded = true;
-        Debug.Log($"[TtsDisplayedTextFilter] 已加载 {normalizedExact.Count} 条 TTS 文本用于视觉过滤（整句匹配 / 近似匹配）。");
+        Debug.Log($"[TtsDisplayedTextFilter] 已加载 {normalizedExact.Count} 条 TTS 文本用于视觉过滤（{candidatesFile}）。");
     }
 
     public static bool IsTtsText(string text)

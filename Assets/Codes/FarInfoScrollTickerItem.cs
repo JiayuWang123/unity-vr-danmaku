@@ -78,6 +78,7 @@ public class FarInfoScrollTickerItem : MonoBehaviour
         label.enableWordWrapping = false;
         label.overflowMode = TextOverflowModes.Overflow;
         label.alignment = TextAlignmentOptions.MidlineLeft;
+        label.richText = true;
         if (font != null)
             label.font = font;
     }
@@ -87,7 +88,7 @@ public class FarInfoScrollTickerItem : MonoBehaviour
         if (label == null)
             return;
 
-        label.text = record != null ? record.text : string.Empty;
+        FarInfoEntityHighlightUtil.ApplyTickerText(label, record, config);
         label.fontSize = config.farInfoFontSize;
         label.color = config.BuildTextColor(record, CurvedCloudLayerKind.FarInfo);
         TmpDanmakuTextUtility.ApplyReadableStyle(label, config.farInfoOutlineWidth, config.farInfoOutlineColor);
@@ -159,7 +160,8 @@ public class FarInfoScrollTickerItem : MonoBehaviour
 
             float midX = GetViewportX(label.rectTransform, ch.bottomLeft, ch.topRight);
             float alpha = SpatialEdgeAlpha(midX, viewLeft, viewRight);
-            byte a = (byte)Mathf.Clamp(Mathf.RoundToInt(textBaseColor.a * alpha * 255f), 0, 255);
+            byte baseAlpha = ch.color.a;
+            byte a = (byte)Mathf.Clamp(Mathf.RoundToInt(baseAlpha / 255f * alpha * 255f), 0, 255);
 
             colors[vertexIndex + 0].a = a;
             colors[vertexIndex + 1].a = a;
