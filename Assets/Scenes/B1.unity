@@ -5292,7 +5292,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899937952}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 78e6ebcbe21622b46a7296afbabafd6e, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 3bf6f96170d407a4480da162e1d72430, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -6353,7 +6353,7 @@ MonoBehaviour:
   videoPlayer: {fileID: 1899937954}
   screenTransform: {fileID: 1899937958}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
-  jsonFileName: Baseline/baseline_danmaku_full.json
+  jsonFileName: Baseline/baseline_danmaku_video_b.json
   localPosition: {x: 0, y: 0.2, z: 0}
   displayAreaSize: {x: 15, y: 5}
   autoNormalizeParentScale: 1
