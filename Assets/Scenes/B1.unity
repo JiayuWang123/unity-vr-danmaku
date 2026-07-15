@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 9c11bfec64872214b89afc1cb28fcf11, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: da5267812fc7b404998ca4dc0fc7b5d8, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1897,7 +1897,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 877462516}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f6a7b8c9d0e1f20314253647586970ab, type: 3}
   m_Name: 
@@ -1913,7 +1913,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 877462516}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f162738495a6b7c8d9e0f11223344556, type: 3}
   m_Name: 
@@ -1941,66 +1941,21 @@ MonoBehaviour:
   tickerViewportHeight: 448
   tickerRowHeight: 88
   tickerScrollSpeed: 300
-  tickerVerticalOffsetMeters: 2
+  tickerVerticalOffsetMeters: 0.3
   tickerSpeakerSize: 34
   tickerTextGap: 8
   tickerSpeakerColor: {r: 1, g: 0.82, b: 0.25, a: 1}
   tickerSpeakerSprite: {fileID: 21300000, guid: 4f0a79f06c26a4d469c60da2958e3807, type: 3}
   tickerSpeakerSpriteResource: 
-  tickerInwardYawDegrees: 1
-  tickerPanelSpreadDegrees: 21.9
+  tickerInwardYawDegrees: 0
   tickerExtraEulerOffset: {x: 0, y: 180, z: 0}
   tickerEdgeFadeWidth: 500
   showTickerCategoryTitles: 1
   tickerLeftCategoryTitle: "\u6BD4\u8D5B\u5185\u5BB9"
   tickerRightCategoryTitle: "\u7403\u961F\u7403\u5458"
   tickerCategoryTitleHeight: 65
-  tickerCategoryTitleTopPadding: 30
-  tickerCategoryTitleBottomPadding: 8
   tickerCategoryTitleFontSize: 58
   tickerCategoryTitleColor: {r: 0.28, g: 0.72, b: 1, a: 1}
-  tickerPanelBackgroundEnabled: 1
-  syncTickerPanelStyleFromChatPanel: 1
-  tickerPanelFillColor: {r: 0.04, g: 0.06, b: 0.15, a: 0.6}
-  tickerPanelBorderColorA: {r: 0.25, g: 0.9, b: 1, a: 0.95}
-  tickerPanelBorderColorB: {r: 0.66, g: 0.36, b: 1, a: 0.95}
-  tickerPanelGlowColor: {r: 0.35, g: 0.85, b: 1, a: 0.42}
-  tickerPanelBorderWidth: 1.4
-  tickerPanelCornerRadius: 14
-  tickerPanelGlowSize: 18
-  tickerEntityHighlightEnabled: 1
-  tickerEntityHighlightColor: {r: 0.28, g: 0.72, b: 1, a: 1}
-  tickerHighlightPlayerNames:
-  - "\u59C6\u5DF4\u4F69"
-  - "\u8FEA\u9A6C\u5229\u4E9A"
-  - "\u8FEA\u739B\u5229\u4E9A"
-  - "\u5DF4\u8482\u65AF\u56FE\u5854"
-  - "\u52B3\u5854\u7F57"
-  - "\u8499\u94C1\u5C14"
-  - "\u5185\u9A6C\u5C14"
-  - "\u5927\u9A6C\u4E01"
-  - "\u963F\u572D\u7F57"
-  - "\u9A6C\u62C9\u591A\u7EB3"
-  - "\u74E6\u62C9\u5185"
-  - "\u767B\u8D1D\u83B1"
-  - "\u6885\u897F"
-  - "\u79D1\u66FC"
-  - "\u6D1B\u91CC"
-  - "\u6069\u4F50"
-  - "\u7279\u5965"
-  - "\u5C0F\u8718\u86DB"
-  - "\u5DF4\u4F69"
-  - "C\u7F57"
-  - "c\u7F57"
-  - "\u7F57\u54E5"
-  - "\u767B\u5B50"
-  - "\u9A6C\u4E01"
-  - "\u5854\u7F57"
-  tickerHighlightTeamNames:
-  - "\u963F\u6839\u5EF7"
-  - "\u6CD5\u56FD"
-  - "\u6C99\u7279"
-  - "\u897F\u73ED\u7259"
   layoutWindowSeconds: 8
   layoutRefreshInterval: 0.5
   emotionDwellDuration: 1.8
@@ -5010,7 +4965,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1822006703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5066,7 +5021,7 @@ Transform:
   m_GameObject: {fileID: 1822006702}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3531528, y: 3.8451502, z: -0.293}
+  m_LocalPosition: {x: 1.14, y: 5.88, z: -0.293}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5337,7 +5292,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899937952}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 5b0913fbf930ef846b783031d4e708b3, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 53b41c98413d29741bd6d01e5136522e, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -5568,7 +5523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1955000002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5795,7 +5750,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2020217194
 Transform:
   m_ObjectHideFlags: 0
@@ -5850,7 +5805,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2044100002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6215,7 +6170,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2144200002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6321,7 +6276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2150000002
 Transform:
   m_ObjectHideFlags: 0
@@ -6349,9 +6304,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c6d7e8f901234567890abcdef01234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  candidatesFileName: 
   ttsPlaybackGain: 4144
   videoCommentaryVolume: 0.314
+--- !u!1 &2200000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2200000002}
+  - component: {fileID: 2200000003}
+  m_Layer: 0
+  m_Name: BaselineDanmakuManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2200000002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2200000001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2200000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2200000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64432a0209e643dda939784c7a2d7721, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1899937954}
+  screenTransform: {fileID: 1899937958}
+  fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
+  jsonFileName: Baseline/baseline_danmaku_video_b.json
+  localPosition: {x: 0, y: 0.2, z: 0}
+  displayAreaSize: {x: 15, y: 5}
+  autoNormalizeParentScale: 1
+  fontSize: 25
+  worldScale: 0.01
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 0.18
+  outlineColor: {r: 0, g: 0, b: 0, a: 0.85}
+  scrollSpeed: 170
+  trackCount: 8
+  maxConcurrent: 60
+  laneGapPixels: 50
+  queueOverflow: 1
+  rightSpawnPadding: 40
+  leftDestroyPadding: 80
+  clearSpawnedOnSeek: 1
+  seekResetThresholdSeconds: 0.5
+  logQueueStatus: 1
+  queueLogIntervalSeconds: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -6375,3 +6396,4 @@ SceneRoots:
   - {fileID: 2044100003}
   - {fileID: 2144200003}
   - {fileID: 2150000002}
+  - {fileID: 2200000002}
