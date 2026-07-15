@@ -286,18 +286,25 @@ public class EmotionBubbleController : MonoBehaviour
         foreach (string candidate in candidates)
         {
             if (string.IsNullOrWhiteSpace(candidate)) continue;
-            string path = Path.Combine(Application.streamingAssetsPath, candidate.Replace('\\', '/'));
-            if (!File.Exists(path)) continue;
+            if (!ClassifyDanmakuJsonLoader.TryLoadEntries(candidate, out var entries, out string resolvedPath))
+                continue;
 
-            var col = JsonUtility.FromJson<EmotionBubbleCollection>(
-                File.ReadAllText(path, System.Text.Encoding.UTF8).Trim());
-            if (col?.items == null || col.items.Length == 0) continue;
+            for (int i = 0; i < entries.Count; i++)
+            {
+                ClassifyDanmakuJsonLoader.DanmakuTextEntry entry = entries[i];
+                records.Add(new EmotionBubbleRecord
+                {
+                    弹幕内容 = entry.text,
+                    长度 = entry.length,
+                    新视频中的时间 = entry.timeSec,
+                    正反面情绪 = entry.sentiment
+                });
+            }
 
-            records.AddRange(col.items);
             records.Sort((a, b) => a.新视频中的时间.CompareTo(b.新视频中的时间));
             int removed = TtsDisplayedTextFilter.RemoveTtsTexts(records, r => r.弹幕内容);
             jsonFileName = candidate.Replace('\\', '/');
-            Debug.Log($"[EmotionBubble] 加载 {records.Count} 条（已过滤 {removed} 条 TTS 重复）：{path}");
+            Debug.Log($"[EmotionBubble] 加载 {records.Count} 条（已过滤 {removed} 条 TTS 重复）：{resolvedPath}");
             return;
         }
 

@@ -19,6 +19,10 @@ public class FarInfoScrollTickerLane : MonoBehaviour
     RectTransform viewport;
     RectMask2D viewportMask;
     TextMeshProUGUI categoryTitleLabel;
+    Image panelBackgroundImage;
+    Sprite panelBackgroundSprite;
+    int lastBackgroundWidth;
+    int lastBackgroundHeight;
 
     public int ActiveCount => activeItems.Count;
 
@@ -82,7 +86,59 @@ public class FarInfoScrollTickerLane : MonoBehaviour
     void LateUpdate()
     {
         UpdateLanePose();
+        UpdateTitleLayout();
         CleanupList();
+    }
+
+    float GetTitleBandHeight()
+    {
+        if (settings == null || !settings.showTickerCategoryTitles)
+            return 0f;
+
+        return settings.tickerCategoryTitleTopPadding
+            + settings.tickerCategoryTitleHeight
+            + settings.tickerCategoryTitleBottomPadding;
+    }
+
+    void UpdateTitleLayout()
+    {
+        if (settings == null)
+            return;
+
+        float titleBand = GetTitleBandHeight();
+        if (viewport != null)
+        {
+            viewport.offsetMin = Vector2.zero;
+            viewport.offsetMax = new Vector2(0f, -titleBand);
+        }
+
+        if (categoryTitleLabel != null)
+        {
+            RectTransform titleRt = categoryTitleLabel.rectTransform;
+            titleRt.anchoredPosition = new Vector2(0f, -settings.tickerCategoryTitleTopPadding);
+            titleRt.sizeDelta = new Vector2(GetLaneWidth(), settings.tickerCategoryTitleHeight);
+        }
+
+        RectTransform laneRt = GetComponent<RectTransform>();
+        if (laneRt != null)
+            laneRt.sizeDelta = new Vector2(GetLaneWidth(), GetTotalLaneHeight());
+
+        RefreshPanelBackgroundIfNeeded();
+    }
+
+    void RefreshPanelBackgroundIfNeeded()
+    {
+        if (panelBackgroundImage == null || !panelBackgroundImage.enabled)
+            return;
+
+        int width = Mathf.RoundToInt(GetLaneWidth());
+        int height = Mathf.RoundToInt(GetTotalLaneHeight());
+        if (width == lastBackgroundWidth && height == lastBackgroundHeight)
+            return;
+
+        lastBackgroundWidth = width;
+        lastBackgroundHeight = height;
+        RefreshPanelBackgroundSprite();
     }
 
     void UpdateLanePose()
@@ -118,8 +174,9 @@ public class FarInfoScrollTickerLane : MonoBehaviour
 
         Quaternion faceCamera = Quaternion.LookRotation(toCamera.normalized, Vector3.up);
         float inwardYaw = isLeftCluster ? settings.tickerInwardYawDegrees : -settings.tickerInwardYawDegrees;
+        float spreadYaw = isLeftCluster ? settings.tickerPanelSpreadDegrees : -settings.tickerPanelSpreadDegrees;
         Vector3 extra = settings.tickerExtraEulerOffset;
-        transform.rotation = faceCamera * Quaternion.Euler(extra.x, inwardYaw + extra.y, extra.z);
+        transform.rotation = faceCamera * Quaternion.Euler(extra.x, inwardYaw + spreadYaw + extra.y, extra.z);
     }
 
     void EnsureViewport()
@@ -151,13 +208,14 @@ public class FarInfoScrollTickerLane : MonoBehaviour
             canvas.worldCamera = viewCamera;
 
         EnsureCategoryTitle();
+        EnsurePanelBackground();
 
         var viewportGo = new GameObject("Viewport", typeof(RectTransform));
         viewportGo.transform.SetParent(transform, false);
         viewport = viewportGo.GetComponent<RectTransform>();
         viewport.anchorMin = Vector2.zero;
         viewport.anchorMax = Vector2.one;
-        float titleInset = settings.showTickerCategoryTitles ? settings.tickerCategoryTitleHeight : 0f;
+        float titleInset = GetTitleBandHeight();
         viewport.offsetMin = Vector2.zero;
         viewport.offsetMax = new Vector2(0f, -titleInset);
 
@@ -178,7 +236,7 @@ public class FarInfoScrollTickerLane : MonoBehaviour
             titleRt.anchorMin = new Vector2(0.5f, 1f);
             titleRt.anchorMax = new Vector2(0.5f, 1f);
             titleRt.pivot = new Vector2(0.5f, 1f);
-            titleRt.anchoredPosition = Vector2.zero;
+            titleRt.anchoredPosition = new Vector2(0f, -settings.tickerCategoryTitleTopPadding);
             titleRt.sizeDelta = new Vector2(GetLaneWidth(), settings.tickerCategoryTitleHeight);
 
             categoryTitleLabel = titleGo.AddComponent<TextMeshProUGUI>();
@@ -196,13 +254,89 @@ public class FarInfoScrollTickerLane : MonoBehaviour
             categoryTitleLabel.font = fontAsset;
     }
 
+    void EnsurePanelBackground()
+    {
+        if (settings == null || !settings.tickerPanelBackgroundEnabled)
+        {
+            if (panelBackgroundImage != null)
+                panelBackgroundImage.enabled = false;
+            return;
+        }
+
+        if (panelBackgroundImage == null)
+        {
+            var bgGo = new GameObject("PanelBackground", typeof(RectTransform));
+            bgGo.transform.SetParent(transform, false);
+            bgGo.transform.SetAsFirstSibling();
+
+            var bgRt = bgGo.GetComponent<RectTransform>();
+            bgRt.anchorMin = Vector2.zero;
+            bgRt.anchorMax = Vector2.one;
+            bgRt.offsetMin = Vector2.zero;
+            bgRt.offsetMax = Vector2.zero;
+
+            panelBackgroundImage = bgGo.AddComponent<Image>();
+            panelBackgroundImage.raycastTarget = false;
+        }
+
+        panelBackgroundImage.enabled = true;
+        RefreshPanelBackgroundSprite();
+    }
+
+    void RefreshPanelBackgroundSprite()
+    {
+        if (panelBackgroundImage == null || settings == null)
+            return;
+
+        int width = Mathf.RoundToInt(GetLaneWidth());
+        int height = Mathf.RoundToInt(GetTotalLaneHeight());
+        settings.ResolveTickerPanelStyle(
+            out Color fillColor,
+            out Color borderColorA,
+            out Color borderColorB,
+            out Color glowColor,
+            out float borderWidth,
+            out int cornerRadius,
+            out int glowSize);
+
+        int corner = Mathf.Clamp(cornerRadius, 0, Mathf.Min(width, height) / 2);
+
+        DestroyPanelBackgroundSprite();
+        panelBackgroundSprite = SocializationPanelShapeUtil.CreatePanel(
+            width,
+            height,
+            corner,
+            Mathf.Max(0, glowSize),
+            borderWidth,
+            fillColor,
+            borderColorA,
+            borderColorB,
+            glowColor);
+        SocializationPanelShapeUtil.Apply(panelBackgroundImage, panelBackgroundSprite);
+    }
+
+    void DestroyPanelBackgroundSprite()
+    {
+        if (panelBackgroundSprite == null)
+            return;
+
+        if (panelBackgroundSprite.texture != null)
+            Object.Destroy(panelBackgroundSprite.texture);
+        Object.Destroy(panelBackgroundSprite);
+        panelBackgroundSprite = null;
+    }
+
+    void OnDestroy()
+    {
+        DestroyPanelBackgroundSprite();
+    }
+
     float GetTotalLaneHeight()
     {
         if (settings == null)
             return 360f;
 
-        float titleHeight = settings.showTickerCategoryTitles ? settings.tickerCategoryTitleHeight : 0f;
-        return settings.tickerViewportHeight + titleHeight;
+        return settings.tickerViewportHeight + GetTitleBandHeight();
     }
 
     float GetLaneWidth()

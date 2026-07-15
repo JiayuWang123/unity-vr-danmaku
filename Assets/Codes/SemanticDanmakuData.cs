@@ -113,16 +113,19 @@ public static class SemanticDanmakuLoader
         if (string.IsNullOrWhiteSpace(fileName))
             return records;
 
-        string path = Path.Combine(Application.streamingAssetsPath, "SemanticDanmaku", fileName);
-        if (!File.Exists(path))
+        string path = ClassifyDanmakuJsonLoader.ResolveStreamingAssetPath(fileName);
+        if (path == null || !File.Exists(path))
         {
-            Debug.LogWarning($"Semantic danmaku JSON not found: {path}");
+            Debug.LogWarning($"Semantic danmaku JSON not found: {fileName}");
             return records;
         }
 
         string json = File.ReadAllText(path).Trim();
         if (string.IsNullOrEmpty(json))
             return records;
+
+        if (json.StartsWith("[") || json.Contains("\"text\""))
+            return LoadV2CategoryArray(fileName, path, json);
 
         InformationCommentaryFileDto file = JsonUtility.FromJson<InformationCommentaryFileDto>(json);
         if (file?.items == null || file.items.Length == 0)
@@ -143,6 +146,38 @@ public static class SemanticDanmakuLoader
                 text = item.弹幕内容,
                 timeSeconds = item.新视频中的时间,
                 charCount = item.长度,
+                semanticLayer = DanmakuSemanticLayer.Info,
+                category = category,
+                alpha = 1f,
+                sourceFile = fileName
+            });
+        }
+
+        Debug.Log($"Loaded {records.Count} entries from {fileName} as {category}");
+        return records;
+    }
+
+    static List<SemanticDanmakuRecord> LoadV2CategoryArray(string fileName, string path, string json)
+    {
+        var records = new List<SemanticDanmakuRecord>();
+        if (!ClassifyDanmakuJsonLoader.TryLoadEntries(fileName, out List<ClassifyDanmakuJsonLoader.DanmakuTextEntry> entries, out _))
+        {
+            Debug.LogWarning($"Category danmaku JSON is empty or invalid: {path}");
+            return records;
+        }
+
+        DanmakuSemanticCategory category = ClassifyDanmakuJsonLoader.InferFarLayerCategory(fileName);
+        for (int i = 0; i < entries.Count; i++)
+        {
+            ClassifyDanmakuJsonLoader.DanmakuTextEntry entry = entries[i];
+            if (entry == null || string.IsNullOrWhiteSpace(entry.text))
+                continue;
+
+            records.Add(new SemanticDanmakuRecord
+            {
+                text = entry.text,
+                timeSeconds = entry.timeSec,
+                charCount = entry.length,
                 semanticLayer = DanmakuSemanticLayer.Info,
                 category = category,
                 alpha = 1f,

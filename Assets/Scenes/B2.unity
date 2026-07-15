@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: da5267812fc7b404998ca4dc0fc7b5d8, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 9c11bfec64872214b89afc1cb28fcf11, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1920,8 +1920,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useLegacyPopUpJson: 0
   useFarLayerCategoryFiles: 1
-  farLayerFileA: comment_on_the_game_the_play.json
-  farLayerFileB: critique_athletes_teams_referees.json
+  farLayerFileA: classify/Comment_on_the_game_the_play2.json
+  farLayerFileB: classify/critique_athletes_teams_referees2.json
   classifiedJsonFileName: information_critical_commentary_summary.json
   legacyNearJsonFileName: pop_up_near.json
   legacyMidJsonFileName: pop_up_mid.json
@@ -1941,21 +1941,66 @@ MonoBehaviour:
   tickerViewportHeight: 448
   tickerRowHeight: 88
   tickerScrollSpeed: 300
-  tickerVerticalOffsetMeters: 0.3
+  tickerVerticalOffsetMeters: 2
   tickerSpeakerSize: 34
   tickerTextGap: 8
   tickerSpeakerColor: {r: 1, g: 0.82, b: 0.25, a: 1}
   tickerSpeakerSprite: {fileID: 21300000, guid: 4f0a79f06c26a4d469c60da2958e3807, type: 3}
   tickerSpeakerSpriteResource: 
-  tickerInwardYawDegrees: 0
+  tickerInwardYawDegrees: 1
+  tickerPanelSpreadDegrees: 21.9
   tickerExtraEulerOffset: {x: 0, y: 180, z: 0}
   tickerEdgeFadeWidth: 500
   showTickerCategoryTitles: 1
   tickerLeftCategoryTitle: "\u6BD4\u8D5B\u5185\u5BB9"
   tickerRightCategoryTitle: "\u7403\u961F\u7403\u5458"
   tickerCategoryTitleHeight: 65
+  tickerCategoryTitleTopPadding: 30
+  tickerCategoryTitleBottomPadding: 8
   tickerCategoryTitleFontSize: 58
   tickerCategoryTitleColor: {r: 0.28, g: 0.72, b: 1, a: 1}
+  tickerPanelBackgroundEnabled: 1
+  syncTickerPanelStyleFromChatPanel: 1
+  tickerPanelFillColor: {r: 0.04, g: 0.06, b: 0.15, a: 0.6}
+  tickerPanelBorderColorA: {r: 0.25, g: 0.9, b: 1, a: 0.95}
+  tickerPanelBorderColorB: {r: 0.66, g: 0.36, b: 1, a: 0.95}
+  tickerPanelGlowColor: {r: 0.35, g: 0.85, b: 1, a: 0.42}
+  tickerPanelBorderWidth: 1.4
+  tickerPanelCornerRadius: 14
+  tickerPanelGlowSize: 18
+  tickerEntityHighlightEnabled: 1
+  tickerEntityHighlightColor: {r: 0.28, g: 0.72, b: 1, a: 1}
+  tickerHighlightPlayerNames:
+  - "\u59C6\u5DF4\u4F69"
+  - "\u8FEA\u9A6C\u5229\u4E9A"
+  - "\u8FEA\u739B\u5229\u4E9A"
+  - "\u5DF4\u8482\u65AF\u56FE\u5854"
+  - "\u52B3\u5854\u7F57"
+  - "\u8499\u94C1\u5C14"
+  - "\u5185\u9A6C\u5C14"
+  - "\u5927\u9A6C\u4E01"
+  - "\u963F\u572D\u7F57"
+  - "\u9A6C\u62C9\u591A\u7EB3"
+  - "\u74E6\u62C9\u5185"
+  - "\u767B\u8D1D\u83B1"
+  - "\u6885\u897F"
+  - "\u79D1\u66FC"
+  - "\u6D1B\u91CC"
+  - "\u6069\u4F50"
+  - "\u7279\u5965"
+  - "\u5C0F\u8718\u86DB"
+  - "\u5DF4\u4F69"
+  - "C\u7F57"
+  - "c\u7F57"
+  - "\u7F57\u54E5"
+  - "\u767B\u5B50"
+  - "\u9A6C\u4E01"
+  - "\u5854\u7F57"
+  tickerHighlightTeamNames:
+  - "\u963F\u6839\u5EF7"
+  - "\u6CD5\u56FD"
+  - "\u6C99\u7279"
+  - "\u897F\u73ED\u7259"
   layoutWindowSeconds: 8
   layoutRefreshInterval: 0.5
   emotionDwellDuration: 1.8
@@ -4982,7 +5027,7 @@ MonoBehaviour:
   screenTransform: {fileID: 1899937958}
   midZoneFrame: {fileID: 1666705374}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
-  jsonFileName: classify/memes_joking.json
+  jsonFileName: classify/memes_joking2.json
   sideOutwardOffset: 0.06
   sideInwardOffset: 0.55
   verticalRangeRatio: 0.507
@@ -5021,7 +5066,7 @@ Transform:
   m_GameObject: {fileID: 1822006702}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.14, y: 5.88, z: -0.293}
+  m_LocalPosition: {x: 2.3531528, y: 3.8451502, z: -0.293}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5292,7 +5337,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899937952}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 3bf6f96170d407a4480da162e1d72430, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 53b41c98413d29741bd6d01e5136522e, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -5539,7 +5584,7 @@ MonoBehaviour:
   videoPlayer: {fileID: 1899937954}
   headTransform: {fileID: 0}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
-  jsonFileName: classify/socialization.json
+  jsonFileName: classify/socialization2.json
   localOffset: {x: 0, y: -0.9, z: 0.85}
   collapsedLocalOffset: {x: 0, y: -0.42, z: 0.85}
   localEulerAngles: {x: 50, y: 0, z: 0}
@@ -5821,7 +5866,7 @@ MonoBehaviour:
   videoPlayer: {fileID: 1899937954}
   screenTransform: {fileID: 1899937958}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
-  jsonFileName: classify/emotion.json
+  jsonFileName: classify/emotion2.json
   spawnHorizontalRange: {x: -0.5, y: 0.5}
   spawnBaseHeight: -0.7
   spawnHeightJitter: 0.06
@@ -6187,7 +6232,7 @@ MonoBehaviour:
   screenTransform: {fileID: 1899937958}
   alertAnchor: {fileID: 2144200033}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
-  jsonFileName: classify/matchpoint.json
+  jsonFileName: classify/matchpoint2.json
   fallbackLocalOffset: {x: 0, y: 0.35, z: 0.05}
   queueGapDuration: 0.25
   fontSize: 45

@@ -1941,21 +1941,66 @@ MonoBehaviour:
   tickerViewportHeight: 448
   tickerRowHeight: 88
   tickerScrollSpeed: 300
-  tickerVerticalOffsetMeters: 0.3
+  tickerVerticalOffsetMeters: 2
   tickerSpeakerSize: 34
   tickerTextGap: 8
   tickerSpeakerColor: {r: 1, g: 0.82, b: 0.25, a: 1}
   tickerSpeakerSprite: {fileID: 21300000, guid: 4f0a79f06c26a4d469c60da2958e3807, type: 3}
   tickerSpeakerSpriteResource: 
-  tickerInwardYawDegrees: 0
+  tickerInwardYawDegrees: 1
+  tickerPanelSpreadDegrees: 21.9
   tickerExtraEulerOffset: {x: 0, y: 180, z: 0}
   tickerEdgeFadeWidth: 500
   showTickerCategoryTitles: 1
   tickerLeftCategoryTitle: "\u6BD4\u8D5B\u5185\u5BB9"
   tickerRightCategoryTitle: "\u7403\u961F\u7403\u5458"
   tickerCategoryTitleHeight: 65
+  tickerCategoryTitleTopPadding: 30
+  tickerCategoryTitleBottomPadding: 8
   tickerCategoryTitleFontSize: 58
   tickerCategoryTitleColor: {r: 0.28, g: 0.72, b: 1, a: 1}
+  tickerPanelBackgroundEnabled: 1
+  syncTickerPanelStyleFromChatPanel: 1
+  tickerPanelFillColor: {r: 0.04, g: 0.06, b: 0.15, a: 0.6}
+  tickerPanelBorderColorA: {r: 0.25, g: 0.9, b: 1, a: 0.95}
+  tickerPanelBorderColorB: {r: 0.66, g: 0.36, b: 1, a: 0.95}
+  tickerPanelGlowColor: {r: 0.35, g: 0.85, b: 1, a: 0.42}
+  tickerPanelBorderWidth: 1.4
+  tickerPanelCornerRadius: 14
+  tickerPanelGlowSize: 18
+  tickerEntityHighlightEnabled: 1
+  tickerEntityHighlightColor: {r: 0.28, g: 0.72, b: 1, a: 1}
+  tickerHighlightPlayerNames:
+  - "\u59C6\u5DF4\u4F69"
+  - "\u8FEA\u9A6C\u5229\u4E9A"
+  - "\u8FEA\u739B\u5229\u4E9A"
+  - "\u5DF4\u8482\u65AF\u56FE\u5854"
+  - "\u52B3\u5854\u7F57"
+  - "\u8499\u94C1\u5C14"
+  - "\u5185\u9A6C\u5C14"
+  - "\u5927\u9A6C\u4E01"
+  - "\u963F\u572D\u7F57"
+  - "\u9A6C\u62C9\u591A\u7EB3"
+  - "\u74E6\u62C9\u5185"
+  - "\u767B\u8D1D\u83B1"
+  - "\u6885\u897F"
+  - "\u79D1\u66FC"
+  - "\u6D1B\u91CC"
+  - "\u6069\u4F50"
+  - "\u7279\u5965"
+  - "\u5C0F\u8718\u86DB"
+  - "\u5DF4\u4F69"
+  - "C\u7F57"
+  - "c\u7F57"
+  - "\u7F57\u54E5"
+  - "\u767B\u5B50"
+  - "\u9A6C\u4E01"
+  - "\u5854\u7F57"
+  tickerHighlightTeamNames:
+  - "\u963F\u6839\u5EF7"
+  - "\u6CD5\u56FD"
+  - "\u6C99\u7279"
+  - "\u897F\u73ED\u7259"
   layoutWindowSeconds: 8
   layoutRefreshInterval: 0.5
   emotionDwellDuration: 1.8
