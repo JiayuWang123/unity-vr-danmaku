@@ -1890,6 +1890,7 @@ MonoBehaviour:
   localEulerAngles: {x: 0, y: 0, z: 0}
   canvasScale: 0.001
   panelSize: {x: 820, y: 110}
+  progressBarInteractionEnabled: 1
 --- !u!114 &877462522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6031,7 +6032,7 @@ Transform:
   m_GameObject: {fileID: 2114560534}
   serializedVersion: 2
   m_LocalRotation: {x: 0.09760188, y: -0.0048241247, z: 0.00066149316, w: 0.9952136}
-  m_LocalPosition: {x: 0.02, y: 3.39, z: -4.94}
+  m_LocalPosition: {x: 0.02, y: 2.35, z: -4.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6236,6 +6237,7 @@ MonoBehaviour:
   alertAnchor: {fileID: 2144200033}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
   jsonFileName: classify/matchpoint2.json
+  duplicateSuppressWindowSeconds: 0
   fallbackLocalOffset: {x: 0, y: 0.35, z: 0.05}
   queueGapDuration: 0.25
   fontSize: 45
