@@ -32,10 +32,11 @@ public static class TtsSceneCatalog
         if (string.IsNullOrWhiteSpace(sceneName))
             return "Audio/tts_candidates_no_overlap.json";
 
-        if (string.Equals(sceneName, "B2", StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(sceneName, "B2", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(sceneName, "B1", StringComparison.OrdinalIgnoreCase))
             return "Audio/tts_candidates_no_overlap2.json";
 
-        // A2、StadiumScene 及其他默认走第一套
+        // A1/A2 及其他默认走第一套
         return "Audio/tts_candidates_no_overlap.json";
     }
 

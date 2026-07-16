@@ -1482,7 +1482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1941,17 +1941,19 @@ MonoBehaviour:
   tickerViewportHeight: 448
   tickerRowHeight: 88
   tickerScrollSpeed: 300
-  tickerVerticalOffsetMeters: 2
+  tickerVerticalOffsetMeters: 0.3
   tickerSpeakerSize: 34
   tickerTextGap: 8
   tickerSpeakerColor: {r: 1, g: 0.82, b: 0.25, a: 1}
   tickerSpeakerSprite: {fileID: 21300000, guid: 4f0a79f06c26a4d469c60da2958e3807, type: 3}
   tickerSpeakerSpriteResource: 
-  tickerInwardYawDegrees: 1
-  tickerPanelSpreadDegrees: 21.9
+  tickerInwardYawDegrees: 0
+  tickerPanelSpreadDegrees: 0
   tickerExtraEulerOffset: {x: 0, y: 180, z: 0}
   tickerEdgeFadeWidth: 500
-  showTickerCategoryTitles: 1
+  tickerMergeCategoriesSingleLane: 1
+  tickerMergedLaneWidth: 0
+  showTickerCategoryTitles: 0
   tickerLeftCategoryTitle: "\u6BD4\u8D5B\u5185\u5BB9"
   tickerRightCategoryTitle: "\u7403\u961F\u7403\u5458"
   tickerCategoryTitleHeight: 65
@@ -1959,7 +1961,7 @@ MonoBehaviour:
   tickerCategoryTitleBottomPadding: 8
   tickerCategoryTitleFontSize: 58
   tickerCategoryTitleColor: {r: 0.28, g: 0.72, b: 1, a: 1}
-  tickerPanelBackgroundEnabled: 1
+  tickerPanelBackgroundEnabled: 0
   syncTickerPanelStyleFromChatPanel: 1
   tickerPanelFillColor: {r: 0.04, g: 0.06, b: 0.15, a: 0.6}
   tickerPanelBorderColorA: {r: 0.25, g: 0.9, b: 1, a: 0.95}
@@ -6349,6 +6351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c6d7e8f901234567890abcdef01234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  candidatesFileName: 
   ttsPlaybackGain: 4144
   videoCommentaryVolume: 0.314
 --- !u!1660057539 &9223372036854775807
