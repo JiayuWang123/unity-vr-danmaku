@@ -17,6 +17,7 @@ public class SemanticDanmakuController : MonoBehaviour
     readonly TopClusterDanmakuLayout topClusterLayout = new TopClusterDanmakuLayout();
     FarInfoScrollTickerLane leftTickerLane;
     FarInfoScrollTickerLane rightTickerLane;
+    FarInfoScrollTickerLane mergedTickerLane;
     readonly List<SemanticDanmakuRecord> records = new List<SemanticDanmakuRecord>();
     readonly List<SemanticDanmakuInstance> spawnedInstances = new List<SemanticDanmakuInstance>();
 
@@ -326,8 +327,11 @@ public class SemanticDanmakuController : MonoBehaviour
     bool TrySpawnTickerRecord(SemanticDanmakuRecord record, CurvedDanmakuSurfaceLayer layer)
     {
         EnsureFarInfoTickerLanes();
+        bool merged = settings.tickerMergeCategoriesSingleLane;
         bool isLeft = record.category == settings.leftClusterCategory;
-        FarInfoScrollTickerLane lane = isLeft ? leftTickerLane : rightTickerLane;
+        FarInfoScrollTickerLane lane = merged
+            ? mergedTickerLane
+            : (isLeft ? leftTickerLane : rightTickerLane);
         if (lane == null)
             return true;
 
@@ -340,7 +344,8 @@ public class SemanticDanmakuController : MonoBehaviour
         if (spawnedLogCount < 5)
         {
             spawnedLogCount++;
-            Debug.Log($"SemanticDanmaku 诊断: 滚动生成「{record.text}」side={(isLeft ? "左" : "右")}");
+            string side = merged ? "合并" : (isLeft ? "左" : "右");
+            Debug.Log($"SemanticDanmaku 诊断: 滚动生成「{record.text}」side={side}");
         }
 
         return true;
@@ -355,6 +360,13 @@ public class SemanticDanmakuController : MonoBehaviour
         if (layer == null)
             return;
 
+        if (settings.tickerMergeCategoriesSingleLane)
+        {
+            if (mergedTickerLane == null)
+                mergedTickerLane = CreateTickerLane(layer.transform, "MergedInfoTickerLane", true, 0f, true);
+            return;
+        }
+
         float effectiveRadius = Mathf.Max(0.05f, layer.radius);
         float horizontalOffset = Mathf.Sin(settings.clusterHalfGapDegrees * Mathf.Deg2Rad) * effectiveRadius;
 
@@ -365,12 +377,17 @@ public class SemanticDanmakuController : MonoBehaviour
             rightTickerLane = CreateTickerLane(layer.transform, "RightInfoTickerLane", false, horizontalOffset);
     }
 
-    FarInfoScrollTickerLane CreateTickerLane(Transform parent, string name, bool isLeft, float horizontalOffset)
+    FarInfoScrollTickerLane CreateTickerLane(
+        Transform parent,
+        string name,
+        bool isLeft,
+        float horizontalOffset,
+        bool mergedSingleLane = false)
     {
         var go = new GameObject(name);
         go.transform.SetParent(parent, false);
         var lane = go.AddComponent<FarInfoScrollTickerLane>();
-        lane.Initialize(cloudRig.farInfoLayer, settings, fontAsset, isLeft, horizontalOffset);
+        lane.Initialize(cloudRig.farInfoLayer, settings, fontAsset, isLeft, horizontalOffset, mergedSingleLane);
         return lane;
     }
 
@@ -400,8 +417,15 @@ public class SemanticDanmakuController : MonoBehaviour
 
         if (layerKind == CurvedCloudLayerKind.FarInfo && settings.farInfoUseScrollTicker)
         {
-            if (leftTickerLane != null) count += leftTickerLane.ActiveCount;
-            if (rightTickerLane != null) count += rightTickerLane.ActiveCount;
+            if (settings.tickerMergeCategoriesSingleLane)
+            {
+                if (mergedTickerLane != null) count += mergedTickerLane.ActiveCount;
+            }
+            else
+            {
+                if (leftTickerLane != null) count += leftTickerLane.ActiveCount;
+                if (rightTickerLane != null) count += rightTickerLane.ActiveCount;
+            }
         }
 
         return count;
@@ -465,6 +489,7 @@ public class SemanticDanmakuController : MonoBehaviour
         spawnedInstances.Clear();
         cloudLayout.ResetSpawnCounters();
         topClusterLayout.Reset();
+        if (mergedTickerLane != null) mergedTickerLane.ClearAll();
         if (leftTickerLane != null) leftTickerLane.ClearAll();
         if (rightTickerLane != null) rightTickerLane.ClearAll();
     }

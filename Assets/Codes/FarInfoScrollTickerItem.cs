@@ -90,7 +90,7 @@ public class FarInfoScrollTickerItem : MonoBehaviour
 
         FarInfoEntityHighlightUtil.ApplyTickerText(label, record, config);
         label.fontSize = config.farInfoFontSize;
-        label.color = config.BuildTextColor(record, CurvedCloudLayerKind.FarInfo);
+        label.color = config.BuildTickerTextColor(record);
         TmpDanmakuTextUtility.ApplyReadableStyle(label, config.farInfoOutlineWidth, config.farInfoOutlineColor);
         label.ForceMeshUpdate(true, true);
         textBaseColor = label.color;

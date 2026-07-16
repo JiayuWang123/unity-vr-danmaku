@@ -15,6 +15,7 @@ public class FarInfoScrollTickerLane : MonoBehaviour
     SemanticDanmakuSettings settings;
     TMP_FontAsset fontAsset;
     bool isLeftCluster;
+    bool mergedSingleLane;
     float horizontalOffsetMeters;
     RectTransform viewport;
     RectMask2D viewportMask;
@@ -31,12 +32,14 @@ public class FarInfoScrollTickerLane : MonoBehaviour
         SemanticDanmakuSettings config,
         TMP_FontAsset font,
         bool leftCluster,
-        float horizontalOffset)
+        float horizontalOffset,
+        bool mergedLane = false)
     {
         surfaceLayer = layer;
         settings = config;
         fontAsset = font;
         isLeftCluster = leftCluster;
+        mergedSingleLane = mergedLane;
         horizontalOffsetMeters = horizontalOffset;
         EnsureViewport();
         UpdateLanePose();
@@ -47,7 +50,7 @@ public class FarInfoScrollTickerLane : MonoBehaviour
         if (record == null || settings == null || viewport == null)
             return false;
 
-        if (activeItems.Count >= settings.maxConcurrentFarInfo)
+        if (activeItems.Count >= GetMaxConcurrentItems())
             return false;
 
         int row = AcquireRow();
@@ -147,16 +150,18 @@ public class FarInfoScrollTickerLane : MonoBehaviour
             return;
 
         float scale = settings.worldLabelScale;
-        float halfBase = settings.tickerLaneWidth * scale * 0.5f;
-        float extraFull = settings.tickerOutwardWidthExtra * scale;
-        float outwardShift = extraFull * 0.5f + settings.tickerOutwardHorizontalExtraMeters;
-
-        // 保持靠屏幕中心一侧的内边不变，只把外侧加宽/外推（左栏往 -X，右栏往 +X）
+        float outwardShift = 0f;
         float x = horizontalOffsetMeters;
-        if (isLeftCluster)
-            x -= outwardShift;
-        else
-            x += outwardShift;
+
+        if (!mergedSingleLane)
+        {
+            float extraFull = settings.tickerOutwardWidthExtra * scale;
+            outwardShift = extraFull * 0.5f + settings.tickerOutwardHorizontalExtraMeters;
+            if (isLeftCluster)
+                x -= outwardShift;
+            else
+                x += outwardShift;
+        }
 
         transform.localPosition = surfaceLayer.GetClusterFlatLocalPosition(
             x,
@@ -173,8 +178,12 @@ public class FarInfoScrollTickerLane : MonoBehaviour
             return;
 
         Quaternion faceCamera = Quaternion.LookRotation(toCamera.normalized, Vector3.up);
-        float inwardYaw = isLeftCluster ? settings.tickerInwardYawDegrees : -settings.tickerInwardYawDegrees;
-        float spreadYaw = isLeftCluster ? settings.tickerPanelSpreadDegrees : -settings.tickerPanelSpreadDegrees;
+        float inwardYaw = mergedSingleLane
+            ? 0f
+            : (isLeftCluster ? settings.tickerInwardYawDegrees : -settings.tickerInwardYawDegrees);
+        float spreadYaw = mergedSingleLane
+            ? 0f
+            : (isLeftCluster ? settings.tickerPanelSpreadDegrees : -settings.tickerPanelSpreadDegrees);
         Vector3 extra = settings.tickerExtraEulerOffset;
         transform.rotation = faceCamera * Quaternion.Euler(extra.x, inwardYaw + spreadYaw + extra.y, extra.z);
     }
@@ -344,12 +353,21 @@ public class FarInfoScrollTickerLane : MonoBehaviour
         if (settings == null)
             return 420f;
 
-        return settings.tickerLaneWidth + settings.tickerOutwardWidthExtra;
+        return settings.GetTickerLaneWidth(mergedSingleLane);
+    }
+
+    int GetMaxConcurrentItems()
+    {
+        if (settings == null)
+            return 3;
+
+        int perLane = Mathf.Max(1, settings.maxConcurrentFarInfo);
+        return mergedSingleLane ? perLane * 2 : perLane;
     }
 
     int AcquireRow()
     {
-        int maxRows = Mathf.Max(1, settings.maxConcurrentFarInfo);
+        int maxRows = GetMaxConcurrentItems();
         for (int row = 0; row < maxRows; row++)
         {
             if (!occupiedRows.Contains(row))

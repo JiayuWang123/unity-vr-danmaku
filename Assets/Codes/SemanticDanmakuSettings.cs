@@ -65,6 +65,10 @@ public class SemanticDanmakuSettings : MonoBehaviour
     public Vector3 tickerExtraEulerOffset = Vector3.zero;
     [Tooltip("滚动区左右缘渐变宽度（像素）：文字滚到该范围内按位置变淡")]
     public float tickerEdgeFadeWidth = 80f;
+    [Tooltip("将左右两栏合并为居中单栏，两类弹幕混合滚动")]
+    public bool tickerMergeCategoriesSingleLane = false;
+    [Tooltip("合并单栏总宽度（像素）；<=0 时自动 = 2×(lane+outward)+160")]
+    public float tickerMergedLaneWidth = 0f;
 
     [Header("Far Info 分类小标题")]
     public bool showTickerCategoryTitles = true;
@@ -94,7 +98,7 @@ public class SemanticDanmakuSettings : MonoBehaviour
     [Range(0, 60)] public int tickerPanelGlowSize = 22;
 
     [Header("Far Info 球员球队高亮")]
-    [Tooltip("仅右侧「球队球员」栏生效：将匹配到的人名/队名用蓝色标出")]
+    [Tooltip("「球队球员」类弹幕：将匹配到的人名/队名用蓝色标出；合并单栏时同样生效")]
     public bool tickerEntityHighlightEnabled = true;
     public Color tickerEntityHighlightColor = new Color(0.28f, 0.72f, 1f, 1f);
     public string[] tickerHighlightPlayerNames =
@@ -216,6 +220,26 @@ public class SemanticDanmakuSettings : MonoBehaviour
             layerKind == CurvedCloudLayerKind.NearEmotion ? emotionFallbackColor : infoFallbackColor);
 
         float layerAlpha = GetLayerAlpha(layerKind);
+        float recordAlpha = record != null ? Mathf.Clamp01(record.alpha) : 1f;
+        baseColor.a = layerAlpha * recordAlpha;
+        return baseColor;
+    }
+
+    public float GetTickerLaneWidth(bool mergedSingleLane)
+    {
+        if (!mergedSingleLane)
+            return tickerLaneWidth + tickerOutwardWidthExtra;
+
+        if (tickerMergedLaneWidth > 0f)
+            return tickerMergedLaneWidth;
+
+        return (tickerLaneWidth + tickerOutwardWidthExtra) * 2f + 160f;
+    }
+
+    public Color BuildTickerTextColor(SemanticDanmakuRecord record)
+    {
+        Color baseColor = Color.white;
+        float layerAlpha = GetLayerAlpha(CurvedCloudLayerKind.FarInfo);
         float recordAlpha = record != null ? Mathf.Clamp01(record.alpha) : 1f;
         baseColor.a = layerAlpha * recordAlpha;
         return baseColor;
