@@ -103,7 +103,7 @@ public class SemanticDanmakuSettings : MonoBehaviour
     public Color tickerEntityHighlightColor = new Color(0.28f, 0.72f, 1f, 1f);
     public string[] tickerHighlightPlayerNames =
     {
-        "姆巴佩", "迪马利亚", "迪玛利亚", "巴蒂斯图塔", "劳塔罗", "蒙铁尔", "内马尔",
+        "姆巴佩", "迪马利亚", "迪玛利亚", "天使", "巴蒂斯图塔", "劳塔罗", "蒙铁尔", "内马尔",
         "大马丁", "阿圭罗", "马拉多纳", "瓦拉内", "登贝莱", "梅西", "科曼", "洛里",
         "恩佐", "特奥", "小蜘蛛", "巴佩", "C罗", "c罗", "罗哥", "登子", "马丁", "塔罗"
     };

@@ -21,7 +21,13 @@ public class VideoPlaybackUI : MonoBehaviour
     public float canvasScale = 0.002f;
     public Vector2 panelSize = new Vector2(820f, 110f);
 
+    [Header("进度条")]
+    [Tooltip("关闭后进度条仅显示播放进度，无法拖动/点击跳转（防实验误触）；开启后可正常拖动测试")]
+    public bool progressBarInteractionEnabled = true;
+
     Slider progressSlider;
+    SliderDragHandler progressDragHandler;
+    Image progressHandleImage;
     TextMeshProUGUI playPauseLabel;
     TextMeshProUGUI timeLabel;
     bool isDraggingSlider;
@@ -64,6 +70,8 @@ public class VideoPlaybackUI : MonoBehaviour
         if (!built)
             BuildUI();
 
+        ApplyProgressBarInteractionState();
+
         if (videoPlayer != null)
         {
             videoPlayer.prepareCompleted += OnVideoPrepared;
@@ -105,6 +113,37 @@ public class VideoPlaybackUI : MonoBehaviour
         UpdateTimeLabel();
     }
 
+    void OnValidate()
+    {
+        if (!built || progressSlider == null)
+            return;
+
+        ApplyProgressBarInteractionState();
+    }
+
+    public void SetProgressBarInteractionEnabled(bool enabled)
+    {
+        progressBarInteractionEnabled = enabled;
+        ApplyProgressBarInteractionState();
+    }
+
+    void ApplyProgressBarInteractionState()
+    {
+        if (progressSlider == null)
+            return;
+
+        if (!progressBarInteractionEnabled && isDraggingSlider)
+            isDraggingSlider = false;
+
+        progressSlider.interactable = progressBarInteractionEnabled;
+
+        if (progressDragHandler != null)
+            progressDragHandler.enabled = progressBarInteractionEnabled;
+
+        if (progressHandleImage != null)
+            progressHandleImage.enabled = progressBarInteractionEnabled;
+    }
+
     void OnVideoPrepared(VideoPlayer source)
     {
         if (progressSlider != null)
@@ -127,7 +166,7 @@ public class VideoPlaybackUI : MonoBehaviour
 
     void OnSliderValueChanged(float normalized)
     {
-        if (!isDraggingSlider || videoPlayer == null || !videoPlayer.isPrepared || videoPlayer.length <= 0.01d)
+        if (!progressBarInteractionEnabled || !isDraggingSlider || videoPlayer == null || !videoPlayer.isPrepared || videoPlayer.length <= 0.01d)
             return;
 
         videoPlayer.time = normalized * videoPlayer.length;
@@ -136,6 +175,9 @@ public class VideoPlaybackUI : MonoBehaviour
 
     void SetSliderDragging(bool dragging)
     {
+        if (!progressBarInteractionEnabled)
+            return;
+
         isDraggingSlider = dragging;
         if (!dragging && videoPlayer != null && videoPlayer.isPrepared && videoPlayer.length > 0.01d && progressSlider != null)
             videoPlayer.time = progressSlider.value * videoPlayer.length;
@@ -222,11 +264,15 @@ public class VideoPlaybackUI : MonoBehaviour
         ApplyFont(timeLabel);
 
         progressSlider = CreateSlider(panelRect);
-        var dragHandler = progressSlider.gameObject.AddComponent<SliderDragHandler>();
-        dragHandler.DragStateChanged += SetSliderDragging;
+        progressDragHandler = progressSlider.gameObject.AddComponent<SliderDragHandler>();
+        progressDragHandler.DragStateChanged += SetSliderDragging;
         progressSlider.onValueChanged.AddListener(OnSliderValueChanged);
+        progressHandleImage = progressSlider.handleRect != null
+            ? progressSlider.handleRect.GetComponent<Image>()
+            : null;
 
         built = true;
+        ApplyProgressBarInteractionState();
         UpdatePlayPauseLabel();
         UpdateTimeLabel();
     }
