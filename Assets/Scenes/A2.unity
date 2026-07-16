@@ -1482,7 +1482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1941,7 +1941,7 @@ MonoBehaviour:
   tickerViewportHeight: 448
   tickerRowHeight: 88
   tickerScrollSpeed: 300
-  tickerVerticalOffsetMeters: 0.3
+  tickerVerticalOffsetMeters: 0
   tickerSpeakerSize: 34
   tickerTextGap: 8
   tickerSpeakerColor: {r: 1, g: 0.82, b: 0.25, a: 1}
@@ -1952,7 +1952,7 @@ MonoBehaviour:
   tickerExtraEulerOffset: {x: 0, y: 180, z: 0}
   tickerEdgeFadeWidth: 500
   tickerMergeCategoriesSingleLane: 1
-  tickerMergedLaneWidth: 0
+  tickerMergedLaneWidth: 3600
   showTickerCategoryTitles: 0
   tickerLeftCategoryTitle: "\u6BD4\u8D5B\u5185\u5BB9"
   tickerRightCategoryTitle: "\u7403\u961F\u7403\u5458"
@@ -2015,7 +2015,7 @@ MonoBehaviour:
   farInfoFontSize: 50
   emotionLayerAlpha: 1
   midInfoLayerAlpha: 0.95
-  farInfoLayerAlpha: 0.88
+  farInfoLayerAlpha: 1
   infoFallbackColor: {r: 0.92, g: 0.95, b: 1, a: 1}
   emotionFallbackColor: {r: 1, g: 1, b: 1, a: 1}
   worldLabelScale: 0.005
@@ -5031,10 +5031,10 @@ MonoBehaviour:
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
   jsonFileName: classify/memes_joking.json
   sideOutwardOffset: 0.06
-  sideInwardOffset: 0.55
+  sideInwardOffset: 0.45
   verticalRangeRatio: 0.507
   spawnVerticalOffset: 0.1
-  spawnForwardOffset: -1
+  spawnForwardOffset: -0.8
   bubbleVerticalGap: 0.04
   fontSize: 8
   worldScale: 0.00127
@@ -6029,14 +6029,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114560534}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1813411, y: -0.006570748, z: -0.00023472609, w: 0.98339826}
-  m_LocalPosition: {x: 0, y: 2.43, z: -4.96}
+  m_LocalRotation: {x: 0.09760188, y: -0.0048241247, z: 0.00066149316, w: 0.9952136}
+  m_LocalPosition: {x: 0.03, y: 3.62, z: -4.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1087681383}
   m_Father: {fileID: 2020217194}
-  m_LocalEulerAnglesHint: {x: 20.895, y: -0.798, z: -0.174}
+  m_LocalEulerAnglesHint: {x: 11.202, y: -0.553, z: 0.022}
 --- !u!114 &2114560536
 MonoBehaviour:
   m_ObjectHideFlags: 0
