@@ -27,8 +27,10 @@ public static class ClassifyDanmakuJsonLoader
         public float 新视频中的时间;
         public int length;
         public int 长度;
+        public int char_count;
         public string sentiment;
         public string 正反面情绪;
+        public string nature;
     }
 
     [Serializable]
@@ -146,10 +148,14 @@ public static class ClassifyDanmakuJsonLoader
 
         float time = dto.new_video_time_sec > 0f ? dto.new_video_time_sec : dto.新视频中的时间;
         int length = dto.length > 0 ? dto.length : dto.长度;
+        if (length <= 0 && dto.char_count > 0)
+            length = dto.char_count;
         if (length <= 0)
             length = text.Length;
 
         string sentiment = !string.IsNullOrWhiteSpace(dto.sentiment) ? dto.sentiment : dto.正反面情绪;
+        if (string.IsNullOrWhiteSpace(sentiment) && !string.IsNullOrWhiteSpace(dto.nature))
+            sentiment = dto.nature;
 
         return new DanmakuTextEntry
         {

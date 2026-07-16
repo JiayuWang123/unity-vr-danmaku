@@ -25,6 +25,8 @@ public class MatchPointAlertController : MonoBehaviour
 
     [Header("JSON")]
     public string jsonFileName = "classify/matchpoint.json";
+    [Tooltip("加载后过滤：若两条弹幕文字完全相同且触发时间相差不超过该秒数，只保留较早的一条；0 = 不过滤")]
+    public float duplicateSuppressWindowSeconds = 0f;
 
     [Header("排队节奏")]
     [Tooltip("没有指定 alertAnchor 时的兜底偏移：在 screenTransform 的朝向下，相对它的位置偏移多少米")]
@@ -263,13 +265,53 @@ public class MatchPointAlertController : MonoBehaviour
             }
 
             records.Sort((a, b) => a.新视频中的时间.CompareTo(b.新视频中的时间));
+            int removedDup = RemoveDuplicatesWithinWindow(duplicateSuppressWindowSeconds);
             int removed = TtsDisplayedTextFilter.RemoveTtsTexts(records, r => r.弹幕内容);
             jsonFileName = candidate.Replace('\\', '/');
-            Debug.Log($"[MatchPointAlert] 加载 {records.Count} 条（已过滤 {removed} 条 TTS 重复）：{resolvedPath}");
+            Debug.Log($"[MatchPointAlert] 加载 {records.Count} 条（{duplicateSuppressWindowSeconds}s 内重复过滤 {removedDup} 条，TTS 重复 {removed} 条）：{resolvedPath}");
             return;
         }
 
         Debug.LogError("[MatchPointAlert] JSON 未找到。");
+    }
+
+    int RemoveDuplicatesWithinWindow(float windowSeconds)
+    {
+        if (windowSeconds <= 0f || records.Count <= 1)
+            return 0;
+
+        var kept = new List<MatchPointRecord>(records.Count);
+        int removed = 0;
+
+        for (int i = 0; i < records.Count; i++)
+        {
+            MatchPointRecord candidate = records[i];
+            if (candidate == null || string.IsNullOrWhiteSpace(candidate.弹幕内容))
+                continue;
+
+            bool duplicate = false;
+            for (int j = kept.Count - 1; j >= 0; j--)
+            {
+                float delta = candidate.新视频中的时间 - kept[j].新视频中的时间;
+                if (delta > windowSeconds)
+                    break;
+
+                if (string.Equals(candidate.弹幕内容, kept[j].弹幕内容, StringComparison.Ordinal))
+                {
+                    duplicate = true;
+                    break;
+                }
+            }
+
+            if (duplicate)
+                removed++;
+            else
+                kept.Add(candidate);
+        }
+
+        records.Clear();
+        records.AddRange(kept);
+        return removed;
     }
 
     void PreloadFontCharacters()
