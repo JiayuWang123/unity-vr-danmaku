@@ -32,15 +32,30 @@ public static class TtsSceneCatalog
         if (string.IsNullOrWhiteSpace(sceneName))
             return "Audio/tts_candidates_no_overlap.json";
 
-        if (string.Equals(sceneName, "B2", StringComparison.OrdinalIgnoreCase)
-            || string.Equals(sceneName, "B1", StringComparison.OrdinalIgnoreCase))
-            return "Audio/tts_candidates_no_overlap2.json";
+        sceneName = NormalizeSceneName(sceneName);
 
         if (string.Equals(sceneName, "Test", StringComparison.OrdinalIgnoreCase))
             return "Audio/tts_candidates_no_overlap3.json";
 
-        // A1/A2 及其他默认走第一套
+        if (string.Equals(sceneName, "B2", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(sceneName, "B1", StringComparison.OrdinalIgnoreCase))
+            return "Audio/tts_candidates_no_overlap2.json";
+
+        // A1/A2/A2 1 及其他默认走第一套
         return "Audio/tts_candidates_no_overlap.json";
+    }
+
+    static string NormalizeSceneName(string sceneName)
+    {
+        string trimmed = sceneName.Trim();
+        const string duplicateSuffix = " 1";
+        if (trimmed.EndsWith(duplicateSuffix, StringComparison.OrdinalIgnoreCase)
+            && trimmed.Length > duplicateSuffix.Length)
+        {
+            return trimmed.Substring(0, trimmed.Length - duplicateSuffix.Length).Trim();
+        }
+
+        return trimmed;
     }
 
     public static string InferClipFolder(string candidatesFile)

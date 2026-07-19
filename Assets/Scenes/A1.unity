@@ -5602,14 +5602,14 @@ MonoBehaviour:
   headPitchDownLockRange: 12.8
   collapsedSize: {x: 300, y: 64}
   expandedSize: {x: 800, y: 480}
+  collapseButtonSize: {x: 52, y: 52}
+  collapseButtonFontSize: 32
+  collapseButtonMarginRight: 18
   maxVisibleMessages: 30
   autoScrollThreshold: 0.06
   fontSize: 22
   titleFontSize: 24
   titleTextOffset: {x: 9, y: -10}
-  collapseButtonSize: {x: 52, y: 52}
-  collapseButtonFontSize: 32
-  collapseButtonMarginRight: 18
   avatarSize: 46
   bubbleTextPaddingH: 22
   bubbleTextPaddingV: 14
@@ -6408,10 +6408,10 @@ MonoBehaviour:
   screenTransform: {fileID: 1899937958}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
   jsonFileName: Baseline/baseline_danmaku_full.json
-  localPosition: {x: 0, y: 0.2, z: 0}
-  displayAreaSize: {x: 15, y: 5}
+  localPosition: {x: 0, y: 0.18, z: 0}
+  displayAreaSize: {x: 15, y: 4.5}
   autoNormalizeParentScale: 1
-  fontSize: 27
+  fontSize: 20
   worldScale: 0.0109
   textColor: {r: 1, g: 1, b: 1, a: 1}
   outlineWidth: 0.18
