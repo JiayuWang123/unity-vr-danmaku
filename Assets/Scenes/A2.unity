@@ -1978,6 +1978,7 @@ MonoBehaviour:
   - "\u8FEA\u9A6C\u5229\u4E9A"
   - "\u8FEA\u739B\u5229\u4E9A"
   - "\u5929\u4F7F"
+  - "\u5E15\u96F7\u5FB7\u65AF"
   - "\u5DF4\u8482\u65AF\u56FE\u5854"
   - "\u52B3\u5854\u7F57"
   - "\u8499\u94C1\u5C14"
@@ -5696,7 +5697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 1899937954}
-  skyboxBlendMaterial: {fileID: 2100000, guid: 4d5e6f708192a3b4c5d6e7f8091a2b3c, type: 2}
+  skyboxBlendMaterial: {fileID: 2100000, guid: 375c05f43c9903542b98683ac95cec3e, type: 2}
   baseTexture: {fileID: 2800000, guid: 08c3ad7a0e62ef546b37255f8419d729, type: 3}
   lightTexture: {fileID: 2800000, guid: 1493c6b6106263d4ea91d540bf44188e, type: 3}
   darkTexture: {fileID: 2800000, guid: c3f564ef6d2f03d4a919e2bcfc5de249, type: 3}

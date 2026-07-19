@@ -58,6 +58,11 @@ public class SocializationPanelController : MonoBehaviour
     [Tooltip("横向拉宽一些，做成横屏平板的比例")]
     public Vector2 expandedSize = new Vector2(700f, 420f);
 
+    [Header("展开面板关闭按钮")]
+    public Vector2 collapseButtonSize = new Vector2(40f, 40f);
+    public float collapseButtonFontSize = 26f;
+    public float collapseButtonMarginRight = 16f;
+
     [Header("聊天消息")]
     [Tooltip("内存里最多保留多少条历史消息（超出后最早的会被移除）；面板支持拖动滚动条查看历史")]
     [Range(6, 80)] public int maxVisibleMessages = 30;
@@ -555,10 +560,12 @@ public class SocializationPanelController : MonoBehaviour
         closeRt.anchorMin = new Vector2(1f, 0.5f);
         closeRt.anchorMax = new Vector2(1f, 0.5f);
         closeRt.pivot = new Vector2(1f, 0.5f);
-        closeRt.sizeDelta = new Vector2(40f, 40f);
-        closeRt.anchoredPosition = new Vector2(-16f, 0f);
+        closeRt.sizeDelta = collapseButtonSize;
+        closeRt.anchoredPosition = new Vector2(-collapseButtonMarginRight, 0f);
         var closeImg = closeGo.AddComponent<Image>();
-        var closeSprite = SocializationPanelShapeUtil.CreatePanel(40, 40, 10, 8, 2f,
+        int closeW = Mathf.RoundToInt(collapseButtonSize.x);
+        int closeH = Mathf.RoundToInt(collapseButtonSize.y);
+        var closeSprite = SocializationPanelShapeUtil.CreatePanel(closeW, closeH, 10, 8, 2f,
             new Color(0.1f, 0.14f, 0.24f, 0.8f), borderColorA, borderColorB, glowColor);
         SocializationPanelShapeUtil.Apply(closeImg, closeSprite);
         var closeButton = closeGo.AddComponent<Button>();
@@ -570,7 +577,7 @@ public class SocializationPanelController : MonoBehaviour
         var closeLabel = closeLabelGo.AddComponent<TextMeshProUGUI>();
         ApplyFont(closeLabel);
         closeLabel.text = "×";
-        closeLabel.fontSize = 26f;
+        closeLabel.fontSize = collapseButtonFontSize;
         closeLabel.color = titleTextColor;
         closeLabel.alignment = TextAlignmentOptions.Center;
 

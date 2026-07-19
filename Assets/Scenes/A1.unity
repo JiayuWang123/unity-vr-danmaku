@@ -1890,6 +1890,7 @@ MonoBehaviour:
   localEulerAngles: {x: 0, y: 0, z: 0}
   canvasScale: 0.001
   panelSize: {x: 820, y: 110}
+  progressBarInteractionEnabled: 0
 --- !u!114 &877462522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1951,11 +1952,13 @@ MonoBehaviour:
   tickerPanelSpreadDegrees: 0
   tickerExtraEulerOffset: {x: 0, y: 180, z: 0}
   tickerEdgeFadeWidth: 500
-  showTickerCategoryTitles: 1
+  tickerMergeCategoriesSingleLane: 0
+  tickerMergedLaneWidth: 0
+  showTickerCategoryTitles: 0
   tickerLeftCategoryTitle: "\u6BD4\u8D5B\u5185\u5BB9"
   tickerRightCategoryTitle: "\u7403\u961F\u7403\u5458"
   tickerCategoryTitleHeight: 65
-  tickerCategoryTitleTopPadding: 12
+  tickerCategoryTitleTopPadding: 30
   tickerCategoryTitleBottomPadding: 8
   tickerCategoryTitleFontSize: 58
   tickerCategoryTitleColor: {r: 0.28, g: 0.72, b: 1, a: 1}
@@ -1974,6 +1977,7 @@ MonoBehaviour:
   - "\u59C6\u5DF4\u4F69"
   - "\u8FEA\u9A6C\u5229\u4E9A"
   - "\u8FEA\u739B\u5229\u4E9A"
+  - "\u5E15\u96F7\u5FB7\u65AF"
   - "\u5DF4\u8482\u65AF\u56FE\u5854"
   - "\u52B3\u5854\u7F57"
   - "\u8499\u94C1\u5C14"
@@ -3260,7 +3264,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
+    key0: {r: 0.49685526, g: 0.26717684, b: 0.26717684, a: 1}
     key1: {r: 1, g: 0, b: 0, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -3269,7 +3273,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65535
+    ctime1: 42277
     ctime2: 0
     ctime3: 0
     ctime4: 0
@@ -3285,7 +3289,7 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 0
-    m_ColorSpace: -1
+    m_ColorSpace: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   m_BlockedColorGradient:
@@ -4420,7 +4424,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
+    key0: {r: 0.49685526, g: 0.26717684, b: 0.26717684, a: 1}
     key1: {r: 1, g: 0, b: 0, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -4429,7 +4433,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65535
+    ctime1: 42277
     ctime2: 0
     ctime3: 0
     ctime4: 0
@@ -5028,17 +5032,17 @@ MonoBehaviour:
   midZoneFrame: {fileID: 1666705374}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
   jsonFileName: classify/memes_joking.json
-  sideOutwardOffset: 0.06
-  sideInwardOffset: 0.55
+  sideOutwardOffset: 0
+  sideInwardOffset: 0.4
   verticalRangeRatio: 0.507
-  spawnVerticalOffset: 0.1
-  spawnForwardOffset: -1
+  spawnVerticalOffset: 0.05
+  spawnForwardOffset: -0.4
   bubbleVerticalGap: 0.04
-  fontSize: 8
+  fontSize: 10
   worldScale: 0.00127
   maxBubbleWidth: 140
   minBubbleWidth: 90
-  textPaddingH: 8
+  textPaddingH: 10
   iconTextGap: 0.1
   textPaddingV: 15
   iconSize: 35
@@ -5446,8 +5450,8 @@ Transform:
   m_GameObject: {fileID: 1899937952}
   serializedVersion: 2
   m_LocalRotation: {x: -0.05425703, y: 0.6792243, z: 0.050470654, w: 0.73018026}
-  m_LocalPosition: {x: 9.02, y: 2.85, z: 0.1334}
-  m_LocalScale: {x: 13.476587, y: 7.30449, z: 7.9903855}
+  m_LocalPosition: {x: 9.0794, y: 3.5, z: 0.13184}
+  m_LocalScale: {x: 14.74743, y: 7.993304, z: 8.743879}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 167311789}
@@ -5585,16 +5589,16 @@ MonoBehaviour:
   headTransform: {fileID: 0}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
   jsonFileName: classify/socialization.json
-  localOffset: {x: 0, y: -0.9, z: 0.85}
+  localOffset: {x: 0, y: -0.7, z: 0.85}
   collapsedLocalOffset: {x: 0, y: -0.42, z: 0.85}
-  localEulerAngles: {x: 50, y: 0, z: 0}
+  localEulerAngles: {x: 40, y: 0, z: 0}
   collapsedLocalEulerAngles: {x: 20, y: 0, z: 0}
   canvasScale: 0.0011
   limitPanelOnHeadPitch: 1
-  headPitchLockStart: 12.4
+  headPitchLockStart: 12
   headPitchLockRange: 12.8
   limitPanelOnHeadPitchDown: 1
-  headPitchDownLockStart: 9.9
+  headPitchDownLockStart: 11.5
   headPitchDownLockRange: 12.8
   collapsedSize: {x: 300, y: 64}
   expandedSize: {x: 800, y: 480}
@@ -5603,6 +5607,9 @@ MonoBehaviour:
   fontSize: 22
   titleFontSize: 24
   titleTextOffset: {x: 9, y: -10}
+  collapseButtonSize: {x: 52, y: 52}
+  collapseButtonFontSize: 32
+  collapseButtonMarginRight: 18
   avatarSize: 46
   bubbleTextPaddingH: 22
   bubbleTextPaddingV: 14
@@ -5806,7 +5813,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.0037160816, y: 0.99932593, z: -0.018295417, w: -0.031608406}
   m_LocalPosition: {x: -0.065, y: -0.08, z: -1.011}
-  m_LocalScale: {x: 0.07420276, y: 0.1369021, z: 0.12515041}
+  m_LocalScale: {x: 0.06780843, y: 0.12510471, z: 0.11436571}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 638553557}
@@ -5868,7 +5875,7 @@ MonoBehaviour:
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
   jsonFileName: classify/emotion.json
   spawnHorizontalRange: {x: -0.5, y: 0.5}
-  spawnBaseHeight: -0.7
+  spawnBaseHeight: -0.63
   spawnHeightJitter: 0.06
   spawnForwardOffset: 1
   minHorizontalGap: 0.05
@@ -6233,6 +6240,7 @@ MonoBehaviour:
   alertAnchor: {fileID: 2144200033}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
   jsonFileName: classify/matchpoint.json
+  duplicateSuppressWindowSeconds: 0
   fallbackLocalOffset: {x: 0, y: 0.35, z: 0.05}
   queueGapDuration: 0.25
   fontSize: 45
@@ -6403,8 +6411,8 @@ MonoBehaviour:
   localPosition: {x: 0, y: 0.2, z: 0}
   displayAreaSize: {x: 15, y: 5}
   autoNormalizeParentScale: 1
-  fontSize: 25
-  worldScale: 0.01
+  fontSize: 27
+  worldScale: 0.0109
   textColor: {r: 1, g: 1, b: 1, a: 1}
   outlineWidth: 0.18
   outlineColor: {r: 0, g: 0, b: 0, a: 0.85}

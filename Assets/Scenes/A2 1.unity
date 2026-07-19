@@ -1921,8 +1921,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useLegacyPopUpJson: 0
   useFarLayerCategoryFiles: 1
-  farLayerFileA: classify/test_comment_on_game_play.json
-  farLayerFileB: classify/test_critique_athletes_teams.json
+  farLayerFileA: comment_on_the_game_the_play.json
+  farLayerFileB: critique_athletes_teams_referees.json
   classifiedJsonFileName: information_critical_commentary_summary.json
   legacyNearJsonFileName: pop_up_near.json
   legacyMidJsonFileName: pop_up_mid.json
@@ -3265,7 +3265,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
+    key0: {r: 0.49685526, g: 0.26717684, b: 0.26717684, a: 1}
     key1: {r: 1, g: 0, b: 0, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -3274,7 +3274,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65535
+    ctime1: 42277
     ctime2: 0
     ctime3: 0
     ctime4: 0
@@ -3290,7 +3290,7 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 0
-    m_ColorSpace: -1
+    m_ColorSpace: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   m_BlockedColorGradient:
@@ -4425,7 +4425,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
+    key0: {r: 0.49685526, g: 0.26717684, b: 0.26717684, a: 1}
     key1: {r: 1, g: 0, b: 0, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -4450,7 +4450,7 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 0
-    m_ColorSpace: -1
+    m_ColorSpace: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   m_BlockedColorGradient:
@@ -5032,18 +5032,18 @@ MonoBehaviour:
   screenTransform: {fileID: 1899937958}
   midZoneFrame: {fileID: 1666705374}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
-  jsonFileName: classify/test_memes_joking.json
-  sideOutwardOffset: 0.06
-  sideInwardOffset: 0.45
+  jsonFileName: classify/memes_joking.json
+  sideOutwardOffset: 0
+  sideInwardOffset: 0.4
   verticalRangeRatio: 0.507
-  spawnVerticalOffset: 0.1
-  spawnForwardOffset: -0.8
+  spawnVerticalOffset: 0.05
+  spawnForwardOffset: -0.4
   bubbleVerticalGap: 0.04
-  fontSize: 8
+  fontSize: 10
   worldScale: 0.00127
   maxBubbleWidth: 140
   minBubbleWidth: 90
-  textPaddingH: 8
+  textPaddingH: 10
   iconTextGap: 0.1
   textPaddingV: 15
   iconSize: 35
@@ -5342,7 +5342,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899937952}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 039976e8da7ec4a44ac41b6b931263f5, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 78e6ebcbe21622b46a7296afbabafd6e, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -5451,8 +5451,8 @@ Transform:
   m_GameObject: {fileID: 1899937952}
   serializedVersion: 2
   m_LocalRotation: {x: -0.05425703, y: 0.6792243, z: 0.050470654, w: 0.73018026}
-  m_LocalPosition: {x: 9.02, y: 2.85, z: 0.1334}
-  m_LocalScale: {x: 13.476587, y: 7.30449, z: 7.9903855}
+  m_LocalPosition: {x: 9.0794, y: 3.5, z: 0.13184}
+  m_LocalScale: {x: 14.74743, y: 7.993304, z: 8.743879}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 167311789}
@@ -5589,17 +5589,17 @@ MonoBehaviour:
   videoPlayer: {fileID: 1899937954}
   headTransform: {fileID: 0}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
-  jsonFileName: classify/test_socialization.json
-  localOffset: {x: 0, y: -0.9, z: 0.85}
+  jsonFileName: classify/socialization.json
+  localOffset: {x: 0, y: -0.7, z: 0.85}
   collapsedLocalOffset: {x: 0, y: -0.42, z: 0.85}
-  localEulerAngles: {x: 50, y: 0, z: 0}
+  localEulerAngles: {x: 40, y: 0, z: 0}
   collapsedLocalEulerAngles: {x: 20, y: 0, z: 0}
   canvasScale: 0.0011
   limitPanelOnHeadPitch: 1
-  headPitchLockStart: 12.4
+  headPitchLockStart: 12
   headPitchLockRange: 12.8
   limitPanelOnHeadPitchDown: 1
-  headPitchDownLockStart: 9.9
+  headPitchDownLockStart: 11.5
   headPitchDownLockRange: 12.8
   collapsedSize: {x: 300, y: 64}
   expandedSize: {x: 800, y: 480}
@@ -5608,6 +5608,9 @@ MonoBehaviour:
   fontSize: 22
   titleFontSize: 24
   titleTextOffset: {x: 9, y: -10}
+  collapseButtonSize: {x: 52, y: 52}
+  collapseButtonFontSize: 32
+  collapseButtonMarginRight: 18
   avatarSize: 46
   bubbleTextPaddingH: 22
   bubbleTextPaddingV: 14
@@ -5811,7 +5814,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.0037160816, y: 0.99932593, z: -0.018295417, w: -0.031608406}
   m_LocalPosition: {x: -0.065, y: -0.08, z: -1.011}
-  m_LocalScale: {x: 0.07420276, y: 0.1369021, z: 0.12515041}
+  m_LocalScale: {x: 0.06780843, y: 0.12510471, z: 0.11436571}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 638553557}
@@ -5871,9 +5874,9 @@ MonoBehaviour:
   videoPlayer: {fileID: 1899937954}
   screenTransform: {fileID: 1899937958}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
-  jsonFileName: classify/test_supportive_emotion.json
+  jsonFileName: classify/emotion.json
   spawnHorizontalRange: {x: -0.5, y: 0.5}
-  spawnBaseHeight: -0.7
+  spawnBaseHeight: -0.63
   spawnHeightJitter: 0.06
   spawnForwardOffset: 1
   minHorizontalGap: 0.05
@@ -6033,7 +6036,7 @@ Transform:
   m_GameObject: {fileID: 2114560534}
   serializedVersion: 2
   m_LocalRotation: {x: 0.09760188, y: -0.0048241247, z: 0.00066149316, w: 0.9952136}
-  m_LocalPosition: {x: -0.01, y: 2.35, z: -4.73}
+  m_LocalPosition: {x: 0.03, y: 2.35, z: -4.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6237,8 +6240,8 @@ MonoBehaviour:
   screenTransform: {fileID: 1899937958}
   alertAnchor: {fileID: 2144200033}
   fontAsset: {fileID: 11400000, guid: ac37e5fb1e22a384c8ce9c954e902f11, type: 2}
-  jsonFileName: classify/test_matchpoint.json
-  duplicateSuppressWindowSeconds: 5
+  jsonFileName: classify/matchpoint.json
+  duplicateSuppressWindowSeconds: 0
   fallbackLocalOffset: {x: 0, y: 0.35, z: 0.05}
   queueGapDuration: 0.25
   fontSize: 45

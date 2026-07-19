@@ -1890,7 +1890,7 @@ MonoBehaviour:
   localEulerAngles: {x: 0, y: 0, z: 0}
   canvasScale: 0.001
   panelSize: {x: 820, y: 110}
-  progressBarInteractionEnabled: 1
+  progressBarInteractionEnabled: 0
 --- !u!114 &877462522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1978,6 +1978,7 @@ MonoBehaviour:
   - "\u8FEA\u9A6C\u5229\u4E9A"
   - "\u8FEA\u739B\u5229\u4E9A"
   - "\u5929\u4F7F"
+  - "\u5E15\u96F7\u5FB7\u65AF"
   - "\u5DF4\u8482\u65AF\u56FE\u5854"
   - "\u52B3\u5854\u7F57"
   - "\u8499\u94C1\u5C14"
